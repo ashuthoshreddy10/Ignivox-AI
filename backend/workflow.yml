@@ -1,0 +1,30 @@
+# Ignivox AI — NeMo Agent Toolkit Workflow Configuration
+# Compatible with: nat run --config_file workflow.yml --input "your startup idea"
+
+functions:
+  market_search:
+    _type: wiki_search
+    max_results: 3
+
+llms:
+  nim_llm:
+    _type: nim
+    model_name: meta/llama-3.3-70b-instruct
+    temperature: 0.3
+    max_tokens: 4096
+
+  nim_embed:
+    _type: nim
+    model_name: nvidia/nv-embedqa-e5-v5
+
+workflow:
+  _type: react_agent
+  tool_names: [market_search]
+  llm_name: nim_llm
+  verbose: true
+  parse_agent_response_max_retries: 3
+  system_prompt: |
+    You are Ignivox AI, an autonomous startup co-founder.
+    Analyze the user's startup idea and provide market research, competitor analysis,
+    product strategy, business model, technical architecture, execution plan,
+    investor pitch, and validation assessment.

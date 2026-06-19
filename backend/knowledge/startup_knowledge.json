@@ -1,0 +1,267 @@
+[
+  {
+    "title": "Global EdTech Market Growth",
+    "category": "market_research",
+    "content": "The global edtech market is projected to reach $404B by 2025, growing at 16.3% CAGR. AI-powered personalized learning is the fastest growing segment at 45% YoY. Key drivers include remote learning adoption, AI tutoring demand, and corporate upskilling needs."
+  },
+  {
+    "title": "Campus Placement Market Size",
+    "category": "market_research",
+    "content": "The campus placement preparation market in India alone is valued at $800M, with 15M+ students appearing for placements annually. Average spend per student on coaching is $200-500. Digital alternatives capture only 12% of this market, presenting massive opportunity."
+  },
+  {
+    "title": "AI Startup Funding Trends 2025",
+    "category": "market_research",
+    "content": "AI startups raised $89.4B in 2024, representing 33% of all venture funding. Seed-stage AI startups average $3.2M raises at $15M pre-money valuations. Multi-agent AI platforms are an emerging category with high investor interest."
+  },
+  {
+    "title": "SaaS Unit Economics Benchmarks",
+    "category": "business_strategy",
+    "content": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates average 2-5% for B2C and 5-10% for B2B. Top quartile startups achieve 40%+ gross margins by month 12."
+  },
+  {
+    "title": "Competitor Landscape - EdTech",
+    "category": "competitor",
+    "content": "Major players: Unacademy ($3.4B valuation), BYJU'S (restructuring), Coursera ($2.5B market cap), Udemy (public). Key gaps: personalized AI tutoring, integrated placement prep, affordable pricing for tier-2/3 cities. None offer true multi-agent AI co-founder experience."
+  },
+  {
+    "title": "NVIDIA NeMo Agent Toolkit",
+    "category": "technical",
+    "content": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-in RAG capabilities, and Guardrails for safety. Ideal for production multi-agent systems requiring GPU-optimized LLM inference."
+  },
+  {
+    "title": "MVP Development Timeline",
+    "category": "execution",
+    "content": "Industry standard MVP timeline for AI SaaS: 8-12 weeks with team of 4. Critical path: auth (week 1-2), core AI integration (week 3-4), agent orchestration (week 5-6), UI dashboard (week 7-8), testing and polish (week 9-12). Parallel frontend/backend development recommended."
+  },
+  {
+    "title": "Seed Stage Pitch Best Practices",
+    "category": "investor",
+    "content": "Successful seed pitches: lead with problem (30 sec), demo solution (60 sec), show market size with bottom-up analysis, present unit economics, highlight team unfair advantage. Average seed round: $1-3M at $8-15M pre-money. Investors want to see 10x return potential and clear path to Series A metrics."
+  },
+  {
+    "title": "Smart Grid Market Evolution",
+    "category": "market_research",
+    "content": "Demand for grid modernization is driven by renewable integration, decentralization of energy resources (DERs), and smart meter rollouts. Market growth is strongest in real-time grid balancing software, predictive asset management, and microgrid optimization tools."
+  },
+  {
+    "title": "Smart Grid Competitor Analysis",
+    "category": "competitor",
+    "content": "Established industrial giants like Schneider Electric, Siemens, and GE Grid Solutions dominate traditional utility hardware and SCADA software. Emerging SaaS startups target gaps in distributed energy resource management systems (DERMS), virtual power plants (VPPs), and automated demand response."
+  },
+  {
+    "title": "Utility SaaS Business Benchmarks",
+    "category": "business_strategy",
+    "content": "Utility software solutions typically adopt annual software-license or tier-based capacity pricing. Sales cycles are long (9-18 months) due to strict procurement processes. Renewal rates are high (95%+ gross retention) once integrated into core utility billing and operations."
+  },
+  {
+    "title": "Smart Grid Software Architecture",
+    "category": "technical",
+    "content": "Grid optimization platforms require high-frequency ingestion of telemetry data from smart meters via SCADA protocols or MQTT bridges. Architectures leverage time-series databases, streaming analytics engines, and edge computing nodes to detect power drops and grid instability within milliseconds."
+  },
+  {
+    "title": "Case Study: Virtual Power Plant Ingestion",
+    "category": "domain_case_studies",
+    "content": "An energy provider deployed a virtual power plant (VPP) system integrating residential solar battery storage systems. The architecture uses MQTT for secure device connection, a distributed stream processing pipeline for real-time load forecasting, and microservices for grid dispatch signals during peak demand."
+  },
+  {
+    "title": "Digital Health Market Projections",
+    "category": "market_research",
+    "content": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. The largest growth is observed in AI-powered clinical documentation, billing automation, and EHR-integrated workflows."
+  },
+  {
+    "title": "HealthTech Competitor Landscape",
+    "category": "competitor",
+    "content": "Market leaders include enterprise EHR giants like Epic and Cerner, alongside specialized SaaS providers like Veeva and Teladoc. Startups focus on filling workflow gaps, particularly in API-first EHR integration, automated prior authorization, and AI clinical decision support systems."
+  },
+  {
+    "title": "Healthcare SaaS Economics and GTM",
+    "category": "business_strategy",
+    "content": "Healthcare SaaS applications require multi-tenant architectures, HIPAA/GDPR compliance, and EHR-native integrations (e.g., Epic App Orchard). Sales cycles range from 6-12 months for hospital systems. Pricing models are usually per-provider, per-month or value-share models based on billing recoveries."
+  },
+  {
+    "title": "HealthTech Security and Integration Architecture",
+    "category": "technical",
+    "content": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures require end-to-end encryption (TLS 1.3, AES-256), OAuth2 authentication, role-based access control (RBAC), and strict HIPAA audit logging."
+  },
+  {
+    "title": "Case Study: Telehealth EHR Integration",
+    "category": "domain_case_studies",
+    "content": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient scheduling and automated clinical document generation, reducing provider clinical documentation time via real-time webhooks."
+  },
+  {
+    "title": "Cybersecurity Market Dynamics",
+    "category": "market_research",
+    "content": "The cybersecurity landscape is driven by cloud migration, zero-trust network access (ZTNA) requirements, and sophisticated threat vectors. Fast-growing segments include identity security, cloud security posture management (CSPM), and automated incident response."
+  },
+  {
+    "title": "Cybersecurity Competitor Landscapes",
+    "category": "competitor",
+    "content": "Dominant enterprise security providers like CrowdStrike, Palo Alto Networks, and Splunk offer comprehensive suites. Gaps exist in automated threat remediation for SMBs, supply chain risk management, and edge firewall log analytics."
+  },
+  {
+    "title": "Security SaaS Pricing and Metrics",
+    "category": "business_strategy",
+    "content": "Cybersecurity software is primarily sold on a per-seat, per-endpoint, or data volume (GB/day ingested) basis. Gross margins average 80%+. Customer retention is high because security tools are critical infrastructure, with typical net revenue retention (NRR) exceeding 115%."
+  },
+  {
+    "title": "SIEM and Threat Detection Architecture",
+    "category": "technical",
+    "content": "Modern Security Information and Event Management (SIEM) systems process millions of events per second. Architecture involves distributed message queues (e.g., Kafka), event parsing nodes, log indexers, and real-time anomaly detection engines utilizing AI to filter out false alerts."
+  },
+  {
+    "title": "Case Study: SIEM Log Threat Predictor",
+    "category": "domain_case_studies",
+    "content": "An enterprise security operations center (SOC) deployed an anomaly detection model for firewalls. The pipeline streams VPC flow logs into a Kafka queue, runs a real-time prediction service to identify command-and-control communication, and auto-quarantines affected nodes."
+  },
+  {
+    "title": "FinTech and Embedded Finance Trends",
+    "category": "market_research",
+    "content": "FinTech innovation is shifting toward embedded finance, open banking APIs, and real-time payment networks. Growth areas include B2B payment automation, cross-border remittance, and alternative credit underwriting using transactional history."
+  },
+  {
+    "title": "FinTech Competitor Landscapes",
+    "category": "competitor",
+    "content": "Infrastructure is dominated by API providers like Stripe and Plaid, alongside core banking software. Market gaps exist in multi-rail payment routing, localized tax compliance automation, and cross-border billing reconciliation for subscription startups."
+  },
+  {
+    "title": "FinTech Unit Economics and Monetization",
+    "category": "business_strategy",
+    "content": "Monetization strategies include transaction-based fees (interchange share), subscription fees for SaaS features, and interest on deposits (float). Customer acquisition cost (CAC) is offset by rapid transaction volume scaling as customers grow."
+  },
+  {
+    "title": "FinTech Security and API Architecture",
+    "category": "technical",
+    "content": "FinTech applications require PCI-DSS compliance, strong customer authentication (SCA), and low-latency API design. Architecture patterns feature double-entry ledger databases, idempotent API endpoints, tokenized card storage, and message-driven transaction workflows."
+  },
+  {
+    "title": "Case Study: B2B Payment Automation Pipeline",
+    "category": "domain_case_studies",
+    "content": "An e-commerce platform automated SMB vendor payouts via Plaid and Stripe. The architecture uses idempotent API request handling, webhooks for real-time ACH status tracking, and a double-entry ledger to guarantee transactional consistency across accounts."
+  },
+  {
+    "title": "Supply Chain Technology Evolution",
+    "category": "market_research",
+    "content": "Supply chain disruptions drive demand for real-time visibility, automated warehousing, and route optimization. Key growth segments include digital freight brokerage, warehouse management systems (WMS), and predictive transit delay monitoring."
+  },
+  {
+    "title": "Logistics Tech Competitor Landscape",
+    "category": "competitor",
+    "content": "Enterprise players like Flexport, Project44, and FourKites provide visibility solutions. Gaps remain in multi-modal route optimization for small-to-medium fleets, cold-chain monitoring via low-power IoT, and automated customs document parsing."
+  },
+  {
+    "title": "Logistics SaaS Pricing Models",
+    "category": "business_strategy",
+    "content": "Logistics SaaS is priced per-shipment, per-vehicle, or per-user. Pricing tiers align with shipment volume. Customer lifetime value is high due to deep integration with ERP and CRM systems, resulting in long-term sticky contracts."
+  },
+  {
+    "title": "Fleet and Route Optimization Architecture",
+    "category": "technical",
+    "content": "Fleet optimization systems consume real-time GPS, traffic, and weather data. Architectures employ geographic databases, graph-based routing algorithms (e.g., Dijkstra, A*), and message brokers to dynamically recalculate ETAs and update dispatch schedules."
+  },
+  {
+    "title": "Case Study: Real-Time Fleet Visibility",
+    "category": "domain_case_studies",
+    "content": "A logistics carrier implemented a real-time tracking pipeline for refrigerated freight. The system streams GPS and temperature sensor data via cellular IoT, runs a stream processor to trigger temperature alerts, and updates an interactive map dashboard for fleet managers."
+  },
+  {
+    "title": "ClimateTech Carbon Accounting Trends",
+    "category": "market_research",
+    "content": "Regulatory pressure (e.g., Scope 3 emissions reporting) drives rapid growth in carbon accounting and ESG software. Focus areas include carbon footprint calculation, supply chain emissions tracking, and carbon offset verification frameworks."
+  },
+  {
+    "title": "ClimateTech Competitor Landscape",
+    "category": "competitor",
+    "content": "Startups like Climeworks, Arcadia, and Pachama provide verification and carbon capture. Gaps exist in automated carbon data ingestion from enterprise resource planning (ERP) databases, real-time energy offset marketplaces, and verified supply chain audit trails."
+  },
+  {
+    "title": "Carbon Accounting SaaS Metrics",
+    "category": "business_strategy",
+    "content": "ClimateTech SaaS models charge based on company size, scope complexity, or transaction fees on carbon credit purchases. CAC is currently high due to market education, but contract values are growing as enterprise compliance deadlines approach."
+  },
+  {
+    "title": "Carbon Offset Marketplace Architecture",
+    "category": "technical",
+    "content": "Carbon credit marketplaces require transparent transaction histories and double-counting prevention. Modern architectures leverage secure distributed ledgers, document parsing engines for satellite verification, and APIs to integrate into travel/e-commerce checkout flows."
+  },
+  {
+    "title": "Case Study: Scope 3 Carbon Accounting Ingestion",
+    "category": "domain_case_studies",
+    "content": "An enterprise manufacturer automated its Scope 3 emissions analysis. The system extracts supplier invoice data via OCR, maps materials to carbon coefficient databases, and computes emissions using a distributed data processing engine."
+  },
+  {
+    "title": "Industrial AI and Smart Manufacturing",
+    "category": "market_research",
+    "content": "Industrial AI focuses on improving efficiency and reducing downtime in manufacturing, chemicals, and mining. Fastest-growing segments are predictive maintenance, computer-vision-based quality inspection, and factory energy management."
+  },
+  {
+    "title": "Industrial AI Competitor Landscapes",
+    "category": "competitor",
+    "content": "Competitors include Uptake, C3.ai, and Samsara alongside industrial system integrators. Market gaps exist in low-code machine learning interfaces for plant floor operators, legacy PLC protocol translation, and offline edge inference capabilities."
+  },
+  {
+    "title": "Industrial SaaS Pricing and RoI",
+    "category": "business_strategy",
+    "content": "Industrial SaaS is sold on a value-based pricing model, often tied to uptime improvement or energy savings. Sales cycles involve proof-of-concept (PoC) stages (3-6 months). ROI is measured by asset life extension and reduction in unplanned downtime."
+  },
+  {
+    "title": "Predictive Maintenance and Digital Twin Architecture",
+    "category": "technical",
+    "content": "Digital twin architectures require streaming vibration, temperature, and pressure sensors from edge PLCs. Architectures utilize industrial protocols (OPC-UA, Modbus), message brokers, time-series data storage, and anomaly detection models running on local edge servers."
+  },
+  {
+    "title": "Case Study: Predictive Maintenance in Manufacturing",
+    "category": "domain_case_studies",
+    "content": "A manufacturing plant deployed a predictive maintenance system on conveyor assets. Accelerometers stream high-frequency vibration data via OPC-UA to an edge gateway, where a machine learning model detects bearing degradation and flags maintenance work orders."
+  },
+  {
+    "title": "Enterprise SaaS Infrastructure and Growth",
+    "category": "market_research",
+    "content": "Enterprise software growth is driven by operational efficiency, cross-department collaboration, and security requirements. Key areas are automated workflows, AI productivity features, and multi-tenant management portals."
+  },
+  {
+    "title": "Enterprise SaaS Market Landscape",
+    "category": "competitor",
+    "content": "Dominated by giants like Salesforce, ServiceNow, and Workday. Gaps are found in cross-platform process orchestration, departmental workflow automation without engineering support, and customizable multi-tenant portals for vendors."
+  },
+  {
+    "title": "Enterprise B2B SaaS Benchmarks",
+    "category": "business_strategy",
+    "content": "Enterprise SaaS focuses on contract length (usually multi-year), Net Promoter Score (NPS), and expansion revenue. Critical benchmarks include net revenue retention above 110% and gross margins above 75%, driven by automated self-service and solid onboarding."
+  },
+  {
+    "title": "Enterprise Multi-Tenant SaaS Architecture",
+    "category": "technical",
+    "content": "Enterprise architectures must enforce strict tenant separation, single sign-on (SSO/SAML), and SOC2 compliance. Typical implementations use logical database isolation (schema-per-tenant or tenant-id columns), role-based routing, and detailed access logging."
+  },
+  {
+    "title": "Case Study: Multi-Tenant SSO Integration",
+    "category": "domain_case_studies",
+    "content": "A B2B SaaS provider implemented enterprise single sign-on (SSO). The system enables customers to configure SAML and OIDC connections, maps identity provider groups to application permissions, and writes administrative audit trails to an immutable system log."
+  },
+  {
+    "title": "Frontier Tech and DeepTech Evolution",
+    "category": "market_research",
+    "content": "Frontier technology represents high-risk, high-reward innovations across quantum computing, neurotechnology, and advanced robotics. Growth is driven by long-term research breakthroughs and government/institutional funding."
+  },
+  {
+    "title": "Frontier Tech Competitor Landscape",
+    "category": "competitor",
+    "content": "Pioneering developers like Neuralink, Anthropic, and D-Wave lead active research. The ecosystem suffers from a lack of developer tooling, standardized simulation environments, and accessible API abstractions for non-researchers."
+  },
+  {
+    "title": "Frontier Tech Commercialization Metrics",
+    "category": "business_strategy",
+    "content": "Business models in deeptech lean heavily on developer-platform access, cloud API subscription tiers, and joint research partnerships. Capital efficiency and milestone-based funding models are critical because initial R&D periods are prolonged."
+  },
+  {
+    "title": "Quantum and Neurotech Software Design",
+    "category": "technical",
+    "content": "High-performance computing (HPC) environments require low-latency compilers and distributed memory scheduling. Neurotech applications (BCI) require high-fidelity neural signal processing libraries, real-time filtering, and sub-millisecond execution loops."
+  },
+  {
+    "title": "Case Study: Brain-Computer Signal Processing",
+    "category": "domain_case_studies",
+    "content": "A research platform implemented a real-time brain-computer interface (BCI) signal decoder. The architecture ingests multi-channel sensor arrays via high-speed SPI channels, applies bandpass filtering at the edge, and translates neural spikes into control commands."
+  }
+]

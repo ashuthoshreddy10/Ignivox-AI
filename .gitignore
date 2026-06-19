@@ -1,0 +1,96 @@
+# ============================================================
+# SECRETS & CREDENTIALS — NEVER COMMIT
+# ============================================================
+.env
+.env.local
+.env.production
+.env.staging
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# ============================================================
+# PYTHON
+# ============================================================
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ============================================================
+# NODE / FRONTEND
+# ============================================================
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+.cache/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+
+# ============================================================
+# LOGS & DIAGNOSTICS
+# ============================================================
+*.log
+logs/
+audit_diagnostics.json
+investor_pitch_failures.json
+grounding_regression_report.json
+retrieval_benchmark_results.json
+rag_retrieval_audit_report.json
+helios_live_run_report.json
+helios_blueprint_bc231ccf.json
+grounding_run.log
+custom_blueprint.json
+
+# ============================================================
+# IDE & OS
+# ============================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# DOCKER & INFRA
+# ============================================================
+.docker/
+
+# ============================================================
+# MISC TEMP / TEST ARTIFACTS
+# ============================================================
+*.tmp
+*.bak
+*.orig
+*.retry
