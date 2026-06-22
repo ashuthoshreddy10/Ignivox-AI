@@ -259,20 +259,20 @@ def test_enforce_validation_output_insufficient_evidence():
 
 
 def test_classify_claim_rules():
-    # 1. TAM/SAM/SOM should always be Estimate
-    assert classify_claim("TAM size is $20B", "tam_key", "market_research.tam", "market_research") == "Estimate"
+    # 1. TAM/SAM/SOM should always be Projection
+    assert classify_claim("TAM size is $20B", "tam_key", "market_research.tam", "market_research") == "Projection"
     
-    # 2. Financial projections should be Estimate, Projection, or Strategy, never fact (except for competitors)
+    # 2. Financial projections should be Projection, never fact (except for competitors)
     assert classify_claim("Year 3 ARR of $12M", "arr", "business_strategy.arr", "business_strategy") == "Projection"
-    assert classify_claim("CAC is $150", "cac", "business_strategy.cac", "business_strategy") == "Estimate"
-    assert classify_claim("$1.5M funding ask", "funding_ask", "investor_pitch.funding_ask", "investor_pitch") == "Strategy"
+    assert classify_claim("CAC is $150", "cac", "business_strategy.cac", "business_strategy") == "Projection"
+    assert classify_claim("$1.5M funding ask", "funding_ask", "investor_pitch.funding_ask", "investor_pitch") == "Projection"
     
     # Financial projection for competitor CAN be Retrieved Fact
     assert classify_claim("Competitor A has $50M ARR", "arr", "competitor.competitors.direct.arr", "competitor") == "Retrieved Fact"
 
     # 3. Path-based matching
-    assert classify_claim("Build MVP", "mvp", "product_strategy.mvp_definition.timeline", "product_strategy") == "Roadmap"
-    assert classify_claim("High conversion rate", "assumption", "business_strategy.assumptions.conversion", "business_strategy") == "Assumption"
+    assert classify_claim("Build MVP", "mvp", "product_strategy.mvp_definition.timeline", "product_strategy") == "Recommendation"
+    assert classify_claim("High conversion rate", "assumption", "business_strategy.assumptions.conversion", "business_strategy") == "Historical Fact"
 
     # 4. Keyword-based matching
     assert classify_claim("projected to grow by 20%", "some_key", "some_path", "some_agent") == "Projection"
@@ -322,4 +322,55 @@ def test_sanitize_pitch_unauthorized_traction():
     assert "planned" in slide["speaker_notes"].lower() or "target" in slide["speaker_notes"].lower()
     
     assert "milestone" in sanitized["narrative"]["claim"].lower() or "target" in sanitized["narrative"]["claim"].lower()
+
+
+def test_projection_recommendation_source_preservation():
+    grounding_map = []
+    registry = merge_cumulative_registry(
+        None,
+        json.dumps({
+            "live_sources": [{
+                "title": "ARR Report",
+                "url": "https://example.com/arr",
+                "snippet": "We project ARR of $10M by year 3",
+                "timestamp": "2026-06-18T00:00:00Z",
+            }],
+            "vector_context": [],
+            "memory_context": [],
+        }),
+    )
+    content = {
+        "evidence_quality_report": {
+            "verified_claims": [
+                {
+                    "agent": "business_strategy",
+                    "claim": "ARR of $10M by year 3",
+                    "status": "Model Estimate",
+                    "verification": "Not Applicable",
+                    "source": "https://example.com/arr",
+                    "sources": [{"source_url": "https://example.com/arr", "source_title": "ARR Report"}],
+                }
+            ]
+        }
+    }
+    corrected = enforce_validation_output(content, grounding_map, registry)
+    claims = corrected["evidence_quality_report"]["verified_claims"]
+    by_claim = {c["claim"]: c for c in claims}
+    projection_claim = by_claim["ARR of $10M by year 3"]
+    
+    assert projection_claim["status"] == "Model Estimate"
+    assert projection_claim["verification"] == "Not Applicable"
+    assert len(projection_claim["sources"]) == 1
+    assert projection_claim["sources"][0]["source_url"] == "https://example.com/arr"
+    assert projection_claim["source"] == "https://example.com/arr"
+
+
+def test_classify_claim_word_boundary_matching():
+    assert classify_claim("Our narrative", "narrative", "investor_pitch.narrative", "investor_pitch") == "Historical Fact"
+    assert classify_claim("Year 1 revenue", "projected_arr", "business_strategy.projected_arr", "business_strategy") == "Projection"
+    assert classify_claim("Growth rate is scagr_test", "key", "path", "agent") == "Historical Fact"
+    assert classify_claim("Growth rate is 14% cagr", "key", "path", "agent") == "Projection"
+    assert classify_claim("Checking unit economics", "key", "path", "agent") == "Projection"
+
+
 

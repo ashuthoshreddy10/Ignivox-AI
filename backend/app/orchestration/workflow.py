@@ -53,10 +53,15 @@ class WorkflowOrchestrator:
         for agent in AGENT_REGISTRY.values():
             agent.status = AgentStatus.IDLE
 
+        from app.services.evidence_utils import EVALUATED_CLAIMS
+        EVALUATED_CLAIMS.clear()
+
         import os
+        from app.config import BACKEND_DIR
         try:
-            if os.path.exists("audit_diagnostics.json"):
-                os.remove("audit_diagnostics.json")
+            audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
+            if os.path.exists(audit_file):
+                os.remove(audit_file)
         except Exception:
             pass
 
@@ -359,8 +364,8 @@ class WorkflowOrchestrator:
             }
         blueprint.validation = validation_output
 
+        blueprint.claim_lineage = context.get("claim_lineage", [])
         blueprint_data = blueprint.model_dump()
-        blueprint_data["claim_lineage"] = context.get("claim_lineage", [])
         blueprint.score = scoring_engine.score(blueprint_data)
         blueprint.recommendations = self._generate_recommendations(context)
         blueprint.status = "complete"
@@ -386,7 +391,8 @@ class WorkflowOrchestrator:
 
         try:
             import os
-            audit_file = "audit_diagnostics.json"
+            from app.config import BACKEND_DIR
+            audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
             audit_data = []
             if os.path.exists(audit_file):
                 with open(audit_file, "r") as f:
@@ -397,6 +403,17 @@ class WorkflowOrchestrator:
             logger.info("RAG Retrieval Audit Compiled and Saved | %s", json.dumps(retrieval_audit))
         except Exception as err:
             logger.warning("Failed to write retrieval audit: %s", err)
+
+        try:
+            import os
+            from app.config import BACKEND_DIR
+            from app.services.evidence_utils import EVALUATED_CLAIMS
+            audit_log_path = os.path.join(BACKEND_DIR, "grounding_audit_log.json")
+            with open(audit_log_path, "w", encoding="utf-8") as f:
+                json.dump(EVALUATED_CLAIMS, f, indent=2)
+            logger.info("Grounding Audit Log Saved | %d entries", len(EVALUATED_CLAIMS))
+        except Exception as err:
+            logger.warning("Failed to write grounding audit log: %s", err)
 
         memory.store_analysis(
             workflow_id,

@@ -1,0 +1,317 @@
+[
+  {
+    "claim": "High energy costs due to inefficient distribution and consumption",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Limited predictive capabilities for energy demand and supply",
+    "source_title": "AI in Energy Market Report",
+    "source_url": "https://www.marketsandmarkets.com/Market-Reports/ai-in-energy-market-231720509.html",
+    "source_snippet": "The AI in energy segment comprises advanced solutions and services designed to optimize energy generation, distribution, and consumption. Solutions ty",
+    "support_score": 0.1533,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Growing demand for grid modernization and smart energy solutions",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.3319,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Increasing adoption of AI and IoT technologies in the energy sector",
+    "source_title": "AI in Energy Market Report",
+    "source_url": "https://www.marketsandmarkets.com/Market-Reports/ai-in-energy-market-231720509.html",
+    "source_snippet": "The AI in energy segment comprises advanced solutions and services designed to optimize energy generation, distribution, and consumption. Solutions ty",
+    "support_score": 0.2222,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$12.79B global addressable market size by 2030",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.4028,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$7.54B serviceable market size in 2026",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.4724,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$1.5B target market size for Helios Grid in 2026",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.3889,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "14.1% CAGR from 2026 to 2030",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.7368,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "To create an AI-powered smart energy optimization platform that enables utilities and energy consumers to optimize energy efficiency, reduce costs, and improve predictive capabilities",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.1467,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "AI-powered energy optimization and real-time monitoring and control capabilities",
+    "source_title": "Artificial intelligence-based solutions for energy management systems",
+    "source_url": "https://www.sciencedirect.com/science/article/pii/S2590174524002022",
+    "source_snippet": "This state-of-the-art review presents artificial intelligence-based solutions to improve EMS, focusing on optimal scheduling of generation sources, fo",
+    "support_score": 0.0682,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Scalable and flexible architecture to accommodate growing energy demands and integrate with existing systems",
+    "source_title": "Energy management systems and artificial intelligence",
+    "source_url": "https://arxiv.org/html/2512.19299",
+    "source_snippet": "Which across fourteen sub-fields: clean energy, cogeneration, combined cooling-heating-and-power, distributed energy, energy hub, energy management sy",
+    "support_score": 0.1333,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Core AI engine for energy optimization",
+    "source_title": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading",
+    "source_url": "https://devpost.com/software/heliosgrid",
+    "source_snippet": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading Inspiration The global energy grid is antiquated. We are facing a paradox: while residential solar",
+    "support_score": 0.2917,
+    "is_supported": true,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Real-time monitoring and control capabilities",
+    "source_title": "Real-time monitoring and control for next-generation power systems",
+    "source_url": "https://www.sciencedirect.com/science/article/pii/S1364032124009778",
+    "source_snippet": "Real-time monitoring and control are crucial for ensuring the resilient, coordinated, and optimal operation of next-generation power systems, such as ",
+    "support_score": 0.7553,
+    "is_supported": true,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "8-12 weeks",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Helios Grid offers an AI-powered smart energy optimization platform that enables utilities and energy consumers to optimize energy efficiency, reduce costs, and improve predictive capabilities",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.1878,
+    "is_supported": true,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Subscription-based revenue model with tiered pricing for utilities and energy consumers",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0205,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$1.2M",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$4.8M",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$12M",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$120",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$1,560",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "13:1",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "80%",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "3 months",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "Next.js 14, TypeScript, TailwindCSS, and domain-specific UI libraries for energy management (e.g., D3.js for data visualization, Leaflet for mapping)",
+    "source_title": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading",
+    "source_url": "https://devpost.com/software/heliosgrid",
+    "source_snippet": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading Inspiration The global energy grid is antiquated. We are facing a paradox: while residential solar",
+    "support_score": 0.1036,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "FastAPI, Celery, and domain-specific middleware (e.g., Apache Kafka for event streaming, MQTT for IoT telemetry ingestion)",
+    "source_title": "Helios-Grid Wiki",
+    "source_url": "https://github.com/sankeashok/Helios-Grid/wiki",
+    "source_snippet": "\ud83c\udf1f Project Overview Helios-Grid is a comprehensive MLOps pipeline designed for energy consumption prediction, implementing enterprise-grade practices a",
+    "support_score": 0.0543,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "12-week agile development plan consisting of 6 two-week sprints",
+    "source_title": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading",
+    "source_url": "https://devpost.com/software/heliosgrid",
+    "source_snippet": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading Inspiration The global energy grid is antiquated. We are facing a paradox: while residential solar",
+    "support_score": 0.0408,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "12-week launch schedule covering pre-launch prep, Product Hunt launch week, and post-launch iteration",
+    "source_title": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading",
+    "source_url": "https://devpost.com/software/heliosgrid",
+    "source_snippet": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading Inspiration The global energy grid is antiquated. We are facing a paradox: while residential solar",
+    "support_score": 0.0379,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "Immediate hiring of lead engineer, ML developer, frontend dev, and designer",
+    "source_title": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading",
+    "source_url": "https://devpost.com/software/heliosgrid",
+    "source_snippet": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading Inspiration The global energy grid is antiquated. We are facing a paradox: while residential solar",
+    "support_score": 0.0789,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "Helios Grid is an AI-powered smart energy optimization platform that enables utilities and energy consumers to optimize energy efficiency, reduce costs, and improve predictive capabilities, with a $12.79B global addressable market size by 2030.",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.3487,
+    "is_supported": true,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$1.5M",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "Helios Grid is poised to revolutionize the energy industry with its AI-powered smart energy optimization platform, offering a unique value proposition and significant market potential.",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.2988,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "Limited predictive capabilities for energy demand and supply",
+    "source_title": "AI in Energy Market Report",
+    "source_url": "https://www.marketsandmarkets.com/Market-Reports/ai-in-energy-market-231720509.html",
+    "source_snippet": "The AI in energy segment comprises advanced solutions and services designed to optimize energy generation, distribution, and consumption. Solutions ty",
+    "support_score": 0.1533,
+    "is_supported": true,
+    "agent": "validation"
+  },
+  {
+    "claim": "Core AI engine for energy optimization",
+    "source_title": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading",
+    "source_url": "https://devpost.com/software/heliosgrid",
+    "source_snippet": "HeliosGrid: AI-Powered DePIN for P2P Energy Trading Inspiration The global energy grid is antiquated. We are facing a paradox: while residential solar",
+    "support_score": 0.2917,
+    "is_supported": true,
+    "agent": "validation"
+  },
+  {
+    "claim": "$12.79B global addressable market size by 2030",
+    "source_title": "AI-Powered Smart Grid Market Report",
+    "source_url": "https://www.researchandmarkets.com/reports/6231838/ai-powered-smart-grid-market-report",
+    "source_snippet": "The AI-Powered Smart Grid Market, valued at USD 7.54B in 2026, is projected to reach USD 12.79B by 2030, growing at a 14.1% CAGR.",
+    "support_score": 0.4028,
+    "is_supported": true,
+    "agent": "validation"
+  }
+]

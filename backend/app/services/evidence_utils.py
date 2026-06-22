@@ -234,6 +234,7 @@ def build_evidence_registry(
             registry["urls"][url] = {
                 "source_title": title,
                 "source_url": url,
+                "source_snippet": snippet,
                 "retrieval_timestamp": timestamp,
                 "source_type": "live_research",
             }
@@ -256,6 +257,7 @@ def build_evidence_registry(
                         registry["urls"][url] = {
                             "source_title": title,
                             "source_url": url,
+                            "source_snippet": content,
                             "retrieval_timestamp": timestamp,
                             "source_type": "knowledge_base" if category == "vector_context" else "memory",
                         }
@@ -389,6 +391,7 @@ def _normalize_source_entry(source: dict[str, Any], registry: dict[str, Any]) ->
     return {
         "source_url": url,
         "source_title": source.get("source_title") or meta.get("source_title") or "Source",
+        "source_snippet": meta.get("source_snippet") or source.get("source_snippet") or "",
         "retrieval_timestamp": source.get("retrieval_timestamp") or meta.get("retrieval_timestamp") or utc_now_iso(),
         "confidence_score": float(source.get("confidence_score", meta.get("confidence_score", 0.85))),
     }
@@ -431,13 +434,33 @@ def cap_claim_confidence(obj: dict[str, Any]) -> dict[str, Any]:
 
 
 STATUS_MAPPING = {
-    "Projection": "projected",
-    "Estimate": "estimated",
-    "Assumption": "assumed",
-    "Strategy": "strategic",
-    "Roadmap": "proposed",
-    "Hypothesis": "hypothetical"
+    "Projection": "Model Estimate",
+    "Recommendation": "Strategic Recommendation"
 }
+
+
+def _has_word_match(text: str, terms: list[str]) -> bool:
+    if not text:
+        return False
+    text_lower = text.lower()
+    
+    # 1. Clean and split, keeping underscores (keeps "revenue_model")
+    tokens_with_underscore = set(re.sub(r"[^\w]", " ", text_lower).split())
+    # 2. Clean and split, removing underscores (splits "projected_arr" -> "projected", "arr")
+    tokens_no_underscore = set(re.sub(r"[^a-z0-9]", " ", text_lower).split())
+    
+    all_tokens = tokens_with_underscore | tokens_no_underscore
+    
+    for term in terms:
+        term_lower = term.lower()
+        if re.search(r"[^a-z0-9_]", term_lower):
+            pattern = rf"\b{re.escape(term_lower)}\b"
+            if re.search(pattern, text_lower):
+                return True
+        else:
+            if term_lower in all_tokens:
+                return True
+    return False
 
 
 def classify_claim(claim_text: str, parent_key: str, parent_path: str, agent_name: str, llm_category: str = "") -> str:
@@ -446,88 +469,167 @@ def classify_claim(claim_text: str, parent_key: str, parent_path: str, agent_nam
     key_lower = parent_key.lower()
     agent_lower = agent_name.lower()
     
-    # 1. TAM/SAM/SOM Path Safeguard
-    # Enforce Projection or Estimate for any path containing tam, sam, som
-    if re.search(r'\b(tam|sam|som)\b', path_lower) or re.search(r'\b(tam|sam|som)\b', key_lower) or re.search(r'\b(tam|sam|som)\b', claim_lower):
-        return "Estimate"
-        
-    # 2. Financial Projections Safeguard
-    # Force financial claims (ARR, MRR, Revenue, Profit, EBITDA, Gross Margin, CAC, LTV, Payback Period, Valuation, Funding Ask)
-    # to become Estimate, Projection, or Strategy depending on context.
-    # They must never be Historical Fact or Retrieved Fact unless it is about competitors.
-    is_competitor = "competitor" in agent_lower or "competitor" in path_lower
+    is_competitor = "competitor" in agent_lower or "competitor" in path_lower or "competitors" in path_lower
     
-    financial_terms = [
-        "arr", "mrr", "revenue", "profit", "ebitda", "gross margin", "gross_margin",
-        "cac", "ltv", "payback period", "payback_period", "valuation", "funding ask", "funding_ask", "target_raise"
+    # 1. Competitor claims are always factual
+    if is_competitor:
+        return "Retrieved Fact"
+        
+    # 2. Factual exceptions (should not be reclassified as projections/recommendations even if they contain keywords)
+    factual_exceptions = [
+        "market_trends", "pain_points", "problem_statement", "swot", 
+        "differentiation", "market_gaps", "key_hypotheses", "rationale",
+        "target_audience", "opportunity_assessment"
     ]
-    
-    has_financial_term = any(term in claim_lower for term in financial_terms) or \
-                         any(term in path_lower for term in financial_terms) or \
-                         any(term in key_lower for term in financial_terms)
-                         
-    if has_financial_term and not is_competitor:
-        # Determine exact financial category
-        # Let's check ARR/MRR/Revenue/Profit/EBITDA -> Projection
-        if any(term in claim_lower or term in path_lower or term in key_lower for term in ["arr", "mrr", "revenue", "profit", "ebitda"]):
+    is_factual_exception = any(x in path_lower for x in factual_exceptions) or \
+                           any(x in key_lower for x in factual_exceptions)
+                           
+    if not is_factual_exception:
+        # 3. Projections
+        projection_text_terms = [
+            "arr", "mrr", "valuation", "funding ask", "cagr", "financial projection", 
+            "revenue forecast", "cac", "ltv", "gross margin", "payback period",
+            "projected", "projection", "tam", "sam", "som", "market size", "unit economics"
+        ]
+        projection_path_terms = [
+            "arr", "mrr", "revenue_model", "projected_arr", "cac", "ltv", 
+            "payback_period", "gross_margin", "valuation", "funding_ask", 
+            "funding_strategy", "target_raise", "raise", "forecast", "projection", 
+            "tam", "sam", "som", "financial", "unit economics"
+        ]
+        
+        has_projection_term = _has_word_match(claim_text, projection_text_terms) or \
+                              _has_word_match(parent_path, projection_path_terms) or \
+                              _has_word_match(parent_key, projection_path_terms)
+           
+        if has_projection_term:
             return "Projection"
-        # Let's check CAC/LTV/Payback Period/Gross Margin -> Estimate
-        if any(term in claim_lower or term in path_lower or term in key_lower for term in ["cac", "ltv", "payback", "margin"]):
-            return "Estimate"
-        # Let's check Valuation/Funding Ask/Target Raise -> Strategy (or Estimate)
-        if any(term in claim_lower or term in path_lower or term in key_lower for term in ["valuation", "funding", "ask", "raise"]):
-            return "Strategy"
             
-    # 3. Path-based Category Inheritance
-    # Let's map key path parts to categories
-    if "timeline" in path_lower or "roadmap" in path_lower or "milestone" in path_lower or "mvp_definition" in path_lower or "mvp" in path_lower:
-        return "Roadmap"
-    if "assumption" in path_lower:
-        return "Assumption"
-    if "hypothesis" in path_lower:
-        return "Hypothesis"
-    if "strategy" in path_lower or "business_model" in path_lower or "pricing" in path_lower:
-        return "Strategy"
-    
-    if not is_competitor:
-        if "cac" in path_lower or "ltv" in path_lower or "payback" in path_lower or "margin" in path_lower:
-            return "Estimate"
-        if "arr" in path_lower or "mrr" in path_lower or "revenue" in path_lower or "profit" in path_lower or "forecast" in path_lower or "projection" in path_lower:
-            return "Projection"
-        if "funding" in path_lower or "valuation" in path_lower or "ask" in path_lower or "raise" in path_lower:
-            return "Strategy"
+        # 4. Recommendations
+        recommendation_text_terms = [
+            "timeline", "roadmap", "sprint", "milestone", "pricing strategy", 
+            "go-to-market", "gtm", "architecture recommendation"
+        ]
+        recommendation_path_terms = [
+            "tech_stack", "architecture", "database_schema", "deployment_strategy", 
+            "components", "go_to_market", "pricing_strategy", "mvp_definition", 
+            "sprint_roadmap", "roadmap", "timeline", "pricing"
+        ]
         
-    # 4. Keyword-based Fallback in Claim Text
-    # Let's scan the claim text for matches
-    if any(word in claim_lower for word in ["projected", "forecast", "cagr", "expected to", "will reach", "estimated to reach", "yoy growth"]):
-        return "Projection"
-    if any(word in claim_lower for word in ["assume", "assuming", "assumption", "assumes"]):
-        return "Assumption"
-    if any(word in claim_lower for word in ["milestone", "roadmap", "mvp", "weeks", "sprint", "timeline", "launch", "development phase"]):
-        return "Roadmap"
-    if any(word in claim_lower for word in ["pricing", "strategy", "business model", "monetize", "monetization"]):
-        return "Strategy"
-        
-    if not is_competitor:
-        if any(word in claim_lower for word in ["estimate", "estimated", "cac", "ltv", "tam", "sam", "som", "valuation"]):
-            return "Estimate"
-        if any(word in claim_lower for word in ["hypothesis", "hypothetical", "speculate"]):
-            return "Hypothesis"
-        
-    # 5. LLM-suggested Category Fallback
-    valid_categories = {
-        "Historical Fact", "Retrieved Fact", "Projection", "Estimate",
-        "Assumption", "Strategy", "Roadmap", "Hypothesis"
-    }
-    if llm_category in valid_categories:
-        return llm_category
-        
-    # 6. Global Fallback
-    # If it is a competitor/market research claim and we have some indication of fact, or if it's just general:
-    if is_competitor or "market_research" in agent_lower:
+        has_recommendation_term = _has_word_match(claim_text, recommendation_text_terms) or \
+                                  _has_word_match(parent_path, recommendation_path_terms) or \
+                                  _has_word_match(parent_key, recommendation_path_terms) or \
+                                  agent_lower in ("technical_architect", "execution_planning")
+           
+        if has_recommendation_term:
+            return "Recommendation"
+
+    # 5. Facts (fallback)
+    if "market_research" in agent_lower or "novelty_detection" in agent_lower:
         return "Retrieved Fact"
         
     return "Historical Fact"
+
+
+EVALUATED_CLAIMS = []
+
+def compute_semantic_similarity(text1: str, text2: str) -> float:
+    t1 = str(text1).lower().strip()
+    t2 = str(text2).lower().strip()
+    if not t1 or not t2:
+        return 0.0
+        
+    def get_trigrams(text: str) -> set[str]:
+        cleaned = re.sub(r"[^a-z0-9]", "", text)
+        if len(cleaned) < 3:
+            return {cleaned} if cleaned else set()
+        return {cleaned[i:i+3] for i in range(len(cleaned)-2)}
+
+    def get_tokens(text: str) -> set[str]:
+        words = re.findall(r"\b[a-z0-9]{3,}\b", text)
+        stopwords = {
+            "and", "or", "but", "the", "with", "for", "from", "their", "our", "your",
+            "this", "that", "these", "those", "have", "has", "had", "been", "should", "would",
+            "are", "was", "were", "is", "its", "it", "to", "in", "at", "by", "of"
+        }
+        return {w for w in words if w not in stopwords}
+
+    tg1 = get_trigrams(t1)
+    tg2 = get_trigrams(t2)
+    
+    tok1 = get_tokens(t1)
+    tok2 = get_tokens(t2)
+    
+    tg_sim = len(tg1.intersection(tg2)) / min(len(tg1), len(tg2)) if tg1 and tg2 else 0.0
+    tok_sim = len(tok1.intersection(tok2)) / min(len(tok1), len(tok2)) if tok1 and tok2 else 0.0
+    
+    return 0.5 * tg_sim + 0.5 * tok_sim
+
+
+def validate_claim_source(
+    claim_text: str,
+    source_url: str,
+    source_title: str,
+    source_snippet: str,
+    parent_path: str = "",
+    agent_name: str = ""
+) -> tuple[bool, float]:
+    global EVALUATED_CLAIMS
+    if not claim_text or not source_snippet:
+        return False, 0.0
+
+    similarity = compute_semantic_similarity(claim_text, source_snippet)
+    
+    claim_lower = claim_text.lower()
+    path_lower = parent_path.lower()
+    
+    strong_keywords = {
+        "market share", "market_share", "valuation", "revenue", "arr", "mrr", 
+        "adoption", "funding", "seed", "raise", "target raise", "customer count", 
+        "users", "customers", "cagr", "growth rate", "tam", "sam", "som", 
+        "competitor strength", "competitors"
+    }
+    requires_strong = any(k in claim_lower for k in strong_keywords) or any(k in path_lower for k in strong_keywords)
+    min_threshold = 0.35 if requires_strong else 0.15
+    
+    generic_domains = ["devpost.com", "github.com", "github.io", "blogspot.com", "wordpress.com", "medium.com"]
+    url_lower = source_url.lower()
+    is_generic = any(gd in url_lower for gd in generic_domains) or "blog" in url_lower
+    
+    restricted_keywords = {
+        "market share", "market_share", "valuation", "revenue", "arr", "mrr", 
+        "funding", "seed", "raise", "adoption", "users", "customers", "cagr"
+    }
+    is_restricted_claim = any(k in claim_lower for k in restricted_keywords) or any(k in path_lower for k in restricted_keywords)
+    
+    is_supported = True
+    if is_generic and is_restricted_claim:
+        has_numbers = any(char.isdigit() for char in source_snippet) or "%" in source_snippet or "$" in source_snippet
+        has_terms = any(term in source_snippet.lower() for term in ["market", "share", "valuation", "revenue", "funding", "raise", "cagr", "percent", "growth"])
+        if not (has_numbers and has_terms):
+            is_supported = False
+            
+    if similarity < min_threshold:
+        is_supported = False
+
+    # Log evaluation if not duplicate
+    duplicate = False
+    for item in EVALUATED_CLAIMS:
+        if item["claim"] == claim_text and item["source_url"] == source_url and item["agent"] == agent_name:
+            duplicate = True
+            break
+    if not duplicate:
+        EVALUATED_CLAIMS.append({
+            "claim": claim_text,
+            "source_title": source_title,
+            "source_url": source_url,
+            "source_snippet": source_snippet,
+            "support_score": round(similarity, 4),
+            "is_supported": is_supported,
+            "agent": agent_name
+        })
+        
+    return is_supported, similarity
 
 
 def sanitize_grounded_claims(obj: Any, registry: dict[str, Any], agent_name: str, parent_path: str = "") -> Any:
@@ -535,15 +637,32 @@ def sanitize_grounded_claims(obj: Any, registry: dict[str, Any], agent_name: str
     if isinstance(obj, dict):
         if "claim" in obj and ("sources" in obj or "verification" in obj):
             valid_sources = []
+            claim_text = str(obj.get("claim", ""))
+            
             for src in obj.get("sources", []):
                 normalized = _normalize_source_entry(src, registry) if isinstance(src, dict) else None
                 if normalized:
-                    valid_sources.append(normalized)
+                    source_url = normalized["source_url"]
+                    source_title = normalized["source_title"]
+                    source_snippet = normalized.get("source_snippet") or ""
+                    
+                    is_supported, similarity = validate_claim_source(
+                        claim_text=claim_text,
+                        source_url=source_url,
+                        source_title=source_title,
+                        source_snippet=source_snippet,
+                        parent_path=parent_path,
+                        agent_name=agent_name
+                    )
+                    
+                    if is_supported:
+                        normalized["support_score"] = round(similarity, 4)
+                        valid_sources.append(normalized)
+            
             obj["sources"] = valid_sources
             obj["source_count"] = len(valid_sources)
             
             # Programmatic category classification
-            claim_text = str(obj.get("claim", ""))
             parent_key = parent_path.split(".")[-1] if parent_path else ""
             category = classify_claim(claim_text, parent_key, parent_path, agent_name, obj.get("category", ""))
             obj["category"] = category
@@ -551,7 +670,7 @@ def sanitize_grounded_claims(obj: Any, registry: dict[str, Any], agent_name: str
             # Verification constraints based on category
             if category in ("Historical Fact", "Retrieved Fact"):
                 if not valid_sources:
-                    obj["verification"] = "unverified"
+                    obj["verification"] = "unsupported"
                     obj["status"] = "unsupported"
                     obj["claim_type"] = "generated"
                     obj["evidence_strength"] = "low"
@@ -565,14 +684,33 @@ def sanitize_grounded_claims(obj: Any, registry: dict[str, Any], agent_name: str
                     obj["claim_type"] = "retrieved"
                     if "source" in obj:
                         obj["source"] = valid_sources[0]["source_url"]
-            else:
-                # Projections, Estimates, etc. are never verified
-                obj["verification"] = "unverified"
-                obj["status"] = STATUS_MAPPING.get(category, "unsupported")
-                obj["claim_type"] = "generated"
-                obj["evidence_strength"] = "low"
+            elif category == "Projection":
+                obj["verification"] = "Not Applicable"
+                obj["status"] = "Model Estimate"
+                obj["claim_type"] = "retrieved" if valid_sources else "generated"
+                obj["evidence_strength"] = "medium" if valid_sources else "low"
+                obj["sources"] = valid_sources
+                obj["source_count"] = len(valid_sources)
                 if "source" in obj:
-                    obj["source"] = "No Source"
+                    obj["source"] = valid_sources[0]["source_url"] if valid_sources else "No Source"
+            elif category == "Recommendation":
+                obj["verification"] = "Not Applicable"
+                obj["status"] = "Strategic Recommendation"
+                obj["claim_type"] = "retrieved" if valid_sources else "generated"
+                obj["evidence_strength"] = "medium" if valid_sources else "low"
+                obj["sources"] = valid_sources
+                obj["source_count"] = len(valid_sources)
+                if "source" in obj:
+                    obj["source"] = valid_sources[0]["source_url"] if valid_sources else "No Source"
+            else:
+                obj["verification"] = "Not Applicable"
+                obj["status"] = "Strategic Recommendation"
+                obj["claim_type"] = "retrieved" if valid_sources else "generated"
+                obj["evidence_strength"] = "medium" if valid_sources else "low"
+                obj["sources"] = valid_sources
+                obj["source_count"] = len(valid_sources)
+                if "source" in obj:
+                    obj["source"] = valid_sources[0]["source_url"] if valid_sources else "No Source"
                     
             obj = cap_claim_confidence(obj)
             return obj
@@ -785,14 +923,18 @@ def enforce_competitor_evidence(content: dict[str, Any], registry: dict[str, Any
             # Check name presence in registry corpus
             name_supported = _competitor_name_supported(name, registry, idea)
             
-            # Check associated source URL exists in retrieved evidence
+            # Check if domain of competitor URL is present in the corpus or registry domains (relaxed URL check)
             competitor_urls = _extract_competitor_urls(entry)
-            valid_urls = [u for u in competitor_urls if u and normalize_url(u) in registry.get("urls", {})]
+            domain_supported = False
+            for u in competitor_urls:
+                if u:
+                    domain = extract_domain(u)
+                    if domain and (domain in registry.get("domains", set()) or domain in registry.get("text_corpus", "")):
+                        domain_supported = True
+                        break
             
-            # A competitor is kept ONLY if:
-            # 1. The name is supported (appears in corpus)
-            # 2. At least one associated source URL exists and is present in retrieved evidence (registry["urls"])
-            if name_supported and len(valid_urls) > 0:
+            # A competitor is kept if the name is supported OR its domain is supported in evidence
+            if name_supported or domain_supported:
                 for field in ("pricing", "market_share"):
                     field_val = entry.get(field)
                     if isinstance(field_val, dict):
@@ -801,8 +943,8 @@ def enforce_competitor_evidence(content: dict[str, Any], registry: dict[str, Any
             else:
                 removed += 1
                 logger.info(
-                    "Competitor evidence enforcement: removed unsupported competitor '%s' (name_supported=%s, valid_urls_count=%d)",
-                    name, name_supported, len(valid_urls)
+                    "Competitor evidence enforcement: removed unsupported competitor '%s' (name_supported=%s, urls_count=%d)",
+                    name, name_supported, len(competitor_urls)
                 )
         filtered[category] = kept
  
@@ -840,16 +982,39 @@ def build_grounding_map(context: dict[str, Any], registry: dict[str, Any]) -> li
                     normalized = _normalize_source_entry(src, registry) if isinstance(src, dict) else None
                     if not normalized:
                         continue
-                    key = (claim_text, normalized["source_url"], agent_name)
+
+
+
+                    source_url = normalized["source_url"]
+                    source_title = normalized["source_title"]
+                    source_snippet = normalized.get("source_snippet") or ""
+                    
+                    is_supported, similarity = validate_claim_source(
+                        claim_text=claim_text,
+                        source_url=source_url,
+                        source_title=source_title,
+                        source_snippet=source_snippet,
+                        agent_name=agent_name
+                    )
+                    
+                    if not is_supported:
+                        continue
+
+                    normalized["support_score"] = round(similarity, 4)
+                    
+                    key = (claim_text, source_url, agent_name)
                     if key in seen:
                         continue
                     seen.add(key)
+                    
                     grounding_map.append({
                         "claim": claim_text,
-                        "source_title": normalized["source_title"],
-                        "source_url": normalized["source_url"],
+                        "source_title": source_title,
+                        "source_url": source_url,
+                        "source_snippet": source_snippet,
+                        "support_score": round(similarity, 4),
                         "agent": agent_name,
-                        "retrieval_timestamp": normalized["retrieval_timestamp"],
+                        "retrieval_timestamp": normalized.get("retrieval_timestamp") or utc_now_iso(),
                     })
             else:
                 for val in obj.values():
@@ -882,12 +1047,42 @@ def accumulate_claim_lineage(
                     normalized = _normalize_source_entry(src, registry) if isinstance(src, dict) else None
                     if not normalized:
                         continue
+                    
+
+
+                    source_url = normalized["source_url"]
+                    source_title = normalized["source_title"]
+                    source_snippet = normalized.get("source_snippet") or ""
+                    
+                    is_supported, similarity = validate_claim_source(
+                        claim_text=claim_text,
+                        source_url=source_url,
+                        source_title=source_title,
+                        source_snippet=source_snippet,
+                        agent_name=agent_name
+                    )
+                    
+                    if not is_supported:
+                        continue
+                        
+                    if not source_url or not source_title or not source_snippet:
+                        continue
+                        
+                    duplicate = False
+                    for entry in lineage:
+                        if entry.get("claim") == claim_text and entry.get("source_url") == source_url and entry.get("agent") == agent_name:
+                            duplicate = True
+                            break
+                    if duplicate:
+                        continue
+                        
                     lineage.append({
                         "claim": claim_text,
-                        "source_title": normalized["source_title"],
-                        "source_url": normalized["source_url"],
+                        "source_title": source_title,
+                        "source_url": source_url,
+                        "source_snippet": source_snippet,
+                        "support_score": round(similarity, 4),
                         "agent": agent_name,
-                        "retrieval_timestamp": normalized["retrieval_timestamp"],
                     })
             else:
                 for val in obj.values():
@@ -1244,30 +1439,104 @@ def enforce_validation_output(
                 item["status"] = "verified"
                 item["verification"] = "verified"
                 item["source"] = valid_urls[0]
-                item["sources"] = [
-                    _normalize_source_entry({"source_url": u}, registry)
-                    for u in valid_urls
-                    if _normalize_source_entry({"source_url": u}, registry)
-                ]
+                
+                # Compute support score for validation claims
+                item["sources"] = []
+                scores = []
+                for u in valid_urls:
+                    norm_src = _normalize_source_entry({"source_url": u}, registry)
+                    if norm_src:
+                        similarity = compute_semantic_similarity(claim_text, norm_src.get("source_snippet") or "")
+                        norm_src["support_score"] = round(similarity, 4)
+                        item["sources"].append(norm_src)
+                        scores.append(similarity)
                 item["source_count"] = len(item["sources"])
+                item["support_score"] = round(max(scores), 4) if scores else 0.0
             else:
                 item["status"] = "unsupported"
-                item["verification"] = "unverified"
+                item["verification"] = "unsupported"
                 item["source"] = "No Source"  # Discard source if ungrounded!
                 item["sources"] = []
                 item["source_count"] = 0
                 item["evidence_strength"] = "low"
-        else:
-            # Projections/Estimates/etc. cannot be verified
-            item["verification"] = "unverified"
-            item["status"] = STATUS_MAPPING.get(category, "unsupported")
-            item["source"] = "No Source"
-            item["sources"] = [
-                _normalize_source_entry({"source_url": u}, registry)
-                for u in valid_urls
-                if _normalize_source_entry({"source_url": u}, registry)
-            ]
+        elif category == "Projection":
+            item["verification"] = "Not Applicable"
+            item["status"] = "Model Estimate"
+            item["sources"] = []
+            scores = []
+            for u in valid_urls:
+                norm_src = _normalize_source_entry({"source_url": u}, registry)
+                if norm_src:
+                    is_supported, similarity = validate_claim_source(
+                        claim_text=claim_text,
+                        source_url=u,
+                        source_title=norm_src.get("source_title") or "Source",
+                        source_snippet=norm_src.get("source_snippet") or "",
+                        agent_name=item.get("agent", "")
+                    )
+                    if is_supported:
+                        norm_src["support_score"] = round(similarity, 4)
+                        item["sources"].append(norm_src)
+                        scores.append(similarity)
             item["source_count"] = len(item["sources"])
+            if item["sources"]:
+                item["source"] = item["sources"][0]["source_url"]
+                item["support_score"] = round(max(scores), 4)
+            else:
+                item["source"] = "No Source"
+                item["support_score"] = 0.0
+        elif category == "Recommendation":
+            item["verification"] = "Not Applicable"
+            item["status"] = "Strategic Recommendation"
+            item["sources"] = []
+            scores = []
+            for u in valid_urls:
+                norm_src = _normalize_source_entry({"source_url": u}, registry)
+                if norm_src:
+                    is_supported, similarity = validate_claim_source(
+                        claim_text=claim_text,
+                        source_url=u,
+                        source_title=norm_src.get("source_title") or "Source",
+                        source_snippet=norm_src.get("source_snippet") or "",
+                        agent_name=item.get("agent", "")
+                    )
+                    if is_supported:
+                        norm_src["support_score"] = round(similarity, 4)
+                        item["sources"].append(norm_src)
+                        scores.append(similarity)
+            item["source_count"] = len(item["sources"])
+            if item["sources"]:
+                item["source"] = item["sources"][0]["source_url"]
+                item["support_score"] = round(max(scores), 4)
+            else:
+                item["source"] = "No Source"
+                item["support_score"] = 0.0
+        else:
+            item["verification"] = "Not Applicable"
+            item["status"] = "Strategic Recommendation"
+            item["sources"] = []
+            scores = []
+            for u in valid_urls:
+                norm_src = _normalize_source_entry({"source_url": u}, registry)
+                if norm_src:
+                    is_supported, similarity = validate_claim_source(
+                        claim_text=claim_text,
+                        source_url=u,
+                        source_title=norm_src.get("source_title") or "Source",
+                        source_snippet=norm_src.get("source_snippet") or "",
+                        agent_name=item.get("agent", "")
+                    )
+                    if is_supported:
+                        norm_src["support_score"] = round(similarity, 4)
+                        item["sources"].append(norm_src)
+                        scores.append(similarity)
+            item["source_count"] = len(item["sources"])
+            if item["sources"]:
+                item["source"] = item["sources"][0]["source_url"]
+                item["support_score"] = round(max(scores), 4)
+            else:
+                item["source"] = "No Source"
+                item["support_score"] = 0.0
 
         item = cap_claim_confidence(item)
         corrected.append(item)
@@ -1306,7 +1575,14 @@ def enforce_validation_output(
         report["trusted_sources_count"] = 0
     else:
         source_points = min(verified_sources * 10, 30)
-        claim_points = min(verified_facts * 5, 20)
+        
+        # Scale claim points by support_score!
+        claim_points = 0.0
+        for item in corrected:
+            if item.get("status") == "verified" and item.get("support_score") and item.get("category") in ("Historical Fact", "Retrieved Fact"):
+                claim_points += 5.0 * item["support_score"]
+        claim_points = min(claim_points, 20.0)
+        
         base_score = 50.0 + source_points + claim_points
         penalty = unsupported_facts * 15.0
         evidence_quality_score = max(0.0, min(100.0, base_score - penalty))

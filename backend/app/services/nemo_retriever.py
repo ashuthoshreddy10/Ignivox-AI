@@ -102,7 +102,9 @@ class NeMoRetriever:
             self._loaded = False
             await self.load()
             if self.embeddings.shape[1] != query_emb.shape[0]:
-                logger.warning("Dimension mismatch persists after reload. Falling back to local query embedding.")
+                logger.warning("Dimension mismatch persists after reload. Forcing local fallback embeddings for both database and query.")
+                texts = [f"{d.get('title', '')}: {d.get('content', '')}" for d in self.documents]
+                self.embeddings = self._local_embed(texts)
                 query_emb = self._local_embed([query])[0]
 
         scores = np.dot(self.embeddings, query_emb)
@@ -187,10 +189,11 @@ class NeMoRetriever:
                 continue
                 
             # 2. Domain matching check
-            doc_domain = get_doc_domain(doc)
-            if doc_domain != "general" and doc_domain != idea_domain:
-                docs_filtered += 1
-                continue
+            if idea_domain != "general":
+                doc_domain = get_doc_domain(doc)
+                if doc_domain != "general" and doc_domain != idea_domain:
+                    docs_filtered += 1
+                    continue
                 
             filtered_candidates.append(doc)
 

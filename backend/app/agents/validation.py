@@ -239,7 +239,23 @@ CRITICAL GROUNDING VERIFICATION RULES:
                 confidence[k] = min(confidence[k], 50.0)
         else:
             source_points = min(verified_sources_count * 10, 30)
-            claim_points = min(total_claims_verified * 5, 20)
+            
+            # Incorporate support_score when calculating evidence quality
+            from app.services.evidence_utils import compute_semantic_similarity
+            claim_points = 0.0
+            for c in verified_claims:
+                if c.get("status") == "verified":
+                    srcs = c.get("sources", [])
+                    max_sim = 0.0
+                    for s in srcs:
+                        if isinstance(s, dict):
+                            sim = s.get("support_score") or compute_semantic_similarity(c.get("claim", ""), s.get("source_snippet") or "")
+                            s["support_score"] = round(sim, 4)
+                            max_sim = max(max_sim, sim)
+                    c["support_score"] = round(max_sim, 4)
+                    claim_points += 5.0 * max_sim
+            claim_points = min(claim_points, 20.0)
+            
             base_score = 50.0 + source_points + claim_points
             penalty = unsupported_claims_count * 15.0
             evidence_quality_score = max(0.0, min(100.0, base_score - penalty))

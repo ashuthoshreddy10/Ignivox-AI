@@ -222,7 +222,7 @@ class BaseAgent(ABC):
                     diagnostics["nvidia_response_received"] = True
                     diagnostics["response_length"] = len(json.dumps(content))
                     diagnostics["json_parse_success"] = True
-                    diagnostics["schema_validation_success"] = self.agent_type == AgentType.INVESTOR_PITCH
+                    diagnostics["schema_validation_success"] = True
                 except Exception as nim_err:
                     is_schema_fail = isinstance(nim_err, ValueError) and "Schema validation failed" in str(nim_err)
                     diagnostics["nvidia_response_received"] = is_schema_fail or ("JSONDecodeError" in type(nim_err).__name__ or "ValueError" in type(nim_err).__name__)
@@ -284,8 +284,9 @@ class BaseAgent(ABC):
 
             # Write diagnostics to file
             import os
+            from app.config import BACKEND_DIR
             try:
-                audit_file = "audit_diagnostics.json"
+                audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
                 data = []
                 if os.path.exists(audit_file):
                     try:
@@ -344,8 +345,9 @@ class BaseAgent(ABC):
             )
 
             import os
+            from app.config import BACKEND_DIR
             try:
-                audit_file = "audit_diagnostics.json"
+                audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
                 data = []
                 if os.path.exists(audit_file):
                     try:

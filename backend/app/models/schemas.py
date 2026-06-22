@@ -107,6 +107,7 @@ class StartupBlueprint(BaseModel):
     recommendations: list[ExplainableInsight] = Field(default_factory=list)
     evidence_quality_report: EvidenceQualityReport | None = None
     confidence_scores: dict[str, float] | None = None
+    claim_lineage: list[dict[str, Any]] = Field(default_factory=list)
     status: str = "in_progress"
 
 
