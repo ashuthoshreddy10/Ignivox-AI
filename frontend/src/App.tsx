@@ -1,12 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Rocket, Brain, BarChart3, Users, Code, Calendar,
   Presentation, ShieldCheck, Network, ChevronRight, TrendingUp,
 } from 'lucide-react';
-import type { StartupBlueprint, WorkflowEvent, AgentInfo } from './lib/types';
 import { AGENT_COLORS, AGENT_LABELS } from './lib/types';
-import { generateWithFallback, fetchAgents, fetchHealth } from './lib/api';
 import Header from './components/Header';
 import IdeaInput from './components/IdeaInput';
 import AgentCommandCenter from './components/AgentCommandCenter';
@@ -15,6 +13,8 @@ import BlueprintWorkspace from './components/BlueprintWorkspace';
 import ScoreCard from './components/ScoreCard';
 import InvestorMode from './components/InvestorMode';
 import WorkflowTimeline from './components/WorkflowTimeline';
+import { useAgentStatus } from './hooks/useAgentStatus';
+import { useGenerationFlow } from './hooks/useGenerationFlow';
 
 const EXAMPLE_IDEAS = [
   'Build an AI platform for college students to improve placement preparation',
@@ -26,56 +26,22 @@ const EXAMPLE_IDEAS = [
 type Tab = 'command' | 'blueprint' | 'investor' | 'graph';
 
 export default function App() {
-  const [idea, setIdea] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [events, setEvents] = useState<WorkflowEvent[]>([]);
-  const [blueprint, setBlueprint] = useState<StartupBlueprint | null>(null);
-  const [agents, setAgents] = useState<AgentInfo[]>([]);
   const [activeTab, setActiveTab] = useState<Tab>('command');
-  const [activeAgent, setActiveAgent] = useState<string | null>(null);
-  const [nvidiaMode, setNvidiaMode] = useState(false);
 
-  const loadAgents = useCallback(async () => {
-    try {
-      const [agentList, health] = await Promise.all([fetchAgents(), fetchHealth()]);
-      setAgents(agentList);
-      setNvidiaMode(health.nvidia_mode);
-    } catch {
-      /* backend not running */
-    }
-  }, []);
+  const { agents, nvidiaMode, setAgents, loadAgents } = useAgentStatus();
 
-  const handleGenerate = useCallback(async (inputIdea: string) => {
-    setIdea(inputIdea);
-    setIsGenerating(true);
-    setProgress(0);
-    setEvents([]);
-    setBlueprint(null);
-    setActiveTab('command');
-    await loadAgents();
-    setAgents((prev) => prev.map((a) => ({ ...a, status: 'idle' })));
-
-    await generateWithFallback(
-      inputIdea,
-      (event) => {
-        setEvents((prev) => [...prev, event]);
-        setProgress(event.progress);
-        if (event.agent) setActiveAgent(event.agent);
-        if (event.type === 'agent_complete') loadAgents();
-      },
-      (bp) => {
-        setBlueprint(bp);
-        setIsGenerating(false);
-        setProgress(100);
-        setActiveTab('blueprint');
-      },
-      (error) => {
-        console.error(error);
-        setIsGenerating(false);
-      },
-    );
-  }, [loadAgents]);
+  const {
+    isGenerating,
+    progress,
+    events,
+    blueprint,
+    activeAgent,
+    handleGenerate,
+  } = useGenerationFlow({
+    loadAgents,
+    setAgents,
+    setActiveTab,
+  });
 
   const tabs: { id: Tab; label: string; icon: typeof Rocket }[] = [
     { id: 'command', label: 'Command Center', icon: Brain },

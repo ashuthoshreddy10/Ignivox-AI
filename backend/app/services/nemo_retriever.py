@@ -8,6 +8,7 @@ import numpy as np
 
 from app.config import settings
 from app.services.nvidia_nim import nim_service
+from app.services.evidence_utils import utc_now_iso
 
 logger = logging.getLogger(__name__)
 
@@ -27,14 +28,48 @@ class NeMoRetriever:
         self.documents: list[dict] = []
         self.embeddings: np.ndarray | None = None
         self._loaded = False
+        self._initializing = False
+        self._mode = "uninitialized"
+
+    @property
+    def retriever_mode(self) -> str:
+        """Returns the current operating mode of the retriever: 'nim_embeddings', 'local_fallback', or 'uninitialized'."""
+        return self._mode
 
     def _knowledge_path(self) -> Path:
         return Path(__file__).resolve().parent.parent.parent / settings.knowledge_dir
 
+    async def force_reinitialize(self) -> bool:
+        """Retry NIM embedding initialization by clearing cache/state and loading again."""
+        if self._initializing:
+            return False  # already in progress, skip
+
+        self._initializing = True
+        try:
+            logger.info("Forcing re-initialization of NeMoRetriever...")
+            self._loaded = False
+            self.documents = []
+            self.embeddings = None
+            self._mode = "uninitialized"
+            await self._initialize_embeddings()
+            return True
+        finally:
+            self._initializing = False
+
     async def load(self) -> None:
         if self._loaded:
             return
+        if self._initializing:
+            return  # already loading, skip duplicate
 
+        self._initializing = True
+        try:
+            await self._initialize_embeddings()
+        finally:
+            self._initializing = False
+
+    async def _initialize_embeddings(self) -> None:
+        """Internal method to load knowledge docs and generate embeddings."""
         knowledge_path = self._knowledge_path()
         if not knowledge_path.exists():
             knowledge_path.mkdir(parents=True, exist_ok=True)
@@ -52,13 +87,29 @@ class NeMoRetriever:
 
         if self.documents:
             texts = [f"{d.get('title', '')}: {d.get('content', '')}" for d in self.documents]
-            embeddings = await nim_service.embed(texts) if settings.use_nvidia else None
-            self.embeddings = (
-                np.array(embeddings) if embeddings else self._local_embed(texts)
-            )
+            if settings.use_nvidia:
+                try:
+                    embeddings = await nim_service.embed(texts)
+                    if embeddings:
+                        self.embeddings = np.array(embeddings)
+                        self._mode = "nim_embeddings"
+                    else:
+                        logger.warning("NIM embedding API returned empty results. Falling back to local embeddings.")
+                        self.embeddings = self._local_embed(texts)
+                        self._mode = "local_fallback"
+                except Exception as e:
+                    logger.warning("NIM embedding API failed: %s. Falling back to local embeddings.", e)
+                    self.embeddings = self._local_embed(texts)
+                    self._mode = "local_fallback"
+            else:
+                self.embeddings = self._local_embed(texts)
+                self._mode = "local_fallback"
+        else:
+            self.embeddings = None
+            self._mode = "local_fallback"
 
         self._loaded = True
-        logger.info("Loaded %d knowledge documents", len(self.documents))
+        logger.info("Loaded %d knowledge documents. Mode: %s", len(self.documents), self._mode)
 
     def _local_embed(self, texts: list[str]) -> np.ndarray:
         """Fallback local embeddings for demo mode."""
@@ -98,14 +149,32 @@ class NeMoRetriever:
 
         # Check for dimension alignment to prevent matrix dot product exceptions
         if self.embeddings.shape[1] != query_emb.shape[0]:
-            logger.warning("Embedding dimension mismatch detected (%d vs %d). Forcing database re-indexing.", self.embeddings.shape[1], query_emb.shape[0])
+            expected_dim = self.embeddings.shape[1]
+            actual_dim = query_emb.shape[0]
+
+            warning_data = {
+                "expected_dim": expected_dim,
+                "actual_dim": actual_dim,
+                "fallback_method": "character_hash",
+                "timestamp": utc_now_iso()
+            }
+            logger.warning("Dimension mismatch detected: %s", json.dumps(warning_data))
+
+            self._mode = "local_fallback"
             self._loaded = False
             await self.load()
+            
             if self.embeddings.shape[1] != query_emb.shape[0]:
                 logger.warning("Dimension mismatch persists after reload. Forcing local fallback embeddings for both database and query.")
                 texts = [f"{d.get('title', '')}: {d.get('content', '')}" for d in self.documents]
                 self.embeddings = self._local_embed(texts)
                 query_emb = self._local_embed([query])[0]
+
+        # Determine current threshold based on retriever mode
+        threshold = 0.35
+        if self._mode == "local_fallback":
+            threshold = 0.20
+            logger.info("Operating in local_fallback mode. Adjusted relevance threshold from 0.35 to 0.20.")
 
         scores = np.dot(self.embeddings, query_emb)
         
@@ -145,8 +214,6 @@ class NeMoRetriever:
         elif any(w in query_words for w in enterprise_saas_keywords):
             idea_domain = "enterprise_saas"
             
-        threshold = 0.35
-        
         def get_doc_domain(d: dict) -> str:
             title = str(d.get("title", "")).lower()
             content = str(d.get("content", "")).lower()

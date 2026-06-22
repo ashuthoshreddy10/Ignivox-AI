@@ -53,8 +53,8 @@ class WorkflowOrchestrator:
         for agent in AGENT_REGISTRY.values():
             agent.status = AgentStatus.IDLE
 
-        from app.services.evidence_utils import EVALUATED_CLAIMS
-        EVALUATED_CLAIMS.clear()
+        from app.services.evidence_utils import EvaluationContext
+        eval_context = EvaluationContext()
 
         import os
         from app.config import BACKEND_DIR
@@ -88,8 +88,9 @@ class WorkflowOrchestrator:
         retrieval_records = []
         context: dict[str, Any] = {
             "idea": idea,
-            "evidence_registry": registry_to_serializable({}),
+            "evidence_registry": registry_to_serializable({"evaluation_context": eval_context}),
             "claim_lineage": [],
+            "evaluation_context": eval_context,
         }
         blueprint = StartupBlueprint(
             id=workflow_id,
@@ -103,7 +104,7 @@ class WorkflowOrchestrator:
         completed_agents = 0
         completed_lock = asyncio.Lock()
 
-        async def run_agent(agent_type: AgentType) -> AgentOutput:
+        async def run_agent(agent_type: AgentType) -> tuple[AgentType, AgentOutput, str]:
             nonlocal completed_agents
             agent = AGENT_REGISTRY[agent_type]
             
@@ -139,13 +140,31 @@ class WorkflowOrchestrator:
                 "categories": categories_r
             })
 
-            vector_context = [{"title": d.get("title"), "content": d.get("content"), "category": d.get("category")} for d in rag_docs]
+            vector_context = [
+                {
+                    "title": d.get("title"),
+                    "content": d.get("content"),
+                    "category": d.get("category"),
+                    "source_url": d.get("source_url", ""),
+                    "source_title": d.get("source_title", ""),
+                }
+                for d in rag_docs
+            ]
             
             memory_insights = memory.get_relevant_insights(idea)
             memory_context = [{"insight": i.get("insight"), "timestamp": i.get("timestamp"), "category": i.get("category")} for i in memory_insights]
             
             from app.services.live_research import live_researcher
             live_results = await live_researcher.search(idea + " " + agent.name, top_k=5)
+            if getattr(live_results, "fallback", False):
+                await _emit(
+                    "workflow_warning",
+                    agent_type,
+                    None,
+                    f"live research unavailable: {getattr(live_results, 'reason', 'Unknown error')}",
+                    (completed_agents / total_agents) * 100,
+                    data={"fallback": True, "reason": getattr(live_results, "reason", "Unknown error")}
+                )
             live_sources = [{"title": s.get("title"), "url": s.get("url"), "snippet": s.get("snippet"), "timestamp": s.get("timestamp")} for s in live_results]
             
             structured_context = {
@@ -160,15 +179,6 @@ class WorkflowOrchestrator:
                 pass
                 
             output = await agent.run(idea, context, rag_context_str, on_event=local_event)
-
-            registry = merge_cumulative_registry(context.get("evidence_registry"), rag_context_str)
-            context["evidence_registry"] = registry_to_serializable(registry)
-            context["claim_lineage"] = accumulate_claim_lineage(
-                context,
-                agent_type.value,
-                output.content,
-                registry,
-            )
             
             async with completed_lock:
                 completed_agents += 1
@@ -188,181 +198,205 @@ class WorkflowOrchestrator:
                     data={"agent": agent_type.value, "confidence": output.confidence},
                 )
                 
-            return output
+            return agent_type, output, rag_context_str
 
-        # PHASE 0: Orchestrator
-        orchestrator_output = await run_agent(AgentType.ORCHESTRATOR)
-        context[AgentType.ORCHESTRATOR.value] = orchestrator_output.model_dump()
-        
-        plan_data = orchestrator_output.content.get("workflow_plan", {})
-        if not isinstance(plan_data, dict):
-            plan_data = {"steps": plan_data} if isinstance(plan_data, list) else {}
-        
-        steps = plan_data.get("steps", [])
-        normalized_steps = []
-        if isinstance(steps, list):
-            for i, step in enumerate(steps):
-                if isinstance(step, dict):
-                    normalized_steps.append(step)
-                elif isinstance(step, str):
-                    agents = ["novelty_detection", "market_research", "competitor", "product_strategy", "business_strategy", "technical_architect", "execution_planning", "investor_pitch", "validation"]
-                    agent_name = agents[i] if i < len(agents) else "validation"
-                    normalized_steps.append({
-                        "step": i + 1,
-                        "agent": agent_name,
-                        "task": step,
-                        "depends_on": [agents[i - 1]] if i > 0 else []
-                    })
-        
-        agent_assignments = plan_data.get("agent_assignments", {})
-        if not isinstance(agent_assignments, dict):
-            agent_assignments = {}
+        # Build resolved execution order from AGENT_DEPENDENCIES at runtime
+        # The orchestrator (agent 0) and validation (agent 9) must always run first and last respectively
+        # — treat them as singleton waves.
+        completed_types = {AgentType.ORCHESTRATOR}
+        remaining_types = set(AGENT_REGISTRY.keys()) - {AgentType.ORCHESTRATOR, AgentType.VALIDATION}
+        waves = [[AgentType.ORCHESTRATOR]]
 
-        blueprint.workflow_plan = WorkflowPlan(
-            idea=idea,
-            steps=normalized_steps if normalized_steps else [
-                {"step": 1, "agent": "novelty_detection", "task": "Evaluate market novelty", "depends_on": []},
-                {"step": 2, "agent": "market_research", "task": "Analyze market opportunity", "depends_on": ["novelty_detection"]}
-            ],
-            agent_assignments=agent_assignments,
-            estimated_duration_minutes=int(plan_data.get("estimated_duration_minutes", 5)) if isinstance(plan_data.get("estimated_duration_minutes"), (int, float)) else 5,
-        )
-
-        # PHASE 0.5: Novelty Detection & Sizing Classification
-        nd_output = await run_agent(AgentType.NOVELTY_DETECTION)
-        context[nd_output.agent.value] = nd_output.model_dump()
-        blueprint.novelty_detection = nd_output
-
-        # Determine if Frontier Mode is active
-        novelty_score = nd_output.content.get("novelty_score", 0)
-        context["is_frontier_mode"] = novelty_score > 70
-        context["novelty_score"] = novelty_score
-        context["market_classification"] = nd_output.content.get("market_classification", "Established Market")
-
-        # PHASE 1: Market Research (Sequential foundation)
-        mr_output = await run_agent(AgentType.MARKET_RESEARCH)
-        context[mr_output.agent.value] = mr_output.model_dump()
-        blueprint.market_research = mr_output
-
-        # PHASE 2: Discovery (Competitor Intel, then Product Strategy)
-        comp_output = await run_agent(AgentType.COMPETITOR)
-        context[comp_output.agent.value] = comp_output.model_dump()
-        blueprint.competitor_analysis = comp_output
-
-        ps_output = await run_agent(AgentType.PRODUCT_STRATEGY)
-        context[ps_output.agent.value] = ps_output.model_dump()
-        blueprint.product_strategy = ps_output
-
-        if request.require_approval:
-            await _emit("approval_required", AgentType.PRODUCT_STRATEGY, AgentStatus.WAITING_APPROVAL, "Human approval required before continuing to Phase 3", (completed_agents / total_agents) * 100)
-            approval_event = asyncio.Event()
-            _pending_approvals[workflow_id] = approval_event
-            try:
-                await asyncio.wait_for(approval_event.wait(), timeout=300)
-            except asyncio.TimeoutError:
-                logger.warning("Approval timeout for workflow %s", workflow_id)
-            finally:
-                _pending_approvals.pop(workflow_id, None)
-
-        # PHASE 3: Strategy & Engineering scoping (Business Strategy, then Technical Architect)
-        bs_output = await run_agent(AgentType.BUSINESS_STRATEGY)
-        context[bs_output.agent.value] = bs_output.model_dump()
-        blueprint.business_strategy = bs_output
-
-        ta_output = await run_agent(AgentType.TECHNICAL_ARCHITECT)
-        context[ta_output.agent.value] = ta_output.model_dump()
-        blueprint.technical_architecture = ta_output
-
-        # PHASE 4: Roadmapping & deck assembly (Execution Planning, then Investor Pitch)
-        ep_output = await run_agent(AgentType.EXECUTION_PLANNING)
-        context[ep_output.agent.value] = ep_output.model_dump()
-        blueprint.execution_plan = ep_output
-
-        ip_output = await run_agent(AgentType.INVESTOR_PITCH)
-        context[ip_output.agent.value] = ip_output.model_dump()
-        
-        content = ip_output.content
-        if isinstance(content, dict):
-            funding_ask = content.setdefault("funding_ask", {})
-            funding_strategy = content.get("funding_strategy", {})
+        while remaining_types:
+            current_wave = []
+            for agent_type in sorted(remaining_types, key=lambda a: AGENT_ORDER.index(a)):
+                deps = AGENT_DEPENDENCIES.get(agent_type, [])
+                if all(dep in completed_types for dep in deps):
+                    current_wave.append(agent_type)
             
-            if isinstance(funding_ask, dict):
-                if "amount" not in funding_ask or not funding_ask["amount"]:
-                    funding_ask["amount"] = funding_strategy.get("amount", "$1.5M")
-                if isinstance(funding_ask.get("amount"), (int, float)):
-                    funding_ask["amount"] = f"${funding_ask['amount']:,}" if funding_ask["amount"] >= 1000 else f"${funding_ask['amount']}"
+            if not current_wave:
+                logger.error("Dependency resolution cycle detected or missing dependencies!")
+                waves.append(list(remaining_types))
+                break
                 
-                if "valuation" not in funding_ask or not funding_ask["valuation"]:
-                    raw_val = funding_strategy.get("valuation")
-                    if isinstance(raw_val, (int, float)):
-                        funding_ask["valuation"] = f"${raw_val:,} pre-money" if raw_val >= 1000 else f"${raw_val} pre-money"
-                    else:
-                        funding_ask["valuation"] = raw_val or "$8M pre-money"
-                elif isinstance(funding_ask.get("valuation"), (int, float)):
-                    val_num = funding_ask["valuation"]
-                    funding_ask["valuation"] = f"${val_num:,} pre-money" if val_num >= 1000 else f"${val_num} pre-money"
+            waves.append(current_wave)
+            completed_types.update(current_wave)
+            remaining_types -= set(current_wave)
+
+        waves.append([AgentType.VALIDATION])
+
+        # Execute waves in order
+        for wave in waves:
+            tasks = [run_agent(agent_type) for agent_type in wave]
+            wave_results = await asyncio.gather(*tasks)
+            
+            # Update cumulative context atomically after each wave completes
+            for agent_type, output, rag_context_str in wave_results:
+                if agent_type == AgentType.ORCHESTRATOR:
+                    plan_data = output.content.get("workflow_plan", {})
+                    if not isinstance(plan_data, dict):
+                        plan_data = {"steps": plan_data} if isinstance(plan_data, list) else {}
                     
-                if "runway_months" not in funding_ask or not funding_ask["runway_months"]:
-                    funding_ask["runway_months"] = funding_strategy.get("runway_months", 18)
+                    steps = plan_data.get("steps", [])
+                    normalized_steps = []
+                    if isinstance(steps, list):
+                        for i, step in enumerate(steps):
+                            if isinstance(step, dict):
+                                normalized_steps.append(step)
+                            elif isinstance(step, str):
+                                agents = ["novelty_detection", "market_research", "competitor", "product_strategy", "business_strategy", "technical_architect", "execution_planning", "investor_pitch", "validation"]
+                                agent_name = agents[i] if i < len(agents) else "validation"
+                                normalized_steps.append({
+                                    "step": i + 1,
+                                    "agent": agent_name,
+                                    "task": step,
+                                    "depends_on": [agents[i - 1]] if i > 0 else []
+                                })
                     
-                if "use_of_funds" not in funding_ask or not funding_ask["use_of_funds"]:
-                    funds_val = funding_strategy.get("use_of_funds", {})
-                    if isinstance(funds_val, dict):
-                        funding_ask["use_of_funds"] = funds_val
-                    else:
-                        funding_ask["use_of_funds"] = {
-                            "engineering": "45%",
-                            "marketing_growth": "30%",
-                            "operations": "15%",
-                            "reserve": "10%"
-                        }
+                    agent_assignments = plan_data.get("agent_assignments", {})
+                    if not isinstance(agent_assignments, dict):
+                        agent_assignments = {}
+
+                    blueprint.workflow_plan = WorkflowPlan(
+                        idea=idea,
+                        steps=normalized_steps if normalized_steps else [
+                            {"step": 1, "agent": "novelty_detection", "task": "Evaluate market novelty", "depends_on": []},
+                            {"step": 2, "agent": "market_research", "task": "Analyze market opportunity", "depends_on": ["novelty_detection"]}
+                        ],
+                        agent_assignments=agent_assignments,
+                        estimated_duration_minutes=int(plan_data.get("estimated_duration_minutes", 5)) if isinstance(plan_data.get("estimated_duration_minutes"), (int, float)) else 5,
+                    )
+                
+                elif agent_type == AgentType.NOVELTY_DETECTION:
+                    blueprint.novelty_detection = output
+                    novelty_score = output.content.get("novelty_score", 0)
+                    context["is_frontier_mode"] = novelty_score > 70
+                    context["novelty_score"] = novelty_score
+                    context["market_classification"] = output.content.get("market_classification", "Established Market")
+                
+                elif agent_type == AgentType.MARKET_RESEARCH:
+                    blueprint.market_research = output
+                
+                elif agent_type == AgentType.COMPETITOR:
+                    blueprint.competitor_analysis = output
+                
+                elif agent_type == AgentType.PRODUCT_STRATEGY:
+                    blueprint.product_strategy = output
+                
+                elif agent_type == AgentType.BUSINESS_STRATEGY:
+                    blueprint.business_strategy = output
+                
+                elif agent_type == AgentType.TECHNICAL_ARCHITECT:
+                    blueprint.technical_architecture = output
+                
+                elif agent_type == AgentType.EXECUTION_PLANNING:
+                    blueprint.execution_plan = output
+                
+                elif agent_type == AgentType.INVESTOR_PITCH:
+                    content = output.content
+                    if isinstance(content, dict):
+                        funding_ask = content.setdefault("funding_ask", {})
+                        funding_strategy = content.get("funding_strategy", {})
                         
-                if not isinstance(funding_ask.get("use_of_funds"), dict):
-                    funding_ask["use_of_funds"] = {
-                        "engineering": "45%",
-                        "marketing_growth": "30%",
-                        "operations": "15%",
-                        "reserve": "10%"
-                    }
-        blueprint.investor_pitch = ip_output
-
-        # PHASE 5: Validation (Audit compliance layer)
-        validation_output = await run_agent(AgentType.VALIDATION)
-        context[AgentType.VALIDATION.value] = validation_output.model_dump()
-        
-        content = validation_output.content
-        if isinstance(content, dict):
-            if "feasibility_score" not in content or content["feasibility_score"] is None:
-                content["feasibility_score"] = content.get("score", 78)
-            try:
-                content["feasibility_score"] = int(content["feasibility_score"])
-            except (ValueError, TypeError):
-                content["feasibility_score"] = 78
+                        if isinstance(funding_ask, dict):
+                            if "amount" not in funding_ask or not funding_ask["amount"]:
+                                funding_ask["amount"] = funding_strategy.get("amount", "$1.5M")
+                            if isinstance(funding_ask.get("amount"), (int, float)):
+                                funding_ask["amount"] = f"${funding_ask['amount']:,}" if funding_ask["amount"] >= 1000 else f"${funding_ask['amount']}"
+                            
+                            if "valuation" not in funding_ask or not funding_ask["valuation"]:
+                                raw_val = funding_strategy.get("valuation")
+                                if isinstance(raw_val, (int, float)):
+                                    funding_ask["valuation"] = f"${raw_val:,} pre-money" if raw_val >= 1000 else f"${raw_val} pre-money"
+                                else:
+                                    funding_ask["valuation"] = raw_val or "$8M pre-money"
+                            elif isinstance(funding_ask.get("valuation"), (int, float)):
+                                val_num = funding_ask["valuation"]
+                                funding_ask["valuation"] = f"${val_num:,} pre-money" if val_num >= 1000 else f"${val_num} pre-money"
+                                
+                            if "runway_months" not in funding_ask or not funding_ask["runway_months"]:
+                                funding_ask["runway_months"] = funding_strategy.get("runway_months", 18)
+                                
+                            if "use_of_funds" not in funding_ask or not funding_ask["use_of_funds"]:
+                                funds_val = funding_strategy.get("use_of_funds", {})
+                                if isinstance(funds_val, dict):
+                                    funding_ask["use_of_funds"] = funds_val
+                                else:
+                                    funding_ask["use_of_funds"] = {
+                                        "engineering": "45%",
+                                        "marketing_growth": "30%",
+                                        "operations": "15%",
+                                        "reserve": "10%"
+                                    }
+                                    
+                            if not isinstance(funding_ask.get("use_of_funds"), dict):
+                                funding_ask["use_of_funds"] = {
+                                    "engineering": "45%",
+                                    "marketing_growth": "30%",
+                                    "operations": "15%",
+                                    "reserve": "10%"
+                                }
+                    blueprint.investor_pitch = output
                 
-            if "validation_summary" not in content or not content["validation_summary"]:
-                content["validation_summary"] = content.get("summary", "Overall startup blueprint is coherent and feasible.")
+                elif agent_type == AgentType.VALIDATION:
+                    content = output.content
+                    if isinstance(content, dict):
+                        if "feasibility_score" not in content or content["feasibility_score"] is None:
+                            content["feasibility_score"] = content.get("score", 78)
+                        try:
+                            content["feasibility_score"] = int(content["feasibility_score"])
+                        except (ValueError, TypeError):
+                            content["feasibility_score"] = 78
+                            
+                        if "validation_summary" not in content or not content["validation_summary"]:
+                            content["validation_summary"] = content.get("summary", "Overall startup blueprint is coherent and feasible.")
+                        
+                        # Map evidence report & section scores
+                        evidence_data = content.get("evidence_quality_report", {})
+                        blueprint.evidence_quality_report = EvidenceQualityReport(
+                            evidence_quality_score=float(evidence_data.get("evidence_quality_score", 85.0)),
+                            total_claims_verified=int(evidence_data.get("total_claims_verified", 10)),
+                            unsupported_claims_count=int(evidence_data.get("unsupported_claims_count", 0)),
+                            trusted_sources_count=int(evidence_data.get("trusted_sources_count", 5)),
+                            quality_summary=str(evidence_data.get("quality_summary", "Overall RAG-grounded sources checked out successfully.")),
+                            verified_claims=evidence_data.get("verified_claims", [])
+                        )
+                        
+                        blueprint.confidence_scores = {
+                            "novelty_detection": float(content.get("confidence_scores", {}).get("novelty_detection", blueprint.novelty_detection.confidence * 100 if blueprint.novelty_detection else 85.0)),
+                            "market_research": float(content.get("confidence_scores", {}).get("market_research", 88.0)),
+                            "competitor": float(content.get("confidence_scores", {}).get("competitor", 84.0)),
+                            "product_strategy": float(content.get("confidence_scores", {}).get("product_strategy", 86.0)),
+                            "business_strategy": float(content.get("confidence_scores", {}).get("business_strategy", 85.0)),
+                            "technical_architect": float(content.get("confidence_scores", {}).get("technical_architect", 90.0)),
+                            "investor_pitch": float(content.get("confidence_scores", {}).get("investor_pitch", 82.0)),
+                        }
+                    blueprint.validation = output
+                
+                # Update context
+                context[agent_type.value] = output.model_dump()
+                
+                registry = merge_cumulative_registry(context.get("evidence_registry"), rag_context_str)
+                context["evidence_registry"] = registry_to_serializable(registry)
+                context["claim_lineage"] = accumulate_claim_lineage(
+                    context,
+                    agent_type.value,
+                    output.content,
+                    registry,
+                    eval_context=eval_context,
+                )
             
-            # Map evidence report & section scores
-            evidence_data = content.get("evidence_quality_report", {})
-            blueprint.evidence_quality_report = EvidenceQualityReport(
-                evidence_quality_score=float(evidence_data.get("evidence_quality_score", 85.0)),
-                total_claims_verified=int(evidence_data.get("total_claims_verified", 10)),
-                unsupported_claims_count=int(evidence_data.get("unsupported_claims_count", 0)),
-                trusted_sources_count=int(evidence_data.get("trusted_sources_count", 5)),
-                quality_summary=str(evidence_data.get("quality_summary", "Overall RAG-grounded sources checked out successfully.")),
-                verified_claims=evidence_data.get("verified_claims", [])
-            )
-            
-            blueprint.confidence_scores = {
-                "novelty_detection": float(content.get("confidence_scores", {}).get("novelty_detection", nd_output.confidence * 100)),
-                "market_research": float(content.get("confidence_scores", {}).get("market_research", 88.0)),
-                "competitor": float(content.get("confidence_scores", {}).get("competitor", 84.0)),
-                "product_strategy": float(content.get("confidence_scores", {}).get("product_strategy", 86.0)),
-                "business_strategy": float(content.get("confidence_scores", {}).get("business_strategy", 85.0)),
-                "technical_architect": float(content.get("confidence_scores", {}).get("technical_architect", 90.0)),
-                "investor_pitch": float(content.get("confidence_scores", {}).get("investor_pitch", 82.0)),
-            }
-        blueprint.validation = validation_output
+            # Check for human approval gate right after the wave containing PRODUCT_STRATEGY completes
+            if AgentType.PRODUCT_STRATEGY in wave and request.require_approval:
+                await _emit("approval_required", AgentType.PRODUCT_STRATEGY, AgentStatus.WAITING_APPROVAL, "Human approval required before continuing to Phase 3", (completed_agents / total_agents) * 100)
+                approval_event = asyncio.Event()
+                _pending_approvals[workflow_id] = approval_event
+                try:
+                    await asyncio.wait_for(approval_event.wait(), timeout=300)
+                except asyncio.TimeoutError:
+                    logger.warning("Approval timeout for workflow %s", workflow_id)
+                finally:
+                    _pending_approvals.pop(workflow_id, None)
 
         blueprint.claim_lineage = context.get("claim_lineage", [])
         blueprint_data = blueprint.model_dump()
@@ -407,11 +441,10 @@ class WorkflowOrchestrator:
         try:
             import os
             from app.config import BACKEND_DIR
-            from app.services.evidence_utils import EVALUATED_CLAIMS
             audit_log_path = os.path.join(BACKEND_DIR, "grounding_audit_log.json")
             with open(audit_log_path, "w", encoding="utf-8") as f:
-                json.dump(EVALUATED_CLAIMS, f, indent=2)
-            logger.info("Grounding Audit Log Saved | %d entries", len(EVALUATED_CLAIMS))
+                json.dump(eval_context.evaluated_claims, f, indent=2)
+            logger.info("Grounding Audit Log Saved | %d entries", len(eval_context.evaluated_claims))
         except Exception as err:
             logger.warning("Failed to write grounding audit log: %s", err)
 
@@ -424,6 +457,7 @@ class WorkflowOrchestrator:
 
         await _emit("workflow_complete", None, AgentStatus.COMPLETE, "Startup blueprint generated!", 100, data={"blueprint_id": workflow_id})
         return blueprint
+
 
     def approve(self, workflow_id: str, approved: bool) -> bool:
         event = _pending_approvals.get(workflow_id)

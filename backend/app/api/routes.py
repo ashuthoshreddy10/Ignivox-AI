@@ -27,12 +27,14 @@ router = APIRouter()
 
 @router.get("/health")
 async def health():
+    from app.services.nemo_retriever import retriever
     return {
         "status": "healthy",
         "service": "Ignivox AI",
         "nvidia_mode": settings.use_nvidia,
         "demo_mode": settings.demo_mode,
         "agents": len(AGENT_REGISTRY),
+        "retriever_mode": retriever.retriever_mode,
     }
 
 

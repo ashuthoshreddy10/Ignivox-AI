@@ -169,18 +169,23 @@ def _normalize_registry_input(registry: dict[str, Any] | None) -> dict[str, Any]
     normalized["domains"] = set(domains) if not isinstance(domains, set) else domains
     normalized["entity_names"] = set(entities) if not isinstance(entities, set) else entities
     normalized["text_corpus"] = str(registry.get("text_corpus", ""))
+    if "evaluation_context" in registry:
+        normalized["evaluation_context"] = registry["evaluation_context"]
     return normalized
 
 
 def registry_to_serializable(registry: dict[str, Any]) -> dict[str, Any]:
     """Convert registry to JSON-safe structure for workflow context storage."""
     normalized = _normalize_registry_input(registry)
-    return {
+    result = {
         "urls": normalized["urls"],
         "domains": sorted(normalized["domains"]),
         "entity_names": sorted(normalized["entity_names"]),
         "text_corpus": normalized["text_corpus"],
     }
+    if "evaluation_context" in normalized:
+        result["evaluation_context"] = normalized["evaluation_context"]
+    return result
 
 
 def _merge_registry(base: dict[str, Any], other: dict[str, Any]) -> dict[str, Any]:
@@ -191,6 +196,10 @@ def _merge_registry(base: dict[str, Any], other: dict[str, Any]) -> dict[str, An
     merged["entity_names"] = set(base.get("entity_names", set())) | set(other.get("entity_names", set()))
     corpus_parts = [base.get("text_corpus", ""), other.get("text_corpus", "")]
     merged["text_corpus"] = " ".join(p for p in corpus_parts if p).lower()
+    if "evaluation_context" in base:
+        merged["evaluation_context"] = base["evaluation_context"]
+    elif "evaluation_context" in other:
+        merged["evaluation_context"] = other["evaluation_context"]
     return merged
 
 
@@ -250,10 +259,30 @@ def build_evidence_registry(
                 timestamp = doc.get("timestamp") or utc_now_iso()
                 text_chunks.extend([title, content])
                 registry["entity_names"].update(_extract_entity_names(f"{title} {content}"))
+
+                # Register explicit source_url from knowledge base docs (high-confidence authoritative sources)
+                if category == "vector_context":
+                    raw_source_url = str(doc.get("source_url") or "").strip()
+                    if raw_source_url:
+                        kb_url = normalize_url(raw_source_url)
+                        if kb_url:
+                            registry["urls"][kb_url] = {
+                                "source_title": str(doc.get("source_title") or title),
+                                "source_url": kb_url,
+                                "source_snippet": content[:MAX_SNIPPET_LENGTH],
+                                "retrieval_timestamp": timestamp,
+                                "source_type": "knowledge_base",
+                                "support_score": 0.8,
+                            }
+                            domain = extract_domain(kb_url)
+                            if domain:
+                                registry["domains"].add(domain)
+
+                # Also scan content text for embedded URLs (legacy fallback)
                 url_pattern = re.compile(r"https?://[^\s\"'}]+")
                 for raw_url in url_pattern.findall(content):
                     url = normalize_url(raw_url)
-                    if url:
+                    if url and url not in registry["urls"]:
                         registry["urls"][url] = {
                             "source_title": title,
                             "source_url": url,
@@ -264,6 +293,7 @@ def build_evidence_registry(
                         domain = extract_domain(url)
                         if domain:
                             registry["domains"].add(domain)
+
 
     registry["text_corpus"] = " ".join(text_chunks).lower()
     registry["entity_names"].update(_extract_entity_names(registry["text_corpus"]))
@@ -313,7 +343,9 @@ def normalize_rag_sources(rag_context_str: str) -> str:
             cleaned_doc = {
                 "title": str(doc.get("title", "Knowledge Source"))[:100],
                 "content": str(doc.get("content", ""))[:300],
-                "category": str(doc.get("category", "general"))[:50]
+                "category": str(doc.get("category", "general"))[:50],
+                "source_url": str(doc.get("source_url", "")),
+                "source_title": str(doc.get("source_title", ""))[:200],
             }
             cleaned_vector.append(cleaned_doc)
         rag_data["vector_context"] = cleaned_vector
@@ -531,6 +563,18 @@ def classify_claim(claim_text: str, parent_key: str, parent_path: str, agent_nam
     return "Historical Fact"
 
 
+import asyncio
+from dataclasses import dataclass, field
+
+@dataclass
+class EvaluationContext:
+    evaluated_claims: list[dict] = field(default_factory=list)
+    _lock: asyncio.Lock = field(default_factory=asyncio.Lock, repr=False)
+
+    async def append_claim(self, claim: dict) -> None:
+        async with self._lock:
+            self.evaluated_claims.append(claim)
+
 EVALUATED_CLAIMS = []
 
 def compute_semantic_similarity(text1: str, text2: str) -> float:
@@ -572,9 +616,9 @@ def validate_claim_source(
     source_title: str,
     source_snippet: str,
     parent_path: str = "",
-    agent_name: str = ""
+    agent_name: str = "",
+    eval_context: EvaluationContext | None = None
 ) -> tuple[bool, float]:
-    global EVALUATED_CLAIMS
     if not claim_text or not source_snippet:
         return False, 0.0
 
@@ -612,28 +656,38 @@ def validate_claim_source(
     if similarity < min_threshold:
         is_supported = False
 
-    # Log evaluation if not duplicate
-    duplicate = False
-    for item in EVALUATED_CLAIMS:
-        if item["claim"] == claim_text and item["source_url"] == source_url and item["agent"] == agent_name:
-            duplicate = True
-            break
-    if not duplicate:
-        EVALUATED_CLAIMS.append({
-            "claim": claim_text,
-            "source_title": source_title,
-            "source_url": source_url,
-            "source_snippet": source_snippet,
-            "support_score": round(similarity, 4),
-            "is_supported": is_supported,
-            "agent": agent_name
-        })
+    if eval_context is not None:
+        # Log evaluation if not duplicate
+        duplicate = False
+        for item in eval_context.evaluated_claims:
+            if item["claim"] == claim_text and item["source_url"] == source_url and item["agent"] == agent_name:
+                duplicate = True
+                break
+        if not duplicate:
+            eval_context.evaluated_claims.append({
+                "claim": claim_text,
+                "source_title": source_title,
+                "source_url": source_url,
+                "source_snippet": source_snippet,
+                "support_score": round(similarity, 4),
+                "is_supported": is_supported,
+                "agent": agent_name
+            })
         
     return is_supported, similarity
 
 
-def sanitize_grounded_claims(obj: Any, registry: dict[str, Any], agent_name: str, parent_path: str = "") -> Any:
+def sanitize_grounded_claims(
+    obj: Any,
+    registry: dict[str, Any],
+    agent_name: str,
+    parent_path: str = "",
+    eval_context: EvaluationContext | None = None
+) -> Any:
     """Strip invalid source URLs and downgrade unverified claims."""
+    if eval_context is None and isinstance(registry, dict):
+        eval_context = registry.get("evaluation_context")
+
     if isinstance(obj, dict):
         if "claim" in obj and ("sources" in obj or "verification" in obj):
             valid_sources = []
@@ -652,7 +706,8 @@ def sanitize_grounded_claims(obj: Any, registry: dict[str, Any], agent_name: str
                         source_title=source_title,
                         source_snippet=source_snippet,
                         parent_path=parent_path,
-                        agent_name=agent_name
+                        agent_name=agent_name,
+                        eval_context=eval_context
                     )
                     
                     if is_supported:
@@ -715,10 +770,10 @@ def sanitize_grounded_claims(obj: Any, registry: dict[str, Any], agent_name: str
             obj = cap_claim_confidence(obj)
             return obj
 
-        return {k: sanitize_grounded_claims(v, registry, agent_name, f"{parent_path}.{k}" if parent_path else k) for k, v in obj.items()}
+        return {k: sanitize_grounded_claims(v, registry, agent_name, f"{parent_path}.{k}" if parent_path else k, eval_context=eval_context) for k, v in obj.items()}
 
     if isinstance(obj, list):
-        return [sanitize_grounded_claims(item, registry, agent_name, parent_path) for item in obj]
+        return [sanitize_grounded_claims(item, registry, agent_name, parent_path, eval_context=eval_context) for item in obj]
 
     return obj
 
@@ -969,8 +1024,15 @@ def enforce_competitor_evidence(content: dict[str, Any], registry: dict[str, Any
     return content
 
 
-def build_grounding_map(context: dict[str, Any], registry: dict[str, Any]) -> list[dict[str, Any]]:
+def build_grounding_map(
+    context: dict[str, Any],
+    registry: dict[str, Any],
+    eval_context: EvaluationContext | None = None
+) -> list[dict[str, Any]]:
     """Build claim-to-source mappings preserving retrieval timestamps."""
+    if eval_context is None:
+        eval_context = context.get("evaluation_context") or registry.get("evaluation_context")
+
     grounding_map: list[dict[str, Any]] = []
     seen: set[tuple[str, str, str]] = set()
 
@@ -994,7 +1056,8 @@ def build_grounding_map(context: dict[str, Any], registry: dict[str, Any]) -> li
                         source_url=source_url,
                         source_title=source_title,
                         source_snippet=source_snippet,
-                        agent_name=agent_name
+                        agent_name=agent_name,
+                        eval_context=eval_context
                     )
                     
                     if not is_supported:
@@ -1035,8 +1098,12 @@ def accumulate_claim_lineage(
     agent_name: str,
     content: dict[str, Any],
     registry: dict[str, Any],
+    eval_context: EvaluationContext | None = None
 ) -> list[dict[str, Any]]:
     """Append traceable claim lineage entries to workflow context."""
+    if eval_context is None:
+        eval_context = context.get("evaluation_context") or registry.get("evaluation_context")
+
     lineage = list(context.get("claim_lineage", []))
 
     def scan(obj: Any) -> None:
@@ -1050,6 +1117,7 @@ def accumulate_claim_lineage(
                     
 
 
+
                     source_url = normalized["source_url"]
                     source_title = normalized["source_title"]
                     source_snippet = normalized.get("source_snippet") or ""
@@ -1059,7 +1127,8 @@ def accumulate_claim_lineage(
                         source_url=source_url,
                         source_title=source_title,
                         source_snippet=source_snippet,
-                        agent_name=agent_name
+                        agent_name=agent_name,
+                        eval_context=eval_context
                     )
                     
                     if not is_supported:

@@ -629,13 +629,14 @@ class BaseAgent(ABC):
 
     async def _run_nvidia(self, idea: str, context: dict[str, Any], rag_context: str, diagnostics: dict[str, Any] = None) -> dict[str, Any]:
         rag_context = normalize_rag_sources(rag_context)
-        context_summary_before = json.dumps({k: v.get("content", {}) if isinstance(v, dict) else v for k, v in context.items()}, indent=2)
+        serializable_context = {k: v for k, v in context.items() if k != "evaluation_context"}
+        context_summary_before = json.dumps({k: v.get("content", {}) if isinstance(v, dict) else v for k, v in serializable_context.items()}, indent=2)
 
         rag_formatted = format_rag_for_prompt(rag_context)
 
         # Identify top 5 largest context contributors
         contributors = {}
-        for k, v in context.items():
+        for k, v in serializable_context.items():
             val = v.get("content", {}) if isinstance(v, dict) else v
             contributors[f"agent_{k}"] = len(json.dumps(val))
         
