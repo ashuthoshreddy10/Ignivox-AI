@@ -144,10 +144,11 @@ export default function App() {
                 </div>
               )}
 
-              {activeTab === 'graph' && <AgentGraph />}
+              {activeTab === 'graph' && <AgentGraph agents={agents} activeAgent={activeAgent} />}
               {activeTab === 'blueprint' && blueprint && <BlueprintWorkspace blueprint={blueprint} />}
               {activeTab === 'investor' && blueprint && <InvestorMode blueprint={blueprint} />}
             </motion.div>
+
           )}
 
           {/* Agent showcase when idle */}
