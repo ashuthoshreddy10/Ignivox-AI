@@ -24,16 +24,6 @@ export default function AgentCommandCenter({ agents, activeAgent, isGenerating }
 
   const displayAgents = agents.length > 0 ? agents : defaultAgents;
 
-  const isAgentWorking = (type: string) => {
-    const agent = displayAgents.find(a => a.type === type);
-    if (!agent) return false;
-    return agent.status === 'working' || activeAgent === type;
-  };
-
-  const isWaveWorkingInParallel = (wave: string[]) => {
-    return wave.every(type => isAgentWorking(type));
-  };
-
   const renderAgentCard = (agent: AgentInfo, index: number) => {
     const isActive = activeAgent === agent.type;
     const isComplete = agent.status === 'complete';
@@ -104,13 +94,14 @@ export default function AgentCommandCenter({ agents, activeAgent, isGenerating }
           )}
         </div>
 
+        {/* Enhanced progress tracking component with creative cooling indicators */}
         {isWorking && (
           <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
             <motion.div
               className="h-full rounded-full"
-              style={{ backgroundColor: AGENT_COLORS[agent.type] }}
-              animate={{ width: ['0%', '100%'] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              style={{ backgroundColor: isError ? '#f59e0b' : AGENT_COLORS[agent.type] }}
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
           </div>
         )}
@@ -124,27 +115,27 @@ export default function AgentCommandCenter({ agents, activeAgent, isGenerating }
 
     for (let i = 0; i < displayAgents.length; i++) {
       const agent = displayAgents[i];
-      if (processedTypes.has(agent.type)) {
-        continue;
-      }
+      if (processedTypes.has(agent.type)) continue;
 
       const wave = PARALLEL_WAVES.find(w => w.includes(agent.type));
-      if (wave && isWaveWorkingInParallel(wave)) {
+      
+      if (wave) {
         const waveAgents = wave
           .map(t => displayAgents.find(a => a.type === t))
           .filter((a): a is AgentInfo => !!a);
 
         wave.forEach(t => processedTypes.add(t));
+        const anyWorking = waveAgents.some(wa => wa.status === 'working' || activeAgent === wa.type);
 
         renderedElements.push(
-          <div key={wave.join('-')} className="relative border border-dashed border-white/10 rounded-2xl p-3 bg-white/[0.01] space-y-3">
+          <div key={wave.join('-')} className={`relative border rounded-2xl p-3 bg-white/[0.01] space-y-3 transition-all duration-300 ${anyWorking ? 'border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.05)]' : 'border-white/5'}`}>
             <div className="flex items-center justify-between px-1">
-              <span className="text-[10px] uppercase tracking-wider font-bold text-ignivox-400 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-ignivox-400 animate-pulse" />
-                Running in parallel
+              <span className={`text-[10px] uppercase tracking-wider font-bold flex items-center gap-1.5 ${anyWorking ? 'text-cyan-400' : 'text-gray-500'}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${anyWorking ? 'bg-cyan-400 animate-pulse' : 'bg-gray-600'}`} />
+                Parallel Execution Wave
               </span>
             </div>
-            <div className="space-y-3 pl-3 border-l border-dashed border-white/20">
+            <div className="space-y-3 pl-3 border-l border-dashed border-white/10">
               {waveAgents.map((wa, idx) => renderAgentCard(wa, i + idx))}
             </div>
           </div>
@@ -177,4 +168,3 @@ export default function AgentCommandCenter({ agents, activeAgent, isGenerating }
     </div>
   );
 }
-
