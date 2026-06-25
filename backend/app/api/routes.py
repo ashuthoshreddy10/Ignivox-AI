@@ -67,6 +67,14 @@ async def agent_status():
 
 @router.post("/generate")
 async def generate_blueprint(request: GenerateRequest):
+    # Run input guardrails
+    from app.services.nemo_guardrails import guardrails
+    safety_check = await guardrails.validate_input(request.idea)
+    if not safety_check["passed"]:
+        raise HTTPException(
+            status_code=400,
+            detail=f"policy_violation: {', '.join(safety_check['issues'])}"
+        )
     try:
         blueprint = await orchestrator.generate(request)
         return blueprint.model_dump()
@@ -140,6 +148,18 @@ async def websocket_generate(websocket: WebSocket):
             industry=data.get("industry"),
             require_approval=data.get("require_approval", False),
         )
+
+        # Run input guardrails
+        from app.services.nemo_guardrails import guardrails
+        safety_check = await guardrails.validate_input(request.idea)
+        if not safety_check["passed"]:
+            await websocket.send_json({
+                "status": "error",
+                "type": "error",
+                "message": f"policy_violation: {', '.join(safety_check['issues'])}"
+            })
+            await websocket.close(code=4000)
+            return
 
         async def emit_event(event: WorkflowEvent):
             logger.info(

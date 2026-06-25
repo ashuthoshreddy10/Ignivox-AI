@@ -247,6 +247,8 @@ class NeMoRetriever:
 
         for idx, score_val in enumerate(scores):
             doc = self.documents[idx].copy()
+            doc["source_url"] = self.documents[idx].get("source_url", "")
+            doc["source_title"] = self.documents[idx].get("source_title", "")
             score = float(score_val)
             doc["relevance_score"] = score
             

@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class AgentStatus(str, Enum):
@@ -108,6 +108,8 @@ class StartupBlueprint(BaseModel):
     evidence_quality_report: EvidenceQualityReport | None = None
     confidence_scores: dict[str, float] | None = None
     claim_lineage: list[dict[str, Any]] = Field(default_factory=list)
+    evidence_registry: dict[str, Any] = Field(default_factory=dict)
+    validation_report: dict[str, Any] | None = None
     status: str = "in_progress"
 
 
@@ -126,6 +128,31 @@ class GenerateRequest(BaseModel):
     generate_idea: bool = False
     industry: str | None = None
     require_approval: bool = False
+
+    @field_validator("idea")
+    @classmethod
+    def validate_idea_content(cls, v: str) -> str:
+        import re
+        v_stripped = v.strip()
+        
+        # Check if the string has no alphabetic characters
+        if not re.search(r"[a-zA-Z]", v_stripped):
+            raise ValueError("validation_error: Idea must contain alphabetic characters")
+            
+        # A simple word count/gibberish check
+        words = [w for w in v_stripped.split() if w]
+        if len(words) < 3:
+            raise ValueError("validation_error: Idea must be at least 3 words to describe a startup concept")
+            
+        # Check for long strings with no vowels or very low vowel ratio (e.g. keyboard mashing "asdfghjk")
+        for w in words:
+            clean_w = re.sub(r"[^a-zA-Z]", "", w)
+            if len(clean_w) > 8:
+                vowels = len(re.findall(r"[aeiouAEIOU]", clean_w))
+                if vowels == 0 or (vowels / len(clean_w)) < 0.15:
+                    raise ValueError("validation_error: Idea contains invalid gibberish tokens")
+                    
+        return v_stripped
 
 
 class CompareRequest(BaseModel):

@@ -384,6 +384,8 @@ def format_rag_for_prompt(rag_context_str: str) -> str:
         rag_formatted += "\n=== KNOWLEDGE BASE VECTOR SEARCH SOURCES ===\n"
         for doc in vector_docs:
             rag_formatted += f"- [{doc.get('category', 'general')}] {doc.get('title')}: {str(doc.get('content', ''))[:MAX_SNIPPET_LENGTH]}\n"
+            if doc.get("source_url"):
+                rag_formatted += f"  URL: {doc.get('source_url')}\n"
     if memory_docs:
         rag_formatted += "\n=== HISTORICAL PERSISTENT MEMORY INSIGHTS ===\n"
         for doc in memory_docs:
@@ -1110,6 +1112,38 @@ def accumulate_claim_lineage(
         if isinstance(obj, dict):
             if "claim" in obj and ("sources" in obj or "verification" in obj):
                 claim_text = str(obj.get("claim", ""))
+                
+                # Retrieve RAG docs for this agent from the structured context
+                structured_ctx = context.get("structured_context", {}).get(agent_name, {})
+                vector_docs = structured_ctx.get("vector_context", [])
+                
+                existing_sources = obj.setdefault("sources", [])
+                if not isinstance(existing_sources, list):
+                    existing_sources = []
+                    obj["sources"] = existing_sources
+
+                existing_urls = {
+                    normalize_url(s.get("source_url") or s.get("url") or "")
+                    for s in existing_sources
+                    if isinstance(s, dict)
+                }
+
+                registry_urls = registry.get("urls", {})
+                for doc in vector_docs:
+                    source_url = doc.get("source_url", "")
+                    if source_url:
+                        norm_url = normalize_url(source_url)
+                        if norm_url in registry_urls and norm_url not in existing_urls:
+                            source_title = doc.get("source_title") or registry_urls[norm_url].get("source_title", "Source")
+                            existing_sources.append({
+                                "url": source_url,
+                                "source_url": source_url,
+                                "title": source_title,
+                                "source_title": source_title,
+                                "support_score": 0.8
+                            })
+                            existing_urls.add(norm_url)
+
                 for src in obj.get("sources", []):
                     normalized = _normalize_source_entry(src, registry) if isinstance(src, dict) else None
                     if not normalized:

@@ -1,0 +1,17 @@
+# Colang Input Rail Definitions for Disallowed Startup Ideas
+
+define user express illegal startup
+  "An autonomous AI-driven micro-lending app for minors with zero KYC verification."
+  "An anonymous micro-lending app for minors with zero KYC verification."
+  "A platform to bypass KYC checks for under-age gambling."
+  "An app to hack bank accounts or steal credentials."
+  "A service designed for money laundering and tax evasion."
+  "An automated pump and dump stock alert bot with guaranteed returns."
+  "Micro-lending app for minors without verification."
+
+define flow illegal startup
+  user express illegal startup
+  bot refuse illegal startup
+
+define bot refuse illegal startup
+  "I cannot generate a startup blueprint for this idea. It violates safety and compliance policies."

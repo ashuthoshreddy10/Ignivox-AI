@@ -91,6 +91,7 @@ class WorkflowOrchestrator:
             "evidence_registry": registry_to_serializable({"evaluation_context": eval_context}),
             "claim_lineage": [],
             "evaluation_context": eval_context,
+            "structured_context": {},
         }
         blueprint = StartupBlueprint(
             id=workflow_id,
@@ -120,6 +121,11 @@ class WorkflowOrchestrator:
             # Context assembly (Multi-Source context)
             rag_query = f"{idea} {agent.name} {agent.description}"
             rag_docs = await retriever.retrieve(rag_query, top_k=5)
+            logger.info("RAG docs for %s: %s", agent_type, [
+                {"title": d.get("title"), "source_url": d.get("source_url"), 
+                 "support_score": d.get("support_score")} 
+                for d in rag_docs
+            ])
             for doc in rag_docs:
                 logger.info(
                     "RAG Context Item | Query: '%s' | Document: '%s' | Similarity Score: %.4f | Category: '%s'",
@@ -144,9 +150,10 @@ class WorkflowOrchestrator:
                 {
                     "title": d.get("title"),
                     "content": d.get("content"),
-                    "category": d.get("category"),
                     "source_url": d.get("source_url", ""),
                     "source_title": d.get("source_title", ""),
+                    "support_score": 0.8,  # authoritative RAG source
+                    "category": d.get("category", "")
                 }
                 for d in rag_docs
             ]
@@ -172,6 +179,7 @@ class WorkflowOrchestrator:
                 "memory_context": memory_context,
                 "live_sources": live_sources
             }
+            context.setdefault("structured_context", {})[agent_type.value] = structured_context
             rag_context_str = json.dumps(structured_context)
             rag_context_str = normalize_rag_sources(rag_context_str)
             
@@ -399,6 +407,8 @@ class WorkflowOrchestrator:
                     _pending_approvals.pop(workflow_id, None)
 
         blueprint.claim_lineage = context.get("claim_lineage", [])
+        blueprint.evidence_registry = context.get("evidence_registry", {}).get("urls", {})
+        blueprint.validation_report = blueprint.validation.content if blueprint.validation else {}
         blueprint_data = blueprint.model_dump()
         blueprint.score = scoring_engine.score(blueprint_data)
         blueprint.recommendations = self._generate_recommendations(context)

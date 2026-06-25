@@ -9,6 +9,11 @@ interface Props {
   isGenerating: boolean;
 }
 
+const PARALLEL_WAVES = [
+  ['business_strategy', 'technical_architect'],
+  ['execution_planning', 'investor_pitch']
+];
+
 export default function AgentCommandCenter({ agents, activeAgent, isGenerating }: Props) {
   const defaultAgents = Object.entries(AGENT_LABELS).map(([type, name]) => ({
     type,
@@ -18,6 +23,140 @@ export default function AgentCommandCenter({ agents, activeAgent, isGenerating }
   }));
 
   const displayAgents = agents.length > 0 ? agents : defaultAgents;
+
+  const isAgentWorking = (type: string) => {
+    const agent = displayAgents.find(a => a.type === type);
+    if (!agent) return false;
+    return agent.status === 'working' || activeAgent === type;
+  };
+
+  const isWaveWorkingInParallel = (wave: string[]) => {
+    return wave.every(type => isAgentWorking(type));
+  };
+
+  const renderAgentCard = (agent: AgentInfo, index: number) => {
+    const isActive = activeAgent === agent.type;
+    const isComplete = agent.status === 'complete';
+    const isError = agent.status === 'error';
+    const isWorking = agent.status === 'working' || isActive;
+    const isParallel = PARALLEL_WAVES.some(w => w.includes(agent.type));
+
+    return (
+      <motion.div
+        key={agent.type}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.05 }}
+        className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-300 ${
+          isWorking
+            ? 'bg-white/10 border border-white/20'
+            : isComplete
+            ? 'bg-ignivox-500/5 border border-ignivox-500/20'
+            : isError
+            ? 'bg-amber-500/5 border border-amber-500/20'
+            : 'bg-white/5 border border-transparent'
+        }`}
+      >
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+          style={{
+            backgroundColor: isError ? '#f59e0b20' : `${AGENT_COLORS[agent.type] || '#666'}20`,
+            color: isError ? '#f59e0b' : AGENT_COLORS[agent.type] || '#666',
+          }}
+        >
+          {isWorking ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : isComplete ? (
+            <CheckCircle2 className="w-5 h-5" />
+          ) : isError ? (
+            <AlertCircle className="w-5 h-5" />
+          ) : (
+            <Circle className="w-5 h-5 opacity-30" />
+          )}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="font-medium text-sm">{agent.name}</h3>
+            {isParallel && (
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/25 uppercase tracking-wider">
+                Parallel
+              </span>
+            )}
+            {isWorking && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-ignivox-500/20 text-ignivox-400">
+                Working
+              </span>
+            )}
+            {isComplete && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400">
+                Complete
+              </span>
+            )}
+            {isError && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">
+                Fallback
+              </span>
+            )}
+          </div>
+          {agent.description && (
+            <p className="text-xs text-gray-500 mt-0.5 truncate">{agent.description}</p>
+          )}
+        </div>
+
+        {isWorking && (
+          <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full rounded-full"
+              style={{ backgroundColor: AGENT_COLORS[agent.type] }}
+              animate={{ width: ['0%', '100%'] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </div>
+        )}
+      </motion.div>
+    );
+  };
+
+  const renderContent = () => {
+    const renderedElements: React.ReactNode[] = [];
+    const processedTypes = new Set<string>();
+
+    for (let i = 0; i < displayAgents.length; i++) {
+      const agent = displayAgents[i];
+      if (processedTypes.has(agent.type)) {
+        continue;
+      }
+
+      const wave = PARALLEL_WAVES.find(w => w.includes(agent.type));
+      if (wave && isWaveWorkingInParallel(wave)) {
+        const waveAgents = wave
+          .map(t => displayAgents.find(a => a.type === t))
+          .filter((a): a is AgentInfo => !!a);
+
+        wave.forEach(t => processedTypes.add(t));
+
+        renderedElements.push(
+          <div key={wave.join('-')} className="relative border border-dashed border-white/10 rounded-2xl p-3 bg-white/[0.01] space-y-3">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-[10px] uppercase tracking-wider font-bold text-ignivox-400 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-ignivox-400 animate-pulse" />
+                Running in parallel
+              </span>
+            </div>
+            <div className="space-y-3 pl-3 border-l border-dashed border-white/20">
+              {waveAgents.map((wa, idx) => renderAgentCard(wa, i + idx))}
+            </div>
+          </div>
+        );
+      } else {
+        processedTypes.add(agent.type);
+        renderedElements.push(renderAgentCard(agent, i));
+      }
+    }
+
+    return renderedElements;
+  };
 
   return (
     <div className="card">
@@ -33,84 +172,9 @@ export default function AgentCommandCenter({ agents, activeAgent, isGenerating }
       </div>
 
       <div className="space-y-3">
-        {displayAgents.map((agent, i) => {
-          const isActive = activeAgent === agent.type;
-          const isComplete = agent.status === 'complete';
-          const isError = agent.status === 'error';
-          const isWorking = agent.status === 'working' || isActive;
-
-          return (
-            <motion.div
-              key={agent.type}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-300 ${
-                isWorking
-                  ? 'bg-white/10 border border-white/20'
-                  : isComplete
-                  ? 'bg-ignivox-500/5 border border-ignivox-500/20'
-                  : isError
-                  ? 'bg-amber-500/5 border border-amber-500/20'
-                  : 'bg-white/5 border border-transparent'
-              }`}
-            >
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                style={{
-                  backgroundColor: isError ? '#f59e0b20' : `${AGENT_COLORS[agent.type] || '#666'}20`,
-                  color: isError ? '#f59e0b' : AGENT_COLORS[agent.type] || '#666',
-                }}
-              >
-                {isWorking ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : isComplete ? (
-                  <CheckCircle2 className="w-5 h-5" />
-                ) : isError ? (
-                  <AlertCircle className="w-5 h-5" />
-                ) : (
-                  <Circle className="w-5 h-5 opacity-30" />
-                )}
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-sm">{agent.name}</h3>
-                  {isWorking && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-ignivox-500/20 text-ignivox-400">
-                      Working
-                    </span>
-                  )}
-                  {isComplete && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400">
-                      Complete
-                    </span>
-                  )}
-                  {isError && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">
-                      Fallback
-                    </span>
-                  )}
-                </div>
-                {agent.description && (
-                  <p className="text-xs text-gray-500 mt-0.5 truncate">{agent.description}</p>
-                )}
-              </div>
-
-              {isWorking && (
-                <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ backgroundColor: AGENT_COLORS[agent.type] }}
-                    animate={{ width: ['0%', '100%'] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </div>
-              )}
-            </motion.div>
-          );
-        })}
+        {renderContent()}
       </div>
     </div>
   );
 }
+

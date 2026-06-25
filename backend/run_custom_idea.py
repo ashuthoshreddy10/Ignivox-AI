@@ -49,6 +49,6 @@ async def run_idea(idea: str, uri: str, timeout: float = 600):
         return 1
 
 if __name__ == "__main__":
-    idea = "AI placement preparation platform for college students"
+    idea = sys.argv[1] if len(sys.argv) > 1 else "AI placement preparation platform for college students"
     uri = "ws://127.0.0.1:8000/api/ws/generate"
     sys.exit(asyncio.run(run_idea(idea, uri)))
