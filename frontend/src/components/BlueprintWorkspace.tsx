@@ -21,8 +21,19 @@ const SECTIONS = [
   { key: 'validation', label: 'Validation Report', icon: ShieldCheck, color: '#10b981' },
 ] as const;
 
+function getClaimText(claimField: any): string {
+  if (claimField === null || claimField === undefined) return '';
+  if (typeof claimField === 'object') {
+    if ('claim' in claimField) {
+      return getClaimText(claimField.claim);
+    }
+    return JSON.stringify(claimField);
+  }
+  return String(claimField);
+}
+
 function isGroundedClaim(val: unknown): val is { 
-  claim: string; 
+  claim: any; 
   sources: SourceInfo[]; 
   confidence: number;
   retrieval_status?: string;
@@ -172,7 +183,7 @@ function renderContent(content: Record<string, unknown>, depth = 0, isFrontierMo
                       )}
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-white mt-1.5">{tamVal.claim}</p>
+                  <p className="text-sm font-semibold text-white mt-1.5">{getClaimText(tamVal.claim)}</p>
                   {tamVal.assumptions && Array.isArray(tamVal.assumptions) && tamVal.assumptions.length > 0 && (
                     <div className="mt-2 pl-3 border-l border-blue-500/30 text-xs text-gray-400 space-y-1">
                       <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider block mb-0.5">Calculations & Assumptions:</span>
@@ -224,7 +235,7 @@ function renderContent(content: Record<string, unknown>, depth = 0, isFrontierMo
                       )}
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-white mt-1.5">{samVal.claim}</p>
+                  <p className="text-sm font-semibold text-white mt-1.5">{getClaimText(samVal.claim)}</p>
                   {samVal.assumptions && Array.isArray(samVal.assumptions) && samVal.assumptions.length > 0 && (
                     <div className="mt-2 pl-3 border-l border-purple-500/30 text-xs text-gray-400 space-y-1">
                       <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider block mb-0.5">Calculations & Assumptions:</span>
@@ -276,7 +287,7 @@ function renderContent(content: Record<string, unknown>, depth = 0, isFrontierMo
                       )}
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-white mt-1.5">{somVal.claim}</p>
+                  <p className="text-sm font-semibold text-white mt-1.5">{getClaimText(somVal.claim)}</p>
                   {somVal.assumptions && Array.isArray(somVal.assumptions) && somVal.assumptions.length > 0 && (
                     <div className="mt-2 pl-3 border-l border-ignivox-500/30 text-xs text-gray-300 space-y-1">
                       <span className="text-[10px] font-semibold text-ignivox-400 uppercase tracking-wider block mb-0.5">Calculations & Assumptions:</span>
@@ -329,7 +340,7 @@ function renderContent(content: Record<string, unknown>, depth = 0, isFrontierMo
             </span>
             {isGroundedClaim(value) ? (
               <div className="text-sm text-gray-300">
-                <span className="text-white font-medium">{value.claim}</span>
+                <span className="text-white font-medium">{getClaimText(value.claim)}</span>
                 {renderClaimBadges(value, isFrontierMode)}
                 {value.assumptions && Array.isArray(value.assumptions) && value.assumptions.length > 0 && (
                   <div className="mt-2 pl-3 border-l border-white/10 text-xs text-gray-400 space-y-1">
@@ -369,7 +380,7 @@ function renderContent(content: Record<string, unknown>, depth = 0, isFrontierMo
                     <span className="text-ignivox-400 shrink-0 mt-1">•</span>
                     {isGroundedClaim(item) ? (
                       <div className="flex-1">
-                        <span className="text-white font-medium">{item.claim}</span>
+                        <span className="text-white font-medium">{getClaimText(item.claim)}</span>
                         {renderClaimBadges(item, isFrontierMode)}
                         {item.assumptions && Array.isArray(item.assumptions) && item.assumptions.length > 0 && (
                           <div className="mt-2 pl-3 border-l border-white/10 text-xs text-gray-400 space-y-1">
@@ -683,7 +694,7 @@ export default function BlueprintWorkspace({ blueprint }: Props) {
                           {log.status.toUpperCase()}
                         </span>
                       </div>
-                      <p className="text-gray-300 font-medium">{log.claim}</p>
+                      <p className="text-gray-300 font-medium">{getClaimText(log.claim)}</p>
                       {renderClaimBadges(log)}
                       {log.sources?.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 mt-1.5">
