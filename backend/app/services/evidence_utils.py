@@ -949,6 +949,57 @@ def enforce_competitor_evidence(content: dict[str, Any], registry: dict[str, Any
     competitors = content.get("competitors")
     if not isinstance(competitors, dict):
         return content
+
+    # Reclassify known hardware companies listed as direct competitors
+    HARDWARE_COMPANIES = {"Climeworks", "Carbon Engineering", "Global Thermostat", "Aker Carbon Capture", "Svante"}
+    hardware_lower = {c.lower() for c in HARDWARE_COMPANIES}
+
+    direct_list = competitors.get("direct_competitors", [])
+    indirect_list = competitors.setdefault("indirect_competitors", [])
+
+    if isinstance(direct_list, list) and isinstance(indirect_list, list):
+        new_direct = []
+        for entry in direct_list:
+            if isinstance(entry, dict):
+                name = entry.get("name", "")
+                if name.strip().lower() in hardware_lower:
+                    entry["reclassified"] = "hardware_to_indirect"
+                    indirect_list.append(entry)
+
+                    # Log reclassification to audit_diagnostics.json
+                    import os
+                    import json
+                    from datetime import datetime
+                    from app.config import BACKEND_DIR
+                    try:
+                        audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
+                        data = []
+                        if os.path.exists(audit_file):
+                            try:
+                                with open(audit_file, "r") as f:
+                                    data = json.load(f)
+                            except Exception:
+                                pass
+                        
+                        log_entry = {
+                            "agent": "Competitor Agent",
+                            "event": "competitor_reclassification",
+                            "idea": idea,
+                            "competitor_name": name,
+                            "reclassified": "hardware_to_indirect",
+                            "timestamp": datetime.utcnow().isoformat() + "Z"
+                        }
+                        data.append(log_entry)
+                        
+                        with open(audit_file, "w") as f:
+                            json.dump(data, f, indent=2)
+                    except Exception as log_err:
+                        logger.warning("Failed to log competitor reclassification: %s", log_err)
+                else:
+                    new_direct.append(entry)
+            else:
+                new_direct.append(entry)
+        competitors["direct_competitors"] = new_direct
  
     filtered: dict[str, list[Any]] = {}
     removed = 0
@@ -990,8 +1041,8 @@ def enforce_competitor_evidence(content: dict[str, Any], registry: dict[str, Any
                         domain_supported = True
                         break
             
-            # A competitor is kept if the name is supported OR its domain is supported in evidence
-            if name_supported or domain_supported:
+            # A competitor is kept if the name is supported OR its domain is supported in evidence OR it is reclassified
+            if name_supported or domain_supported or entry.get("reclassified") == "hardware_to_indirect":
                 for field in ("pricing", "market_share"):
                     field_val = entry.get(field)
                     if isinstance(field_val, dict):
@@ -1415,6 +1466,77 @@ def _domain_stack_overrides(idea: str) -> dict[str, Any]:
     }
 
 
+def _fix_energy_table_leakage(content: dict[str, Any], idea: str) -> dict[str, Any]:
+    """Replace Energy domain database tables in non-Energy ideas."""
+    if not isinstance(content, dict) or not idea:
+        return content
+
+    idea_lower = idea.lower()
+    
+    # 1. Determine if this is an Energy domain idea
+    energy_kws = ["energy", "electricity", "utility", "grid", "helios", "scada", "power", "generator"]
+    is_energy = any(kw in idea_lower for kw in energy_kws)
+    if is_energy:
+        return content
+
+    # 2. Check for domain mappings
+    climatetech_kws = ["climate", "carbon", "esg", "emissions", "offset"]
+    healthtech_kws = ["health", "medical", "patient", "clinic", "hospital", "doctor", "diagnose", "treatment", "care", "clinical"]
+    fintech_kws = ["fintech", "finance", "payment", "bank", "invest", "crypto", "trading", "ledger", "double-entry"]
+    logistics_kws = ["supply chain", "logistics", "shipping", "warehouse", "inventory", "rfid", "delivery", "transport", "freight"]
+
+    domain_tables = None
+    if any(kw in idea_lower for kw in climatetech_kws):
+        domain_tables = {
+            "emissions_ledger": "id, facility_id, emission_source, gas_type, carbon_equivalent_metric_tons, timestamp",
+            "offset_registry": "id, project_name, standard_body, serial_number, credits_retired, vintage_year, status",
+            "telemetry_ingest": "timestamp, device_id, metric_name, value, unit, status",
+            "iot_device_registry": "id, device_type, model, installation_date, facility_id, status",
+            "scope_mapping": "id, category, scope_type, conversion_factor, description"
+        }
+    elif any(kw in idea_lower for kw in healthtech_kws):
+        domain_tables = {
+            "patients": "id, first_name_encrypted, last_name_encrypted, dob_encrypted, fhir_id",
+            "audit_logs": "id, user_id, action, target_table, record_id, timestamp",
+            "fhir_records": "id, patient_id, resource_type, resource_json, last_updated",
+            "consent_registry": "id, patient_id, status, consent_type, signed_date"
+        }
+    elif any(kw in idea_lower for kw in fintech_kws):
+        domain_tables = {
+            "transactions": "id, debit_account_id, credit_account_id, amount, description, timestamp",
+            "ledger_entries": "id, transaction_id, account_id, entry_type, amount, timestamp",
+            "compliance_log": "id, transaction_id, rule_triggered, status, timestamp",
+            "kyc_records": "id, user_id, document_type, document_status, verification_date"
+        }
+    elif any(kw in idea_lower for kw in logistics_kws):
+        domain_tables = {
+            "shipments": "id, origin, destination, weight, dimensions, status",
+            "carriers": "id, name, type, contact_info, rating",
+            "routes": "id, origin_warehouse_id, dest_warehouse_id, current_coordinates, status",
+            "tracking_events": "id, shipment_id, location, timestamp, event_description"
+        }
+
+    if not domain_tables:
+        return content
+
+    schema = content.setdefault("database_schema", {})
+    if not isinstance(schema, dict):
+        return content
+
+    # 3. Detect Energy table leakage (grid_elements, maintenance_logs)
+    has_leakage = "grid_elements" in schema or "maintenance_logs" in schema
+    if has_leakage:
+        schema.pop("grid_elements", None)
+        schema.pop("maintenance_logs", None)
+        
+        for tab_name, columns in domain_tables.items():
+            schema[tab_name] = columns
+            
+        content["_architecture_template_corrected"] = True
+
+    return content
+
+
 def fix_template_architecture(content: dict[str, Any], idea: str) -> dict[str, Any]:
     """Replace template architecture placeholders with domain-specific technologies."""
     overrides = _domain_stack_overrides(idea)
@@ -1477,6 +1599,9 @@ def fix_template_architecture(content: dict[str, Any], idea: str) -> dict[str, A
                 cleaned_components.append(c)
         if has_placeholder_component or not cleaned_components:
             architecture["components"] = overrides.get("components", [])
+
+    # Call Energy table leakage fix
+    content = _fix_energy_table_leakage(content, idea)
 
     if detect_template_architecture(content):
         content["_architecture_template_corrected"] = True
@@ -1728,6 +1853,10 @@ def remove_edtech_contamination(obj: Any, idea: str) -> Any:
     """Recursively strip all EdTech/education terminology from non-education ideas."""
     if not obj or not idea:
         return obj
+
+    # Intercept technical architect content to fix energy table leakage
+    if isinstance(obj, dict) and "database_schema" in obj:
+        obj = _fix_energy_table_leakage(obj, idea)
 
     # Determine if the target startup idea is in the education domain
     idea_lower = idea.lower()

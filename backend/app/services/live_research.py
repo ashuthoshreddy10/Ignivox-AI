@@ -2,7 +2,9 @@
 
 import asyncio
 import logging
+import random
 import re
+import sys
 import urllib.parse
 from typing import Any
 
@@ -12,6 +14,12 @@ from app.config import settings
 from app.services.evidence_utils import MAX_SNIPPET_LENGTH, MAX_URL_LENGTH, normalize_url, utc_now_iso
 
 logger = logging.getLogger(__name__)
+
+REALISTIC_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+]
 
 
 class DuckDuckGoBlockedError(Exception):
@@ -51,6 +59,7 @@ class LiveResearchService:
     """Service to fetch real-time startup/industry context and ground claims in evidence."""
 
     def __init__(self) -> None:
+        self._force_jitter_sleep_for_testing = False
         self.client = httpx.AsyncClient(
             headers={
                 "User-Agent": (
@@ -67,7 +76,13 @@ class LiveResearchService:
 
     async def _execute_scrape(self, url: str, user_agent: str, top_k: int) -> list[dict[str, Any]]:
         """Scrapes DuckDuckGo with the provided user-agent and parses results. Raises DuckDuckGoBlockedError on block."""
-        headers = {"User-Agent": user_agent}
+        headers = {
+            "User-Agent": user_agent,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,webp,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Referer": "https://duckduckgo.com/",
+            "DNT": "1",
+        }
         response = await self.client.get(url, headers=headers)
         response.raise_for_status()
 
@@ -130,16 +145,15 @@ class LiveResearchService:
                 }
             ])
 
+        # Dynamic jitter handling based on pytest bypass rule
+        if "pytest" not in sys.modules or self._force_jitter_sleep_for_testing:
+            await asyncio.sleep(random.uniform(1.5, 3.5))
+
         logger.info("Executing live research query: %s", query)
         
-        ua_primary = (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        )
-        ua_fallback = (
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 "
-            "(KHTML, like Gecko) Version/17.2.1 Safari/605.1.15"
-        )
+        ua_primary = random.choice(REALISTIC_AGENTS)
+        remaining = [ua for ua in REALISTIC_AGENTS if ua != ua_primary]
+        ua_fallback = random.choice(remaining) if remaining else "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15"
 
         encoded_query = urllib.parse.quote_plus(query)
         url = f"https://html.duckduckgo.com/html/?q={encoded_query}"

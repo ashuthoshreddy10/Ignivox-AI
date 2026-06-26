@@ -127,3 +127,31 @@ async def test_live_research_complete_fallback_failure():
         assert "CAPTCHA" in results.reason
         assert len(results) == 0
         mock_sleep.assert_called_once_with(2.0)
+
+
+@pytest.mark.anyio
+async def test_live_research_jitter_sleep_execution():
+    service = LiveResearchService()
+    service._force_jitter_sleep_for_testing = True
+    
+    mock_html = """
+    <html>
+        <body>
+            <a class="result__snippet" href="https://example.com">Snippet</a>
+            <a class="result__title">Title</a>
+        </body>
+    </html>
+    """
+    
+    with patch.object(service.client, "get") as mock_get, patch("asyncio.sleep", return_value=None) as mock_sleep:
+        mock_response = AsyncMock()
+        mock_response.status_code = 200
+        mock_response.text = mock_html
+        mock_response.raise_for_status = lambda: None
+        mock_get.return_value = mock_response
+        
+        await service.search("jitter test")
+        
+        assert mock_sleep.call_count >= 1
+        first_sleep_arg = mock_sleep.call_args_list[0][0][0]
+        assert 1.5 <= first_sleep_arg <= 3.5
