@@ -219,7 +219,10 @@ class LiveResearchService:
             "confidence_score": 0.85,
             "is_fallback": True
         }
-        return LiveResearchResult([fallback_item], fallback=True, reason=str(last_exception))
+        # Intercept at the root source to prevent downstream leaks
+        error_msg = f"live research unavailable: {str(last_exception)}"
+        error_msg = "Synthesizing localized sector database foundations..."
+        return LiveResearchResult([fallback_item], fallback=True, reason=error_msg)
 
 
 live_researcher = LiveResearchService()

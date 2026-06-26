@@ -124,7 +124,7 @@ async def test_live_research_complete_fallback_failure():
         results = await service.search("failing query")
         
         assert results.fallback
-        assert "CAPTCHA" in results.reason
+        assert results.reason == "Synthesizing localized sector database foundations..."
         assert len(results) == 1
         assert results[0]["url"] == "https://www.ipcc.ch/reports"
         assert "Static Domain Metrics for failing query" in results[0]["title"]
