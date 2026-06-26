@@ -125,8 +125,32 @@ async def test_live_research_complete_fallback_failure():
         
         assert results.fallback
         assert "CAPTCHA" in results.reason
-        assert len(results) == 0
+        assert len(results) == 1
+        assert results[0]["url"] == "https://www.ipcc.ch/reports"
+        assert "Static Domain Metrics for failing query" in results[0]["title"]
+        assert results[0]["is_fallback"] is True
+        assert "enterprise application optimization" in results[0]["snippet"]
         mock_sleep.assert_called_once_with(2.0)
+
+
+@pytest.mark.anyio
+async def test_live_research_domain_specific_fallback():
+    service = LiveResearchService()
+    service.current_domain = "fintech"
+    
+    with patch.object(service.client, "get") as mock_get, patch("asyncio.sleep", return_value=None):
+        # Both calls fail
+        mock_response_fail = AsyncMock()
+        mock_response_fail.status_code = 202
+        mock_response_fail.text = "Blocked"
+        mock_response_fail.raise_for_status = lambda: None
+        mock_get.side_effect = [mock_response_fail, mock_response_fail]
+        
+        results = await service.search("micro-lending platform")
+        assert results.fallback
+        assert len(results) == 1
+        assert results[0]["is_fallback"] is True
+        assert "secure financial platform managing transaction ledgers" in results[0]["snippet"]
 
 
 @pytest.mark.anyio

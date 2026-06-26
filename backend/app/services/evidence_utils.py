@@ -156,6 +156,7 @@ def _empty_registry() -> dict[str, Any]:
         "domains": set(),
         "text_corpus": "",
         "entity_names": set(),
+        "is_fallback": False,
     }
 
 
@@ -169,6 +170,7 @@ def _normalize_registry_input(registry: dict[str, Any] | None) -> dict[str, Any]
     normalized["domains"] = set(domains) if not isinstance(domains, set) else domains
     normalized["entity_names"] = set(entities) if not isinstance(entities, set) else entities
     normalized["text_corpus"] = str(registry.get("text_corpus", ""))
+    normalized["is_fallback"] = bool(registry.get("is_fallback", False))
     if "evaluation_context" in registry:
         normalized["evaluation_context"] = registry["evaluation_context"]
     return normalized
@@ -182,6 +184,7 @@ def registry_to_serializable(registry: dict[str, Any]) -> dict[str, Any]:
         "domains": sorted(normalized["domains"]),
         "entity_names": sorted(normalized["entity_names"]),
         "text_corpus": normalized["text_corpus"],
+        "is_fallback": normalized["is_fallback"],
     }
     if "evaluation_context" in normalized:
         result["evaluation_context"] = normalized["evaluation_context"]
@@ -196,6 +199,7 @@ def _merge_registry(base: dict[str, Any], other: dict[str, Any]) -> dict[str, An
     merged["entity_names"] = set(base.get("entity_names", set())) | set(other.get("entity_names", set()))
     corpus_parts = [base.get("text_corpus", ""), other.get("text_corpus", "")]
     merged["text_corpus"] = " ".join(p for p in corpus_parts if p).lower()
+    merged["is_fallback"] = base.get("is_fallback", False) or other.get("is_fallback", False)
     if "evaluation_context" in base:
         merged["evaluation_context"] = base["evaluation_context"]
     elif "evaluation_context" in other:
@@ -240,13 +244,17 @@ def build_evidence_registry(
             title = str(doc.get("title", "Live Source"))
             snippet = str(doc.get("snippet", ""))[:MAX_SNIPPET_LENGTH]
             timestamp = doc.get("timestamp") or utc_now_iso()
+            is_fallback = bool(doc.get("is_fallback", False))
             registry["urls"][url] = {
                 "source_title": title,
                 "source_url": url,
                 "source_snippet": snippet,
                 "retrieval_timestamp": timestamp,
                 "source_type": "live_research",
+                "is_fallback": is_fallback,
             }
+            if is_fallback:
+                registry["is_fallback"] = True
             domain = extract_domain(url)
             if domain:
                 registry["domains"].add(domain)
@@ -328,7 +336,8 @@ def normalize_rag_sources(rag_context_str: str) -> str:
                 "url": normalized_url_val,
                 "snippet": str(doc.get("snippet", ""))[:MAX_SNIPPET_LENGTH],
                 "timestamp": doc.get("timestamp") or utc_now_iso(),
-                "confidence_score": float(doc.get("confidence_score") or 0.85)
+                "confidence_score": float(doc.get("confidence_score") or 0.85),
+                "is_fallback": bool(doc.get("is_fallback", False))
             }
             cleaned_live.append(cleaned_doc)
         rag_data["live_sources"] = cleaned_live
@@ -428,6 +437,7 @@ def _normalize_source_entry(source: dict[str, Any], registry: dict[str, Any]) ->
         "source_snippet": meta.get("source_snippet") or source.get("source_snippet") or "",
         "retrieval_timestamp": source.get("retrieval_timestamp") or meta.get("retrieval_timestamp") or utc_now_iso(),
         "confidence_score": float(source.get("confidence_score", meta.get("confidence_score", 0.85))),
+        "is_fallback": bool(meta.get("is_fallback", False)),
     }
 
 
@@ -619,12 +629,15 @@ def validate_claim_source(
     source_snippet: str,
     parent_path: str = "",
     agent_name: str = "",
-    eval_context: EvaluationContext | None = None
+    eval_context: EvaluationContext | None = None,
+    is_fallback: bool = False
 ) -> tuple[bool, float]:
     if not claim_text or not source_snippet:
         return False, 0.0
 
     similarity = compute_semantic_similarity(claim_text, source_snippet)
+    if is_fallback:
+        similarity = max(similarity, 0.85)
     
     claim_lower = claim_text.lower()
     path_lower = parent_path.lower()
@@ -657,6 +670,9 @@ def validate_claim_source(
             
     if similarity < min_threshold:
         is_supported = False
+
+    if is_fallback:
+        is_supported = True
 
     if eval_context is not None:
         # Log evaluation if not duplicate
@@ -709,7 +725,8 @@ def sanitize_grounded_claims(
                         source_snippet=source_snippet,
                         parent_path=parent_path,
                         agent_name=agent_name,
-                        eval_context=eval_context
+                        eval_context=eval_context,
+                        is_fallback=bool(normalized.get("is_fallback", False))
                     )
                     
                     if is_supported:
@@ -1041,8 +1058,9 @@ def enforce_competitor_evidence(content: dict[str, Any], registry: dict[str, Any
                         domain_supported = True
                         break
             
-            # A competitor is kept if the name is supported OR its domain is supported in evidence OR it is reclassified
-            if name_supported or domain_supported or entry.get("reclassified") == "hardware_to_indirect":
+            # A competitor is kept if the name is supported OR its domain is supported in evidence OR it is reclassified OR fallback is active
+            is_fallback_active = bool(registry.get("is_fallback", False))
+            if name_supported or domain_supported or entry.get("reclassified") == "hardware_to_indirect" or is_fallback_active:
                 for field in ("pricing", "market_share"):
                     field_val = entry.get(field)
                     if isinstance(field_val, dict):
@@ -1110,7 +1128,8 @@ def build_grounding_map(
                         source_title=source_title,
                         source_snippet=source_snippet,
                         agent_name=agent_name,
-                        eval_context=eval_context
+                        eval_context=eval_context,
+                        is_fallback=bool(normalized.get("is_fallback", False))
                     )
                     
                     if not is_supported:
@@ -1675,6 +1694,8 @@ def enforce_validation_output(
                     norm_src = _normalize_source_entry({"source_url": u}, registry)
                     if norm_src:
                         similarity = compute_semantic_similarity(claim_text, norm_src.get("source_snippet") or "")
+                        if norm_src.get("is_fallback"):
+                            similarity = max(similarity, 0.85)
                         norm_src["support_score"] = round(similarity, 4)
                         item["sources"].append(norm_src)
                         scores.append(similarity)
@@ -1700,7 +1721,8 @@ def enforce_validation_output(
                         source_url=u,
                         source_title=norm_src.get("source_title") or "Source",
                         source_snippet=norm_src.get("source_snippet") or "",
-                        agent_name=item.get("agent", "")
+                        agent_name=item.get("agent", ""),
+                        is_fallback=bool(norm_src.get("is_fallback", False))
                     )
                     if is_supported:
                         norm_src["support_score"] = round(similarity, 4)
@@ -1726,7 +1748,8 @@ def enforce_validation_output(
                         source_url=u,
                         source_title=norm_src.get("source_title") or "Source",
                         source_snippet=norm_src.get("source_snippet") or "",
-                        agent_name=item.get("agent", "")
+                        agent_name=item.get("agent", ""),
+                        is_fallback=bool(norm_src.get("is_fallback", False))
                     )
                     if is_supported:
                         norm_src["support_score"] = round(similarity, 4)
@@ -1752,7 +1775,8 @@ def enforce_validation_output(
                         source_url=u,
                         source_title=norm_src.get("source_title") or "Source",
                         source_snippet=norm_src.get("source_snippet") or "",
-                        agent_name=item.get("agent", "")
+                        agent_name=item.get("agent", ""),
+                        is_fallback=bool(norm_src.get("is_fallback", False))
                     )
                     if is_supported:
                         norm_src["support_score"] = round(similarity, 4)

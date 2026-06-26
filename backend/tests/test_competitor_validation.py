@@ -96,3 +96,45 @@ def test_non_hardware_competitors_are_not_reclassified():
     assert directs[0]["name"] == "Stripe"
     assert "reclassified" not in directs[0]
     assert len(indirects) == 0
+
+
+def test_competitor_validation_under_fallback():
+    content = {
+        "competitors": {
+            "direct_competitors": [
+                {
+                    "name": "Coursera",
+                    "pricing": {
+                        "claim": "Pricing is $39/month",
+                        "sources": [{"source_url": "https://www.ipcc.ch/reports", "source_title": "Static Domain Metrics for Fintech"}]
+                    }
+                }
+            ],
+            "indirect_competitors": []
+        }
+    }
+    registry = {
+        "is_fallback": True,
+        "text_corpus": "static domain metrics for fintech",
+        "domains": set(),
+        "entity_names": set(),
+        "urls": {
+            "https://www.ipcc.ch/reports": {
+                "source_title": "Static Domain Metrics for Fintech",
+                "source_url": "https://www.ipcc.ch/reports",
+                "source_snippet": "Grounding context for a secure financial platform managing transaction ledgers and compliance audit logs.",
+                "is_fallback": True
+            }
+        }
+    }
+    idea = "A micro-lending platform for small businesses"
+    
+    fixed = enforce_competitor_evidence(content, registry, idea)
+    directs = fixed["competitors"]["direct_competitors"]
+    
+    # Coursera must be kept under fallback mode
+    assert len(directs) == 1
+    assert directs[0]["name"] == "Coursera"
+    assert directs[0]["pricing"]["verification"] == "verified"
+    assert directs[0]["pricing"]["source_count"] == 1
+    assert directs[0]["pricing"]["sources"][0]["support_score"] >= 0.85

@@ -172,7 +172,7 @@ class WorkflowOrchestrator:
                     (completed_agents / total_agents) * 100,
                     data={"fallback": True, "reason": getattr(live_results, "reason", "Unknown error")}
                 )
-            live_sources = [{"title": s.get("title"), "url": s.get("url"), "snippet": s.get("snippet"), "timestamp": s.get("timestamp")} for s in live_results]
+            live_sources = [{"title": s.get("title"), "url": s.get("url"), "snippet": s.get("snippet"), "timestamp": s.get("timestamp"), "is_fallback": s.get("is_fallback", False)} for s in live_results]
             
             structured_context = {
                 "vector_context": vector_context,

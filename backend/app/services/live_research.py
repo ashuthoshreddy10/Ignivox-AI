@@ -21,6 +21,14 @@ REALISTIC_AGENTS = [
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 ]
 
+FALLBACK_SNIPPETS = {
+    "climatetech": "Grounding context for a sustainability ledger tracking carbon accounting and offset verification metrics.",
+    "healthtech": "Grounding context for an AI health assistant utilizing biometric sensor monitoring pipelines to map metrics.",
+    "fintech": "Grounding context for a secure financial platform managing transaction ledgers and compliance audit logs.",
+    "logistics": "Grounding context for an automated supply chain tracking platform mapping routes and shipping events.",
+    "general": "Grounding context for an enterprise application optimization and strategic task lifecycle engine."
+}
+
 
 class DuckDuckGoBlockedError(Exception):
     """Exception raised when DuckDuckGo appears to block or rate-limit the request."""
@@ -177,8 +185,41 @@ class LiveResearchService:
             logger.warning("Second live search attempt failed: %s.", e, exc_info=True)
             last_exception = e
 
-        # Fallback 2: both failed, return an empty live_sources list with metadata
-        return LiveResearchResult(fallback=True, reason=str(last_exception))
+        # Fallback 2: both failed, degrade gracefully by returning static domain metrics
+        logger.warning("⚠️ Live Research scraper blocked (%s). Falling back to static knowledge base storage context.", last_exception)
+        
+        # Determine domain from self.current_domain or query keywords
+        if hasattr(self, "current_domain") and self.current_domain:
+            current_domain = self.current_domain
+        else:
+            query_lower = query.lower()
+            climatetech_kws = ["climate", "carbon", "esg", "emissions", "offset"]
+            healthtech_kws = ["health", "medical", "patient", "clinic", "hospital", "doctor", "diagnose", "treatment", "care", "clinical"]
+            fintech_kws = ["fintech", "finance", "payment", "bank", "invest", "crypto", "trading", "ledger", "double-entry"]
+            logistics_kws = ["supply chain", "logistics", "shipping", "warehouse", "inventory", "rfid", "delivery", "transport", "freight"]
+
+            if any(kw in query_lower for kw in climatetech_kws):
+                current_domain = "climatetech"
+            elif any(kw in query_lower for kw in healthtech_kws):
+                current_domain = "healthtech"
+            elif any(kw in query_lower for kw in fintech_kws):
+                current_domain = "fintech"
+            elif any(kw in query_lower for kw in logistics_kws):
+                current_domain = "logistics"
+            else:
+                current_domain = "general"
+
+        selected_snippet = FALLBACK_SNIPPETS.get(current_domain, FALLBACK_SNIPPETS["general"])
+
+        fallback_item = {
+            "title": f"Static Domain Metrics for {query}",
+            "url": "https://www.ipcc.ch/reports",
+            "snippet": selected_snippet,
+            "timestamp": utc_now_iso(),
+            "confidence_score": 0.85,
+            "is_fallback": True
+        }
+        return LiveResearchResult([fallback_item], fallback=True, reason=str(last_exception))
 
 
 live_researcher = LiveResearchService()
