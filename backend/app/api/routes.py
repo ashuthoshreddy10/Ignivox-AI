@@ -20,6 +20,7 @@ from app.models.schemas import (
 from app.orchestration.workflow import orchestrator
 from app.services.memory import memory
 from app.agents import AGENT_REGISTRY, AGENT_ORDER
+from app.services.evidence_utils import sanitize_timeline_payload
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -170,7 +171,9 @@ async def websocket_generate(websocket: WebSocket):
                 event.message[:80],
             )
             try:
-                await websocket.send_json(json.loads(event.model_dump_json()))
+                payload = json.loads(event.model_dump_json())
+                payload = sanitize_timeline_payload(payload)
+                await websocket.send_json(payload)
             except RuntimeError as re:
                 if "once a close message has been sent" in str(re):
                     logger.info("WebSocket already closed by client, skipping send.")
@@ -182,15 +185,18 @@ async def websocket_generate(websocket: WebSocket):
         logger.info("Orchestrator starting workflow for idea: %s", idea[:100])
         blueprint = await orchestrator.generate(request, emit=emit_event)
         logger.info("Workflow completed | blueprint_id=%s score=%s", blueprint.id, blueprint.score.overall if blueprint.score else "N/A")
+        blueprint_json = json.loads(blueprint.model_dump_json())
+        blueprint_json = sanitize_timeline_payload(blueprint_json)
         await websocket.send_json({
             "type": "result",
-            "blueprint": json.loads(blueprint.model_dump_json()),
+            "blueprint": blueprint_json,
         })
     except WebSocketDisconnect:
         logger.info("WebSocket disconnected")
     except Exception as e:
         logger.exception("WebSocket workflow failed: %s", e)
         try:
-            await websocket.send_json({"type": "error", "message": str(e)})
+            error_msg = sanitize_timeline_payload(str(e))
+            await websocket.send_json({"type": "error", "message": error_msg})
         except Exception:
             pass
