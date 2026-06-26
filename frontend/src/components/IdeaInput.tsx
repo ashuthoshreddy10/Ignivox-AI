@@ -24,6 +24,8 @@ export default function IdeaInput({ onGenerate, isGenerating, examples }: IdeaIn
           <Lightbulb className="w-5 h-5 text-ignivox-400 ml-3 shrink-0" />
           <input
             type="text"
+            id="startup-idea"
+            name="startup-idea"
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
             placeholder="Describe your startup idea... e.g., 'Build an AI platform for college students'"

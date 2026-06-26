@@ -42,6 +42,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def force_charset_middleware(request, call_next):
+    response = await call_next(request)
+    content_type = response.headers.get("content-type", "")
+    if "application/json" in content_type:
+        response.headers["Content-Type"] = "application/json; charset=utf-8"
+    return response
+
+
 app.include_router(router, prefix="/api")
 
 
