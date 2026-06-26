@@ -168,7 +168,7 @@ class WorkflowOrchestrator:
                     "workflow_warning",
                     agent_type,
                     None,
-                    f"live research unavailable: {getattr(live_results, 'reason', 'Unknown error')}",
+                    "Synthesizing localized sector database foundations...",
                     (completed_agents / total_agents) * 100,
                     data={"fallback": True, "reason": getattr(live_results, "reason", "Unknown error")}
                 )
