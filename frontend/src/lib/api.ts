@@ -37,6 +37,7 @@ export function connectWebSocket(
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   const ws = new WebSocket(`${protocol}//${window.location.host}/api/ws/generate`);
   let finished = false;
+  let receivedEvents = false;
 
   const fail = (message: string) => {
     if (finished) return;
@@ -50,6 +51,10 @@ export function connectWebSocket(
 
   ws.onmessage = (msg) => {
     const data = JSON.parse(msg.data);
+    if (data.type === 'ping') {
+      return;
+    }
+    receivedEvents = true;
     if (data.type === 'result') {
       finished = true;
       onComplete(data.blueprint);
@@ -62,8 +67,14 @@ export function connectWebSocket(
 
   ws.onerror = () => fail('WebSocket connection failed');
   ws.onclose = (event) => {
+    console.warn(`WebSocket closed with code: ${event.code}, wasClean: ${event.wasClean}`);
     if (!finished && !event.wasClean) {
-      fail(`WebSocket closed unexpectedly (code ${event.code})`);
+      if (!receivedEvents) {
+        fail(`WebSocket closed unexpectedly (code ${event.code})`);
+      } else {
+        finished = true;
+        onError(`Connection lost during generation workflow (code ${event.code}). Please try again.`);
+      }
     }
   };
 

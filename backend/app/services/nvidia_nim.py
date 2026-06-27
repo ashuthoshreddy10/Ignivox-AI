@@ -274,7 +274,7 @@ class NIMService:
             self._client = AsyncOpenAI(
                 base_url=NIM_BASE_URL,
                 api_key=settings.nvidia_api_key,
-                timeout=240.0,
+                timeout=600.0,
                 max_retries=0,
             )
         return self._client
@@ -432,7 +432,7 @@ class NIMService:
             return None
 
         try:
-            async with httpx.AsyncClient(timeout=60) as client:
+            async with httpx.AsyncClient(timeout=600.0) as client:
                 response = await client.post(
                     f"{NIM_BASE_URL}/embeddings",
                     headers={

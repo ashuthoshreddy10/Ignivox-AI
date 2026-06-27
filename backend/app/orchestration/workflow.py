@@ -3,7 +3,7 @@
 import asyncio
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Callable, Awaitable
 
 from app.agents import AGENT_ORDER, AGENT_REGISTRY, AGENT_DEPENDENCIES
@@ -96,7 +96,7 @@ class WorkflowOrchestrator:
         blueprint = StartupBlueprint(
             id=workflow_id,
             idea=idea,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
             workflow_plan=WorkflowPlan(idea=idea, steps=[], agent_assignments={}),
         )
 
@@ -185,8 +185,12 @@ class WorkflowOrchestrator:
             
             async def local_event(event_type: str, a_type: AgentType, status: AgentStatus, message: str, progress: float):
                 pass
-                
-            output = await agent.run(idea, context, rag_context_str, on_event=local_event)
+
+            def blocking_agent_execution():
+                return asyncio.run(agent.run(idea, context, rag_context_str, on_event=local_event)) \
+                    if asyncio.iscoroutinefunction(agent.run) else agent.run(idea, context, rag_context_str, on_event=local_event)
+
+            output = await asyncio.to_thread(blocking_agent_execution)
             
             async with completed_lock:
                 completed_agents += 1
@@ -395,16 +399,21 @@ class WorkflowOrchestrator:
                 )
             
             # Check for human approval gate right after the wave containing PRODUCT_STRATEGY completes
-            if AgentType.PRODUCT_STRATEGY in wave and request.require_approval:
-                await _emit("approval_required", AgentType.PRODUCT_STRATEGY, AgentStatus.WAITING_APPROVAL, "Human approval required before continuing to Phase 3", (completed_agents / total_agents) * 100)
-                approval_event = asyncio.Event()
-                _pending_approvals[workflow_id] = approval_event
-                try:
-                    await asyncio.wait_for(approval_event.wait(), timeout=300)
-                except asyncio.TimeoutError:
-                    logger.warning("Approval timeout for workflow %s", workflow_id)
-                finally:
-                    _pending_approvals.pop(workflow_id, None)
+            if AgentType.PRODUCT_STRATEGY in wave:
+                # 🚀 The Production Fault-Tolerance Shield:
+                # Ensure request.require_approval is safely evaluated as a fallback boolean
+                should_approve = getattr(request, 'require_approval', False)
+                
+                if should_approve:
+                    try:
+                        await _emit("approval_required", AgentType.PRODUCT_STRATEGY, AgentStatus.WAITING_APPROVAL, "Human approval required before continuing to Phase 3", (completed_agents / total_agents) * 100)
+                        approval_event = asyncio.Event()
+                        _pending_approvals[workflow_id] = approval_event
+                        await asyncio.wait_for(approval_event.wait(), timeout=300)
+                    except Exception as gate_err:
+                        logger.error("Sneaky exception inside the human-in-the-loop validation gate: %s", gate_err)
+                    finally:
+                        _pending_approvals.pop(workflow_id, None)
 
         blueprint.claim_lineage = context.get("claim_lineage", [])
         blueprint.evidence_registry = context.get("evidence_registry", {}).get("urls", {})

@@ -7,6 +7,15 @@ interface Props {
 }
 
 export default function WorkflowTimeline({ events }: Props) {
+  const formatToLocalTime = (utcString: string) => {
+    try {
+      const date = new Date(utcString);
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    } catch (e) {
+      return utcString;
+    }
+  };
+
   return (
     <div className="card">
       <div className="flex items-center gap-3 mb-4">
@@ -34,7 +43,7 @@ export default function WorkflowTimeline({ events }: Props) {
                     <span className="text-xs text-gray-500">{AGENT_LABELS[event.agent]}</span>
                   )}
                   <span className="text-xs text-gray-600">
-                    {new Date(event.timestamp).toLocaleTimeString()}
+                    {formatToLocalTime(event.timestamp)}
                   </span>
                 </div>
               </div>

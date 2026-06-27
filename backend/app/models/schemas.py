@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -120,7 +120,7 @@ class WorkflowEvent(BaseModel):
     message: str
     progress: float = Field(default=0, ge=0, le=100)
     data: dict[str, Any] | None = None
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class GenerateRequest(BaseModel):

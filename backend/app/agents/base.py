@@ -200,22 +200,28 @@ class BaseAgent(ABC):
         if on_event:
             await on_event("agent_start", self.agent_type, AgentStatus.WORKING, f"{self.name} analyzing...", 0)
 
+        import os
+        env_use_nvidia = str(os.getenv("USE_NVIDIA", "false")).lower() == "true"
+        env_demo_mode = str(os.getenv("DEMO_MODE", "true")).lower() == "true"
+        is_live = env_use_nvidia and not env_demo_mode
+
         # Initialize temporary diagnostics
         diagnostics = {
             "agent": self.name,
-            "execution_mode": "nvidia_live" if settings.use_nvidia else "fallback_demo",
+            "execution_mode": "nvidia_live" if is_live else "fallback_demo",
             "nvidia_request_sent": False,
             "nvidia_response_received": False,
             "response_length": 0,
             "json_parse_success": False,
             "schema_validation_success": False,
-            "fallback_reason": "none" if settings.use_nvidia else "NVIDIA is disabled",
+            "fallback_reason": "none" if is_live else "NVIDIA is disabled",
             "exception": ""
         }
 
         monitor_task = asyncio.create_task(self._monitor_agent_time())
         try:
-            if settings.use_nvidia:
+            if is_live:
+                logger.info("[%s] FORCING LIVE INFRASTRUCTURE WAVE TO ACCESSIBLE SILICON.", self.name)
                 diagnostics["nvidia_request_sent"] = True
                 try:
                     content = await self._run_nvidia(idea, context, rag_context, diagnostics)
@@ -232,6 +238,7 @@ class BaseAgent(ABC):
                     diagnostics["exception"] = f"{type(nim_err).__name__}: {str(nim_err)}"
                     raise
             else:
+                logger.warning("[%s] Falling back to sub-class simulation hook.", self.name)
                 content = self.get_demo_output(idea, context)
 
             content = self._post_process_output(content, idea, context, rag_context)

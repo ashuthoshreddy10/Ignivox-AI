@@ -1,5 +1,6 @@
 """FastAPI routes for Ignivox AI."""
 
+import asyncio
 import json
 import logging
 from typing import Any
@@ -135,6 +136,20 @@ async def get_agent_graph():
 async def websocket_generate(websocket: WebSocket):
     await websocket.accept()
     logger.info("WebSocket connection accepted from %s", websocket.client)
+    
+    # 🚀 THE INDEPENDENT HEARTBEAT DAEMON
+    async def heartbeat_daemon(ws: WebSocket):
+        try:
+            while True:
+                await asyncio.sleep(15)  # Pulse every 15 seconds
+                await ws.send_json({"type": "ping", "message": "heartbeat"})
+        except asyncio.CancelledError:
+            pass
+        except Exception:
+            pass
+
+    heartbeat_task = asyncio.create_task(heartbeat_daemon(websocket))
+
     try:
         data = await websocket.receive_json()
         idea = data.get("idea", "")
@@ -200,3 +215,6 @@ async def websocket_generate(websocket: WebSocket):
             await websocket.send_json({"type": "error", "message": error_msg})
         except Exception:
             pass
+    finally:
+        heartbeat_task.cancel()
+        await asyncio.gather(heartbeat_task, return_exceptions=True)

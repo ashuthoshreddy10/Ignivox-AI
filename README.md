@@ -93,7 +93,7 @@ Edit `backend/.env` to enable live NVIDIA NIM inference:
 ```env
 NVIDIA_API_KEY=your_key_from_build.nvidia.com
 DEMO_MODE=false
-NIM_MODEL=meta/llama-3.3-70b-instruct
+NIM_MODEL=nvidia/nemotron-3-super-120b-a12b
 ```
 
 ### 3. Run
