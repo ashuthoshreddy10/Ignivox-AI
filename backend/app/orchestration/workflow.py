@@ -1,6 +1,7 @@
 """Multi-agent workflow orchestration engine."""
 
 import asyncio
+import copy
 import logging
 import uuid
 from datetime import datetime, timezone
@@ -108,6 +109,7 @@ class WorkflowOrchestrator:
         async def run_agent(agent_type: AgentType) -> tuple[AgentType, AgentOutput, str]:
             nonlocal completed_agents
             agent = AGENT_REGISTRY[agent_type]
+            rag_context_str = "{}"
             
             logger.info("Agent started | workflow=%s agent=%s", workflow_id, agent_type.value)
             await _emit(
@@ -118,79 +120,107 @@ class WorkflowOrchestrator:
                 (completed_agents / total_agents) * 100
             )
             
-            # Context assembly (Multi-Source context)
-            rag_query = f"{idea} {agent.name} {agent.description}"
-            rag_docs = await retriever.retrieve(rag_query, top_k=5)
-            logger.info("RAG docs for %s: %s", agent_type, [
-                {"title": d.get("title"), "source_url": d.get("source_url"), 
-                 "support_score": d.get("support_score")} 
-                for d in rag_docs
-            ])
-            for doc in rag_docs:
-                logger.info(
-                    "RAG Context Item | Query: '%s' | Document: '%s' | Similarity Score: %.4f | Category: '%s'",
-                    rag_query,
-                    doc.get("title", "Untitled"),
-                    doc.get("relevance_score", 0.0),
-                    doc.get("category", "general")
-                )
-            
-            total_r = getattr(rag_docs, "total_retrieved", len(rag_docs))
-            filtered_r = getattr(rag_docs, "docs_filtered", 0)
-            used_r = len(rag_docs)
-            categories_r = [d.get("category", "general") for d in rag_docs]
-            retrieval_records.append({
-                "total_retrieved": total_r,
-                "docs_filtered": filtered_r,
-                "docs_used": used_r,
-                "categories": categories_r
-            })
+            try:
+                # Context assembly (Multi-Source context)
+                rag_query = f"{idea} {agent.name} {agent.description}"
+                rag_docs = await retriever.retrieve(rag_query, top_k=5)
+                logger.info("RAG docs for %s: %s", agent_type, [
+                    {"title": d.get("title"), "source_url": d.get("source_url"), 
+                     "support_score": d.get("support_score")} 
+                    for d in rag_docs
+                ])
+                for doc in rag_docs:
+                    logger.info(
+                        "RAG Context Item | Query: '%s' | Document: '%s' | Similarity Score: %.4f | Category: '%s'",
+                        rag_query,
+                        doc.get("title", "Untitled"),
+                        doc.get("relevance_score", 0.0),
+                        doc.get("category", "general")
+                    )
+                
+                total_r = getattr(rag_docs, "total_retrieved", len(rag_docs))
+                filtered_r = getattr(rag_docs, "docs_filtered", 0)
+                used_r = len(rag_docs)
+                categories_r = [d.get("category", "general") for d in rag_docs]
+                retrieval_records.append({
+                    "total_retrieved": total_r,
+                    "docs_filtered": filtered_r,
+                    "docs_used": used_r,
+                    "categories": categories_r
+                })
 
-            vector_context = [
-                {
-                    "title": d.get("title"),
-                    "content": d.get("content"),
-                    "source_url": d.get("source_url", ""),
-                    "source_title": d.get("source_title", ""),
-                    "support_score": 0.8,  # authoritative RAG source
-                    "category": d.get("category", "")
+                vector_context = [
+                    {
+                        "title": d.get("title"),
+                        "content": d.get("content"),
+                        "source_url": d.get("source_url", ""),
+                        "source_title": d.get("source_title", ""),
+                        "support_score": 0.8,  # authoritative RAG source
+                        "category": d.get("category", "")
+                    }
+                    for d in rag_docs
+                ]
+                
+                memory_insights = await asyncio.to_thread(memory.get_relevant_insights, idea)
+                memory_context = [{"insight": i.get("insight"), "timestamp": i.get("timestamp"), "category": i.get("category")} for i in memory_insights]
+                
+                from app.services.live_research import live_researcher
+                live_results = await live_researcher.search(idea + " " + agent.name, top_k=5)
+                if getattr(live_results, "fallback", False):
+                    await _emit(
+                        "workflow_warning",
+                        agent_type,
+                        None,
+                        "Synthesizing localized sector database foundations...",
+                        (completed_agents / total_agents) * 100,
+                        data={"fallback": True, "reason": getattr(live_results, "reason", "Unknown error")}
+                    )
+                live_sources = [{"title": s.get("title"), "url": s.get("url"), "snippet": s.get("snippet"), "timestamp": s.get("timestamp"), "is_fallback": s.get("is_fallback", False)} for s in live_results]
+                
+                structured_context = {
+                    "vector_context": vector_context,
+                    "memory_context": memory_context,
+                    "live_sources": live_sources
                 }
-                for d in rag_docs
-            ]
-            
-            memory_insights = memory.get_relevant_insights(idea)
-            memory_context = [{"insight": i.get("insight"), "timestamp": i.get("timestamp"), "category": i.get("category")} for i in memory_insights]
-            
-            from app.services.live_research import live_researcher
-            live_results = await live_researcher.search(idea + " " + agent.name, top_k=5)
-            if getattr(live_results, "fallback", False):
-                await _emit(
-                    "workflow_warning",
-                    agent_type,
-                    None,
-                    "Synthesizing localized sector database foundations...",
-                    (completed_agents / total_agents) * 100,
-                    data={"fallback": True, "reason": getattr(live_results, "reason", "Unknown error")}
+                snapshot_source = {k: v for k, v in context.items() if k != "evaluation_context"}
+                agent_context = await asyncio.to_thread(copy.deepcopy, snapshot_source)
+                agent_context["evaluation_context"] = eval_context
+                agent_context.setdefault("structured_context", {})[agent_type.value] = structured_context
+                rag_context_str = json.dumps(structured_context)
+                rag_context_str = normalize_rag_sources(rag_context_str)
+                
+                async def local_event(event_type: str, a_type: AgentType, status: AgentStatus, message: str, progress: float):
+                    await _emit(event_type, a_type, status, message, (completed_agents / total_agents) * 100)
+
+                output = await agent.run(idea, agent_context, rag_context_str, on_event=local_event)
+            except Exception as agent_err:
+                logger.exception(
+                    "Agent execution wrapper failed | workflow=%s agent=%s error=%s",
+                    workflow_id,
+                    agent_type.value,
+                    agent_err,
                 )
-            live_sources = [{"title": s.get("title"), "url": s.get("url"), "snippet": s.get("snippet"), "timestamp": s.get("timestamp"), "is_fallback": s.get("is_fallback", False)} for s in live_results]
-            
-            structured_context = {
-                "vector_context": vector_context,
-                "memory_context": memory_context,
-                "live_sources": live_sources
-            }
-            context.setdefault("structured_context", {})[agent_type.value] = structured_context
-            rag_context_str = json.dumps(structured_context)
-            rag_context_str = normalize_rag_sources(rag_context_str)
-            
-            async def local_event(event_type: str, a_type: AgentType, status: AgentStatus, message: str, progress: float):
-                pass
-
-            def blocking_agent_execution():
-                return asyncio.run(agent.run(idea, context, rag_context_str, on_event=local_event)) \
-                    if asyncio.iscoroutinefunction(agent.run) else agent.run(idea, context, rag_context_str, on_event=local_event)
-
-            output = await asyncio.to_thread(blocking_agent_execution)
+                output = AgentOutput(
+                    agent=agent_type,
+                    status=AgentStatus.ERROR,
+                    title=agent.name,
+                    content={
+                        "error": str(agent_err),
+                        "error_type": type(agent_err).__name__,
+                        "agent": agent_type.value,
+                    },
+                    insights=[],
+                    confidence=0.0,
+                    duration_ms=0,
+                )
+                await _emit(
+                    "agent_error",
+                    agent_type,
+                    AgentStatus.ERROR,
+                    f"{agent.name} failed safely: {type(agent_err).__name__}",
+                    (completed_agents / total_agents) * 100,
+                    data={"agent": agent_type.value, "error": str(agent_err)},
+                )
             
             async with completed_lock:
                 completed_agents += 1
@@ -201,14 +231,24 @@ class WorkflowOrchestrator:
                     output.confidence,
                     output.duration_ms,
                 )
-                await _emit(
-                    "agent_complete",
-                    agent_type,
-                    AgentStatus.COMPLETE,
-                    f"{agent.name} completed analysis",
-                    (completed_agents / total_agents) * 100,
-                    data={"agent": agent_type.value, "confidence": output.confidence},
-                )
+                if output.status == AgentStatus.ERROR:
+                    await _emit(
+                        "agent_error",
+                        agent_type,
+                        AgentStatus.ERROR,
+                        f"{agent.name} completed with errors",
+                        (completed_agents / total_agents) * 100,
+                        data={"agent": agent_type.value, "confidence": output.confidence, "content": output.content},
+                    )
+                else:
+                    await _emit(
+                        "agent_complete",
+                        agent_type,
+                        AgentStatus.COMPLETE,
+                        f"{agent.name} completed analysis",
+                        (completed_agents / total_agents) * 100,
+                        data={"agent": agent_type.value, "confidence": output.confidence},
+                    )
                 
             return agent_type, output, rag_context_str
 
@@ -240,10 +280,45 @@ class WorkflowOrchestrator:
         # Execute waves in order
         for wave in waves:
             tasks = [run_agent(agent_type) for agent_type in wave]
-            wave_results = await asyncio.gather(*tasks)
+            gathered_results = await asyncio.gather(*tasks, return_exceptions=True)
+            wave_results = []
+            for idx, result in enumerate(gathered_results):
+                if isinstance(result, Exception):
+                    agent_type = wave[idx]
+                    agent = AGENT_REGISTRY[agent_type]
+                    logger.exception("Wave task crashed outside agent wrapper: %s", result)
+                    output = AgentOutput(
+                        agent=agent_type,
+                        status=AgentStatus.ERROR,
+                        title=agent.name,
+                        content={
+                            "error": str(result),
+                            "error_type": type(result).__name__,
+                            "agent": agent_type.value,
+                        },
+                        insights=[],
+                        confidence=0.0,
+                        duration_ms=0,
+                    )
+                    await _emit(
+                        "agent_error",
+                        agent_type,
+                        AgentStatus.ERROR,
+                        f"{agent.name} crashed safely: {type(result).__name__}",
+                        (completed_agents / total_agents) * 100,
+                        data={"agent": agent_type.value, "error": str(result)},
+                    )
+                    wave_results.append((agent_type, output, "{}"))
+                else:
+                    wave_results.append(result)
             
             # Update cumulative context atomically after each wave completes
             for agent_type, output, rag_context_str in wave_results:
+                try:
+                    context.setdefault("structured_context", {})[agent_type.value] = json.loads(rag_context_str)
+                except Exception:
+                    context.setdefault("structured_context", {})[agent_type.value] = {}
+
                 if agent_type == AgentType.ORCHESTRATOR:
                     plan_data = output.content.get("workflow_plan", {})
                     if not isinstance(plan_data, dict):
@@ -406,12 +481,37 @@ class WorkflowOrchestrator:
                 
                 if should_approve:
                     try:
-                        await _emit("approval_required", AgentType.PRODUCT_STRATEGY, AgentStatus.WAITING_APPROVAL, "Human approval required before continuing to Phase 3", (completed_agents / total_agents) * 100)
                         approval_event = asyncio.Event()
                         _pending_approvals[workflow_id] = approval_event
+                        await _emit(
+                            "approval_required",
+                            AgentType.PRODUCT_STRATEGY,
+                            AgentStatus.WAITING_APPROVAL,
+                            "Human approval required before continuing to Phase 3",
+                            (completed_agents / total_agents) * 100,
+                            data={"workflow_id": workflow_id},
+                        )
                         await asyncio.wait_for(approval_event.wait(), timeout=300)
+                    except asyncio.TimeoutError:
+                        logger.warning("Human approval timed out | workflow=%s", workflow_id)
+                        await _emit(
+                            "approval_timeout",
+                            AgentType.PRODUCT_STRATEGY,
+                            AgentStatus.ERROR,
+                            "Human approval timed out; continuing workflow with existing strategy.",
+                            (completed_agents / total_agents) * 100,
+                            data={"workflow_id": workflow_id},
+                        )
                     except Exception as gate_err:
-                        logger.error("Sneaky exception inside the human-in-the-loop validation gate: %s", gate_err)
+                        logger.exception("Human-in-the-loop validation gate failed safely: %s", gate_err)
+                        await _emit(
+                            "approval_error",
+                            AgentType.PRODUCT_STRATEGY,
+                            AgentStatus.ERROR,
+                            f"Human approval gate failed safely: {type(gate_err).__name__}",
+                            (completed_agents / total_agents) * 100,
+                            data={"workflow_id": workflow_id, "error": str(gate_err)},
+                        )
                     finally:
                         _pending_approvals.pop(workflow_id, None)
 

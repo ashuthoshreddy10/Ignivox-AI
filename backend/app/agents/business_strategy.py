@@ -173,7 +173,12 @@ Return JSON with this exact structure:
         }
 
     def build_insights(self, content: dict[str, Any]) -> list[ExplainableInsight]:
+        if not isinstance(content, dict):
+            return []
+
         ue = content.get("unit_economics", {})
+        if not isinstance(ue, dict):
+            ue = {}
         
         def _get_val(k):
             v = ue.get(k, {})

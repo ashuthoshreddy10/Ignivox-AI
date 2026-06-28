@@ -32,6 +32,38 @@ def _close_open_json_structures(text: str) -> str:
     return truncated
 
 
+def _extract_balanced_json_candidate(text: str) -> str | None:
+    """Extract the first balanced top-level JSON object from mixed prose output."""
+    start = text.find("{")
+    if start < 0:
+        return None
+
+    depth = 0
+    in_string = False
+    escape = False
+    for idx in range(start, len(text)):
+        ch = text[idx]
+        if in_string:
+            if escape:
+                escape = False
+            elif ch == "\\":
+                escape = True
+            elif ch == '"':
+                in_string = False
+            continue
+
+        if ch == '"':
+            in_string = True
+        elif ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start:idx + 1]
+
+    return text[start:] if depth > 0 else None
+
+
 class RecoveredStr(str):
     _recovered = True
 
@@ -190,6 +222,14 @@ def _parse_json_with_recovery(
     agent_type: str = "",
 ) -> dict[str, Any]:
     """Parse JSON with extraction, repair, and truncation recovery."""
+    def validate_result(data: dict[str, Any]) -> dict[str, Any]:
+        repaired = repair_investor_pitch_structure(data, agent_type)
+        if validation_fn:
+            errors = validation_fn(repaired)
+            if errors:
+                raise ValueError(f"Schema validation failed: {', '.join(errors)}")
+        return repaired
+
     # Wrap validation_fn for investor_pitch to accept string for executive_summary
     if validation_fn and agent_type == "investor_pitch":
         original_validation_fn = validation_fn
@@ -204,26 +244,29 @@ def _parse_json_with_recovery(
             return errors
         validation_fn = wrapped_validation_fn
 
-    attempts: list[str] = [text]
+    sanitized_text = text.strip()
+    fenced = re.sub(r"^```(?:json)?\s*|\s*```$", "", sanitized_text, flags=re.IGNORECASE | re.MULTILINE).strip()
+
+    attempts: list[str] = [sanitized_text]
+    if fenced and fenced != sanitized_text:
+        attempts.append(fenced)
+
     start = text.find("{")
     end = text.rfind("}") + 1
     if start >= 0 and end > start:
         extracted = text[start:end]
-        if extracted != text:
+        if extracted not in attempts:
             attempts.append(extracted)
+    balanced = _extract_balanced_json_candidate(fenced)
+    if balanced and balanced not in attempts:
+        attempts.append(balanced)
 
     last_err: Exception | None = None
     for candidate in attempts:
         try:
             result = json.loads(candidate, strict=False)
-            if validation_fn:
-                errors = validation_fn(result)
-                if errors:
-                    raise ValueError(f"Schema validation failed: {', '.join(errors)}")
-            return result
+            return validate_result(result)
         except Exception as err:
-            if isinstance(err, ValueError) and "Schema validation failed" in str(err):
-                raise
             last_err = err
 
         try:
@@ -232,30 +275,15 @@ def _parse_json_with_recovery(
             repaired = re.sub(r",\s*\}", "}", repaired)
             repaired = re.sub(r",\s*\]", "]", repaired)
             result = json.loads(repaired, strict=False)
-            if validation_fn:
-                errors = validation_fn(result)
-                if errors:
-                    raise ValueError(f"Schema validation failed: {', '.join(errors)}")
-            return result
+            return validate_result(result)
         except Exception as err:
-            if isinstance(err, ValueError) and "Schema validation failed" in str(err):
-                raise
             last_err = err
 
         try:
             truncated = _close_open_json_structures(candidate)
             result = json.loads(truncated, strict=False)
-            
-            result = repair_investor_pitch_structure(result, agent_type)
-            
-            if validation_fn:
-                errors = validation_fn(result)
-                if errors:
-                    raise ValueError(f"Schema validation failed: {', '.join(errors)}")
-            return result
+            return validate_result(result)
         except Exception as err:
-            if isinstance(err, ValueError) and "Schema validation failed" in str(err):
-                raise
             last_err = err
 
     raise last_err or ValueError("JSON parsing failed")

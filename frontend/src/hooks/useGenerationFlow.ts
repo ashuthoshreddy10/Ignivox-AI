@@ -35,8 +35,29 @@ export function useGenerationFlow({
       (event) => {
         setEvents((prev) => [...prev, event]);
         setProgress(event.progress);
-        if (event.agent) setActiveAgent(event.agent);
-        if (event.type === 'agent_complete') loadAgents();
+        if (event.agent) {
+          setAgents((prev) => prev.map((agent) => {
+            if (agent.type !== event.agent) return agent;
+
+            if (event.type === 'agent_working' || event.type === 'agent_start') {
+              return { ...agent, status: 'working' };
+            }
+            if (event.type === 'agent_complete') {
+              return { ...agent, status: 'complete' };
+            }
+            if (event.type === 'agent_error') {
+              return { ...agent, status: 'error' };
+            }
+
+            return agent;
+          }));
+
+          if (event.type === 'agent_working' || event.type === 'agent_start') {
+            setActiveAgent(event.agent);
+          } else if (event.type === 'agent_complete' || event.type === 'agent_error') {
+            setActiveAgent((current) => current === event.agent ? null : current);
+          }
+        }
       },
       (bp) => {
         setBlueprint(bp);

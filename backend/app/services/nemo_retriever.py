@@ -2,6 +2,7 @@
 
 import json
 import logging
+import asyncio
 from pathlib import Path
 
 import numpy as np
@@ -28,7 +29,7 @@ class NeMoRetriever:
         self.documents: list[dict] = []
         self.embeddings: np.ndarray | None = None
         self._loaded = False
-        self._initializing = False
+        self._load_lock = asyncio.Lock()
         self._mode = "uninitialized"
 
     @property
@@ -41,11 +42,7 @@ class NeMoRetriever:
 
     async def force_reinitialize(self) -> bool:
         """Retry NIM embedding initialization by clearing cache/state and loading again."""
-        if self._initializing:
-            return False  # already in progress, skip
-
-        self._initializing = True
-        try:
+        async with self._load_lock:
             logger.info("Forcing re-initialization of NeMoRetriever...")
             self._loaded = False
             self.documents = []
@@ -53,20 +50,15 @@ class NeMoRetriever:
             self._mode = "uninitialized"
             await self._initialize_embeddings()
             return True
-        finally:
-            self._initializing = False
 
     async def load(self) -> None:
         if self._loaded:
             return
-        if self._initializing:
-            return  # already loading, skip duplicate
 
-        self._initializing = True
-        try:
+        async with self._load_lock:
+            if self._loaded:
+                return
             await self._initialize_embeddings()
-        finally:
-            self._initializing = False
 
     async def _initialize_embeddings(self) -> None:
         """Internal method to load knowledge docs and generate embeddings."""
@@ -95,14 +87,14 @@ class NeMoRetriever:
                         self._mode = "nim_embeddings"
                     else:
                         logger.warning("NIM embedding API returned empty results. Falling back to local embeddings.")
-                        self.embeddings = self._local_embed(texts)
+                        self.embeddings = await asyncio.to_thread(self._local_embed, texts)
                         self._mode = "local_fallback"
                 except Exception as e:
                     logger.warning("NIM embedding API failed: %s. Falling back to local embeddings.", e)
-                    self.embeddings = self._local_embed(texts)
+                    self.embeddings = await asyncio.to_thread(self._local_embed, texts)
                     self._mode = "local_fallback"
             else:
-                self.embeddings = self._local_embed(texts)
+                self.embeddings = await asyncio.to_thread(self._local_embed, texts)
                 self._mode = "local_fallback"
         else:
             self.embeddings = None
@@ -124,15 +116,13 @@ class NeMoRetriever:
             vectors.append(vec)
         return np.array(vectors)
 
-    def _query_embed(self, query: str) -> np.ndarray:
+    async def _query_embed(self, query: str) -> np.ndarray:
         if settings.use_nvidia:
-            import asyncio
-            loop = asyncio.get_event_loop()
-            if loop.is_running():
-                return self._local_embed([query])[0]
-            embeddings = loop.run_until_complete(nim_service.embed([query]))
-            return np.array(embeddings[0])
-        return self._local_embed([query])[0]
+            embeddings = await nim_service.embed([query])
+            if embeddings:
+                return np.array(embeddings[0])
+        local_embeddings = await asyncio.to_thread(self._local_embed, [query])
+        return local_embeddings[0]
 
     async def retrieve(self, query: str, top_k: int = 5) -> list[dict]:
         await self.load()
@@ -140,12 +130,7 @@ class NeMoRetriever:
         if not self.documents or self.embeddings is None:
             return []
 
-        query_embeddings = await nim_service.embed([query]) if settings.use_nvidia else None
-        query_emb = (
-            np.array(query_embeddings[0])
-            if query_embeddings
-            else self._local_embed([query])[0]
-        )
+        query_emb = await self._query_embed(query)
 
         # Check for dimension alignment to prevent matrix dot product exceptions
         if self.embeddings.shape[1] != query_emb.shape[0]:
@@ -167,8 +152,8 @@ class NeMoRetriever:
             if self.embeddings.shape[1] != query_emb.shape[0]:
                 logger.warning("Dimension mismatch persists after reload. Forcing local fallback embeddings for both database and query.")
                 texts = [f"{d.get('title', '')}: {d.get('content', '')}" for d in self.documents]
-                self.embeddings = self._local_embed(texts)
-                query_emb = self._local_embed([query])[0]
+                self.embeddings = await asyncio.to_thread(self._local_embed, texts)
+                query_emb = await asyncio.to_thread(lambda: self._local_embed([query])[0])
 
         # Determine current threshold based on retriever mode
         threshold = 0.35
@@ -176,7 +161,7 @@ class NeMoRetriever:
             threshold = 0.20
             logger.info("Operating in local_fallback mode. Adjusted relevance threshold from 0.35 to 0.20.")
 
-        scores = np.dot(self.embeddings, query_emb)
+        scores = await asyncio.to_thread(np.dot, self.embeddings, query_emb)
         
         # Determine current idea domain based on query keywords (checking whole words to prevent false substring matches like 'class' in 'classifies')
         query_lower = query.lower()

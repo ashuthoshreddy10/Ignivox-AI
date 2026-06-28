@@ -85,7 +85,7 @@ export default function AgentCommandCenter({ agents, activeAgent, isGenerating }
             )}
             {isError && (
               <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">
-                Fallback
+                Needs Review
               </span>
             )}
           </div>

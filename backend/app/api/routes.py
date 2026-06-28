@@ -136,13 +136,37 @@ async def get_agent_graph():
 async def websocket_generate(websocket: WebSocket):
     await websocket.accept()
     logger.info("WebSocket connection accepted from %s", websocket.client)
+    send_lock = asyncio.Lock()
+    socket_closed = False
+
+    async def safe_send_json(payload: dict[str, Any]) -> bool:
+        nonlocal socket_closed
+        if socket_closed:
+            return False
+        try:
+            async with send_lock:
+                if socket_closed:
+                    return False
+                await websocket.send_json(payload)
+            return True
+        except RuntimeError as re:
+            if "close message has been sent" not in str(re):
+                logger.info("WebSocket runtime send failure: %s", re)
+            socket_closed = True
+            return False
+        except Exception as e:
+            logger.info("Failed to send WebSocket message (connection may be closed): %s", e)
+            socket_closed = True
+            return False
     
     # 🚀 THE INDEPENDENT HEARTBEAT DAEMON
     async def heartbeat_daemon(ws: WebSocket):
         try:
             while True:
                 await asyncio.sleep(15)  # Pulse every 15 seconds
-                await ws.send_json({"type": "ping", "message": "heartbeat"})
+                sent = await safe_send_json({"type": "ping", "message": "heartbeat"})
+                if not sent:
+                    return
         except asyncio.CancelledError:
             pass
         except Exception:
@@ -155,21 +179,29 @@ async def websocket_generate(websocket: WebSocket):
         idea = data.get("idea", "")
         logger.info("WebSocket request received | idea=%s", idea[:100] if idea else "")
         if not idea:
-            await websocket.send_json({"type": "error", "message": "Idea is required"})
+            await safe_send_json({"type": "error", "message": "Idea is required"})
             return
 
-        request = GenerateRequest(
-            idea=idea,
-            generate_idea=data.get("generate_idea", False),
-            industry=data.get("industry"),
-            require_approval=data.get("require_approval", False),
-        )
+        try:
+            request = GenerateRequest(
+                idea=idea,
+                generate_idea=bool(data.get("generate_idea", False)),
+                industry=data.get("industry"),
+                require_approval=bool(data.get("require_approval", False)),
+            )
+        except Exception as validation_err:
+            await safe_send_json({
+                "type": "error",
+                "status": "error",
+                "message": sanitize_timeline_payload(str(validation_err)),
+            })
+            return
 
         # Run input guardrails
         from app.services.nemo_guardrails import guardrails
         safety_check = await guardrails.validate_input(request.idea)
         if not safety_check["passed"]:
-            await websocket.send_json({
+            await safe_send_json({
                 "status": "error",
                 "type": "error",
                 "message": f"policy_violation: {', '.join(safety_check['issues'])}"
@@ -188,33 +220,26 @@ async def websocket_generate(websocket: WebSocket):
             try:
                 payload = json.loads(event.model_dump_json())
                 payload = sanitize_timeline_payload(payload)
-                await websocket.send_json(payload)
-            except RuntimeError as re:
-                if "once a close message has been sent" in str(re):
-                    logger.info("WebSocket already closed by client, skipping send.")
-                else:
-                    raise
+                await safe_send_json(payload)
             except Exception as e:
-                logger.info("Failed to send WebSocket message (connection may be closed): %s", e)
+                logger.info("Failed to prepare WebSocket message: %s", e)
 
         logger.info("Orchestrator starting workflow for idea: %s", idea[:100])
         blueprint = await orchestrator.generate(request, emit=emit_event)
         logger.info("Workflow completed | blueprint_id=%s score=%s", blueprint.id, blueprint.score.overall if blueprint.score else "N/A")
         blueprint_json = json.loads(blueprint.model_dump_json())
         blueprint_json = sanitize_timeline_payload(blueprint_json)
-        await websocket.send_json({
+        await safe_send_json({
             "type": "result",
             "blueprint": blueprint_json,
         })
     except WebSocketDisconnect:
+        socket_closed = True
         logger.info("WebSocket disconnected")
     except Exception as e:
         logger.exception("WebSocket workflow failed: %s", e)
-        try:
-            error_msg = sanitize_timeline_payload(str(e))
-            await websocket.send_json({"type": "error", "message": error_msg})
-        except Exception:
-            pass
+        error_msg = sanitize_timeline_payload(str(e))
+        await safe_send_json({"type": "error", "status": "error", "message": error_msg})
     finally:
         heartbeat_task.cancel()
         await asyncio.gather(heartbeat_task, return_exceptions=True)

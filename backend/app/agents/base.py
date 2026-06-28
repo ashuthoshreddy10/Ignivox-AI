@@ -4,6 +4,7 @@ import asyncio
 import json
 import logging
 import time
+import traceback
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Awaitable
 
@@ -109,6 +110,41 @@ class BaseAgent(ABC):
         except asyncio.CancelledError:
             pass
 
+    def _safe_error_content(self, error: Exception, diagnostics: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "error": str(error),
+            "error_type": type(error).__name__,
+            "agent": self.agent_type.value,
+            "diagnostics": {
+                "execution_mode": diagnostics.get("execution_mode"),
+                "fallback_reason": diagnostics.get("fallback_reason"),
+                "json_parse_success": diagnostics.get("json_parse_success"),
+                "schema_validation_success": diagnostics.get("schema_validation_success"),
+            },
+            "traceback_tail": traceback.format_exc(limit=3),
+        }
+
+    async def _write_diagnostics(self, diagnostics: dict[str, Any]) -> None:
+        def write_file() -> None:
+            import os
+            from app.config import BACKEND_DIR
+            audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
+            data = []
+            if os.path.exists(audit_file):
+                try:
+                    with open(audit_file, "r") as f:
+                        data = json.load(f)
+                except Exception:
+                    pass
+            data.append(diagnostics)
+            with open(audit_file, "w") as f:
+                json.dump(data, f, indent=2)
+
+        try:
+            await asyncio.to_thread(write_file)
+        except Exception:
+            pass
+
     def _validate_investor_pitch(self, data: dict[str, Any]) -> list[str]:
         errors = []
         if not isinstance(data, dict):
@@ -197,9 +233,6 @@ class BaseAgent(ABC):
         start = time.time()
         self.status = AgentStatus.WORKING
 
-        if on_event:
-            await on_event("agent_start", self.agent_type, AgentStatus.WORKING, f"{self.name} analyzing...", 0)
-
         import os
         env_use_nvidia = str(os.getenv("USE_NVIDIA", "false")).lower() == "true"
         env_demo_mode = str(os.getenv("DEMO_MODE", "true")).lower() == "true"
@@ -223,33 +256,27 @@ class BaseAgent(ABC):
             if is_live:
                 logger.info("[%s] FORCING LIVE INFRASTRUCTURE WAVE TO ACCESSIBLE SILICON.", self.name)
                 diagnostics["nvidia_request_sent"] = True
-                try:
-                    content = await self._run_nvidia(idea, context, rag_context, diagnostics)
-                    diagnostics["nvidia_response_received"] = True
-                    diagnostics["response_length"] = len(json.dumps(content))
-                    diagnostics["json_parse_success"] = True
-                    diagnostics["schema_validation_success"] = True
-                except Exception as nim_err:
-                    is_schema_fail = isinstance(nim_err, ValueError) and "Schema validation failed" in str(nim_err)
-                    diagnostics["nvidia_response_received"] = is_schema_fail or ("JSONDecodeError" in type(nim_err).__name__ or "ValueError" in type(nim_err).__name__)
-                    diagnostics["json_parse_success"] = is_schema_fail
-                    diagnostics["schema_validation_success"] = False
-                    diagnostics["fallback_reason"] = f"NVIDIA NIM error: {str(nim_err)}"
-                    diagnostics["exception"] = f"{type(nim_err).__name__}: {str(nim_err)}"
-                    raise
+                content = await self._run_nvidia(idea, context, rag_context, diagnostics)
+                diagnostics["nvidia_response_received"] = True
+                diagnostics["response_length"] = len(json.dumps(content))
+                diagnostics["json_parse_success"] = True
+                diagnostics["schema_validation_success"] = True
             else:
                 logger.warning("[%s] Falling back to sub-class simulation hook.", self.name)
-                content = self.get_demo_output(idea, context)
+                content = await asyncio.to_thread(self.get_demo_output, idea, context)
 
-            content = self._post_process_output(content, idea, context, rag_context)
+            if not isinstance(content, dict):
+                raise TypeError(f"{self.name} returned {type(content).__name__}; expected dict")
+
+            content = await asyncio.to_thread(self._post_process_output, content, idea, context, rag_context)
 
             try:
-                insights = self.build_insights(content)
+                insights = await asyncio.to_thread(self.build_insights, content)
             except Exception as insight_err:
                 logger.warning("%s build_insights failed, using empty insights: %s", self.name, insight_err)
                 insights = []
             content_str = json.dumps(content)
-            validation = guardrails.validate_output(content_str, self.name)
+            validation = await asyncio.to_thread(guardrails.validate_output, content_str, self.name)
 
             self.status = AgentStatus.COMPLETE
             duration = int((time.time() - start) * 1000)
@@ -262,15 +289,6 @@ class BaseAgent(ABC):
                 "fallback_reason": "none"
             }
             logger.info("Agent Metrics:\n%s", json.dumps(metrics, indent=2))
-
-            if on_event:
-                await on_event(
-                    "agent_complete",
-                    self.agent_type,
-                    AgentStatus.COMPLETE,
-                    f"{self.name} completed analysis",
-                    100,
-                )
 
             # Log diagnostic report
             logger.info(
@@ -289,23 +307,7 @@ class BaseAgent(ABC):
                 diagnostics.get("exception"),
             )
 
-            # Write diagnostics to file
-            import os
-            from app.config import BACKEND_DIR
-            try:
-                audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
-                data = []
-                if os.path.exists(audit_file):
-                    try:
-                        with open(audit_file, "r") as f:
-                            data = json.load(f)
-                    except Exception:
-                        pass
-                data.append(diagnostics)
-                with open(audit_file, "w") as f:
-                    json.dump(data, f, indent=2)
-            except Exception:
-                pass
+            await self._write_diagnostics(diagnostics)
 
             return AgentOutput(
                 agent=self.agent_type,
@@ -317,13 +319,18 @@ class BaseAgent(ABC):
                 duration_ms=duration,
             )
         except Exception as e:
-            logger.error("%s failed: %s", self.name, e)
+            logger.exception("%s failed safely: %s", self.name, e)
             self.status = AgentStatus.ERROR
 
             diagnostics["execution_mode"] = "fallback_demo" if not settings.use_nvidia else "nvidia_live"
             if diagnostics["fallback_reason"] == "none":
                 diagnostics["fallback_reason"] = f"Pipeline execution failed: {str(e)}"
             diagnostics["exception"] = f"{type(e).__name__}: {str(e)}"
+            if is_live:
+                is_schema_fail = isinstance(e, ValueError) and "Schema validation failed" in str(e)
+                diagnostics["nvidia_response_received"] = is_schema_fail or ("JSONDecodeError" in type(e).__name__ or "ValueError" in type(e).__name__)
+                diagnostics["json_parse_success"] = is_schema_fail
+                diagnostics["schema_validation_success"] = False
 
             duration = int((time.time() - start) * 1000)
 
@@ -351,39 +358,45 @@ class BaseAgent(ABC):
                 diagnostics.get("exception"),
             )
 
-            import os
-            from app.config import BACKEND_DIR
+            await self._write_diagnostics(diagnostics)
+
             try:
-                audit_file = os.path.join(BACKEND_DIR, "audit_diagnostics.json")
-                data = []
-                if os.path.exists(audit_file):
-                    try:
-                        with open(audit_file, "r") as f:
-                            data = json.load(f)
-                    except Exception:
-                        pass
-                data.append(diagnostics)
-                with open(audit_file, "w") as f:
-                    json.dump(data, f, indent=2)
-            except Exception:
-                pass
-
-            if settings.use_nvidia:
-                raise
-
-            content = self.get_demo_output(idea, context)
-            content = self._post_process_output(content, idea, context, rag_context)
-            return AgentOutput(
-                agent=self.agent_type,
-                status=AgentStatus.ERROR,
-                title=self.name,
-                content=content,
-                insights=self.build_insights(content),
-                confidence=0.5,
-                duration_ms=duration,
-            )
+                fallback_content = await asyncio.to_thread(self.get_demo_output, idea, context)
+                if not isinstance(fallback_content, dict):
+                    raise TypeError(f"{self.name} fallback returned {type(fallback_content).__name__}; expected dict")
+                fallback_content = await asyncio.to_thread(self._post_process_output, fallback_content, idea, context, rag_context)
+                fallback_content["_recovered_from_live_error"] = {
+                    "error_type": type(e).__name__,
+                    "message": str(e),
+                    "fallback_reason": diagnostics["fallback_reason"],
+                }
+                fallback_insights = await asyncio.to_thread(self.build_insights, fallback_content)
+                self.status = AgentStatus.COMPLETE
+                logger.warning("%s recovered with deterministic fallback output after %s", self.name, type(e).__name__)
+                return AgentOutput(
+                    agent=self.agent_type,
+                    status=AgentStatus.COMPLETE,
+                    title=self.name,
+                    content=fallback_content,
+                    insights=fallback_insights,
+                    confidence=0.55,
+                    duration_ms=duration,
+                )
+            except Exception as fallback_err:
+                logger.warning("%s fallback output also failed: %s", self.name, fallback_err)
+                content = self._safe_error_content(fallback_err, diagnostics)
+                return AgentOutput(
+                    agent=self.agent_type,
+                    status=AgentStatus.ERROR,
+                    title=self.name,
+                    content=content,
+                    insights=[],
+                    confidence=0.0,
+                    duration_ms=duration,
+                )
         finally:
             monitor_task.cancel()
+            await asyncio.gather(monitor_task, return_exceptions=True)
 
     def _post_process_output(
         self,
@@ -634,6 +647,43 @@ class BaseAgent(ABC):
             "validation_evidence_summary": evidence_summary,
         }
 
+    def _trim_concise_summary_for_agent(
+        self,
+        concise_summary: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Trim oversized evidence payloads for late-stage agents."""
+        if self.agent_type != AgentType.VALIDATION:
+            return concise_summary
+
+        evidence_summary = concise_summary.get("validation_evidence_summary", {})
+        if not isinstance(evidence_summary, dict):
+            return concise_summary
+
+        grounding_map = evidence_summary.get("grounding_map", [])
+        claim_lineage = evidence_summary.get("claim_lineage", [])
+        preserved_sources = evidence_summary.get("preserved_sources", [])
+
+        if isinstance(grounding_map, list):
+            evidence_summary["grounding_map"] = grounding_map[:16]
+        if isinstance(claim_lineage, list):
+            evidence_summary["claim_lineage"] = claim_lineage[:12]
+        if isinstance(preserved_sources, list):
+            evidence_summary["preserved_sources"] = preserved_sources[:8]
+
+        retrieval_stats = evidence_summary.get("retrieval_stats")
+        if isinstance(retrieval_stats, dict):
+            retrieval_stats["verified_claims"] = min(
+                int(retrieval_stats.get("verified_claims", 0)),
+                len(evidence_summary.get("grounding_map", [])),
+            )
+            retrieval_stats["unverified_claims"] = min(
+                int(retrieval_stats.get("unverified_claims", 0)),
+                len(evidence_summary.get("claim_lineage", [])),
+            )
+
+        concise_summary["validation_evidence_summary"] = evidence_summary
+        return concise_summary
+
     async def _run_nvidia(self, idea: str, context: dict[str, Any], rag_context: str, diagnostics: dict[str, Any] = None) -> dict[str, Any]:
         rag_context = normalize_rag_sources(rag_context)
         serializable_context = {k: v for k, v in context.items() if k != "evaluation_context"}
@@ -683,6 +733,7 @@ Provide a comprehensive analysis as structured JSON matching the expected output
             AgentType.VALIDATION,
         ):
             concise_summary = self._get_concise_context_summary(context, rag_context)
+            concise_summary = self._trim_concise_summary_for_agent(concise_summary)
             context_summary_after = json.dumps(concise_summary, indent=2)
             user_prompt_after = f"""Startup Idea: {idea}
 
@@ -750,7 +801,15 @@ Provide a comprehensive analysis as structured JSON matching the expected output
         baseline_duration = "120.02s (Timeout)" if self.agent_type == AgentType.TECHNICAL_ARCHITECT else ("119.00s" if self.agent_type == AgentType.INVESTOR_PITCH else "N/A")
 
         validation_fn = self._validate_investor_pitch if self.agent_type == AgentType.INVESTOR_PITCH else None
-        max_tokens = 8192 if self.agent_type == AgentType.MARKET_RESEARCH else 4096
+        if self.agent_type in (
+            AgentType.MARKET_RESEARCH,
+            AgentType.BUSINESS_STRATEGY,
+            AgentType.TECHNICAL_ARCHITECT,
+            AgentType.INVESTOR_PITCH,
+        ):
+            max_tokens = 8192
+        else:
+            max_tokens = 4096
         nim_start = time.time()
         result = await nim_service.complete_json(
             system_prompt,

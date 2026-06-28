@@ -1,0 +1,2450 @@
+[
+  {
+    "claim": "Delayed diagnoses",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Delayed diagnoses",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.2143,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Delayed diagnoses",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Delayed diagnoses",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "High healthcare costs",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.1176,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "High healthcare costs",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0294,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "High healthcare costs",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1765,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "High healthcare costs",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.402,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Limited access in rural areas",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Limited access in rural areas",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0435,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Limited access in rural areas",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0217,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Limited access in rural areas",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.087,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Data silos between providers",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0435,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Data silos between providers",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0217,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Data silos between providers",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Data silos between providers",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0652,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Digital health market $660B by 2028",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.1296,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Digital health market $660B by 2028",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Digital health market $660B by 2028",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.6148,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Digital health market $660B by 2028",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1741,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "AI diagnostics FDA approvals increasing",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "AI diagnostics FDA approvals increasing",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.1406,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "AI diagnostics FDA approvals increasing",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0469,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "AI diagnostics FDA approvals increasing",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0156,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Telehealth adoption at 38%",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.15,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Telehealth adoption at 38%",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.05,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Telehealth adoption at 38%",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.9,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "Telehealth adoption at 38%",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.175,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$660B - Global digital health market",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.1296,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$660B - Global digital health market",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$660B - Global digital health market",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.6148,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$660B - Global digital health market",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1741,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$45B - AI healthcare applications in developed markets",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.1163,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$45B - AI healthcare applications in developed markets",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0465,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$45B - AI healthcare applications in developed markets",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1628,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$45B - AI healthcare applications in developed markets",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.2395,
+    "is_supported": true,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$120M - Initial target segment",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0682,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$120M - Initial target segment",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0455,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$120M - Initial target segment",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0909,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "$120M - Initial target segment",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0227,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "18% CAGR",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "18% CAGR",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "18% CAGR",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "18% CAGR",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "market_research"
+  },
+  {
+    "claim": "AI-driven predictive balancing vs legacy rule-based grid dispatch",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0096,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "AI-driven predictive balancing vs legacy rule-based grid dispatch",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "AI-driven predictive balancing vs legacy rule-based grid dispatch",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1298,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "AI-driven predictive balancing vs legacy rule-based grid dispatch",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.1298,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Sub-second anomaly detection at the substation edge",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0658,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Sub-second anomaly detection at the substation edge",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0658,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Sub-second anomaly detection at the substation edge",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0658,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Sub-second anomaly detection at the substation edge",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0789,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Unified telemetry dashboard integrating solar, wind, and storage",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0283,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Unified telemetry dashboard integrating solar, wind, and storage",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0377,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Unified telemetry dashboard integrating solar, wind, and storage",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0849,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Unified telemetry dashboard integrating solar, wind, and storage",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.1226,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Autonomous load-shedding scheduling via multi-agent negotiation",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0392,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Autonomous load-shedding scheduling via multi-agent negotiation",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.2426,
+    "is_supported": true,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Autonomous load-shedding scheduling via multi-agent negotiation",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0686,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Autonomous load-shedding scheduling via multi-agent negotiation",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0882,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Incumbent SCADA systems lack proactive machine learning diagnostics",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0259,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Incumbent SCADA systems lack proactive machine learning diagnostics",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0776,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Incumbent SCADA systems lack proactive machine learning diagnostics",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0259,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Incumbent SCADA systems lack proactive machine learning diagnostics",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0431,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Existing DERMS platforms fail to optimize real-time battery charging dynamic pricing",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0455,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Existing DERMS platforms fail to optimize real-time battery charging dynamic pricing",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0455,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Existing DERMS platforms fail to optimize real-time battery charging dynamic pricing",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0455,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Existing DERMS platforms fail to optimize real-time battery charging dynamic pricing",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.1515,
+    "is_supported": true,
+    "agent": "competitor"
+  },
+  {
+    "claim": "High barrier to entry for virtual power plant orchestration tools",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0566,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "High barrier to entry for virtual power plant orchestration tools",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.2229,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "High barrier to entry for virtual power plant orchestration tools",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0755,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "High barrier to entry for virtual power plant orchestration tools",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.204,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "The AI-powered smart grid co-pilot that optimizes utility load balancing and predictive asset maintenance in real time",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0368,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "The AI-powered smart grid co-pilot that optimizes utility load balancing and predictive asset maintenance in real time",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0263,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "The AI-powered smart grid co-pilot that optimizes utility load balancing and predictive asset maintenance in real time",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0632,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "The AI-powered smart grid co-pilot that optimizes utility load balancing and predictive asset maintenance in real time",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0579,
+    "is_supported": false,
+    "agent": "competitor"
+  },
+  {
+    "claim": "Transform how users experience Idea One: Health tracker SCADA sensor diagnostic app through intelligent, adaptive AI that learns and improves with every interaction",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0812,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Transform how users experience Idea One: Health tracker SCADA sensor diagnostic app through intelligent, adaptive AI that learns and improves with every interaction",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1267,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Transform how users experience Idea One: Health tracker SCADA sensor diagnostic app through intelligent, adaptive AI that learns and improves with every interaction",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0566,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Transform how users experience Idea One: Health tracker SCADA sensor diagnostic app through intelligent, adaptive AI that learns and improves with every interaction",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.107,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "AI-powered personalized dashboard",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0179,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "AI-powered personalized dashboard",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "AI-powered personalized dashboard",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0357,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "AI-powered personalized dashboard",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0714,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "adaptive optimization/recommendation engine",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0441,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "adaptive optimization/recommendation engine",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1029,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "adaptive optimization/recommendation engine",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0735,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "adaptive optimization/recommendation engine",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0588,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Real-time progress analytics",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0435,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Real-time progress analytics",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0435,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Real-time progress analytics",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0435,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Real-time progress analytics",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1304,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Community collaboration hub",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.087,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Community collaboration hub",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.087,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Community collaboration hub",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.087,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Community collaboration hub",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1087,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Smart notification and reminder system",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0469,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Smart notification and reminder system",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0938,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Smart notification and reminder system",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.1094,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Smart notification and reminder system",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0938,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Integration API for third-party tools",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.1333,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Integration API for third-party tools",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0833,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Integration API for third-party tools",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0667,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Integration API for third-party tools",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.3333,
+    "is_supported": true,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "User onboarding with AI assessment",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0536,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "User onboarding with AI assessment",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0714,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "User onboarding with AI assessment",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0357,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "User onboarding with AI assessment",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0536,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Core AI recommendation engine",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0625,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Core AI recommendation engine",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0625,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Core AI recommendation engine",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0833,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Core AI recommendation engine",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0833,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Progress tracking dashboard",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0435,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Progress tracking dashboard",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0435,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Progress tracking dashboard",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0217,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Progress tracking dashboard",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1087,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Basic analytics and reporting",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0625,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Basic analytics and reporting",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0625,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Basic analytics and reporting",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Basic analytics and reporting",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0417,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Mobile-responsive web app",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.05,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Mobile-responsive web app",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.05,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Mobile-responsive web app",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.025,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Mobile-responsive web app",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.075,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "8-12 weeks",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "8-12 weeks",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "8-12 weeks",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "8-12 weeks",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "500 beta users in first month",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0455,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "500 beta users in first month",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0682,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "500 beta users in first month",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.1136,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "500 beta users in first month",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "70% weekly retention rate",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.1316,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "70% weekly retention rate",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1316,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "70% weekly retention rate",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.4561,
+    "is_supported": true,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "70% weekly retention rate",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1053,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "NPS score above 40",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "NPS score above 40",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "NPS score above 40",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "NPS score above 40",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Average session duration > 15 minutes",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.1071,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Average session duration > 15 minutes",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0536,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Average session duration > 15 minutes",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.1607,
+    "is_supported": true,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Average session duration > 15 minutes",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1071,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Your AI co-pilot that creates a personalized path to success \u2014 adapting to your pace, identifying gaps, and accelerating results",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0258,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Your AI co-pilot that creates a personalized path to success \u2014 adapting to your pace, identifying gaps, and accelerating results",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0464,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Your AI co-pilot that creates a personalized path to success \u2014 adapting to your pace, identifying gaps, and accelerating results",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0412,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Your AI co-pilot that creates a personalized path to success \u2014 adapting to your pace, identifying gaps, and accelerating results",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0722,
+    "is_supported": false,
+    "agent": "product_strategy"
+  },
+  {
+    "claim": "Freemium SaaS with tiered user subscriptions + custom B2B enterprise tier",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.2318,
+    "is_supported": true,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "Freemium SaaS with tiered user subscriptions + custom B2B enterprise tier",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0603,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "Freemium SaaS with tiered user subscriptions + custom B2B enterprise tier",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0603,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "Freemium SaaS with tiered user subscriptions + custom B2B enterprise tier",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0431,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$480K",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$480K",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$480K",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$480K",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$2.4M",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$2.4M",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$2.4M",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$2.4M",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$8.5M",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$8.5M",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$8.5M",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$8.5M",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$12",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$12",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$12",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$12",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$156",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$156",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$156",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "$156",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "13:1",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "13:1",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "13:1",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "13:1",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "78%",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "78%",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "78%",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "78%",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "2.5 months",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.8333,
+    "is_supported": true,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "2.5 months",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1667,
+    "is_supported": true,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "2.5 months",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "2.5 months",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "business_strategy"
+  },
+  {
+    "claim": "React 18, TypeScript, TailwindCSS, WebGL/Three.js (for Digital Twins)",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0288,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "React 18, TypeScript, TailwindCSS, WebGL/Three.js (for Digital Twins)",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1387,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "React 18, TypeScript, TailwindCSS, WebGL/Three.js (for Digital Twins)",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0192,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "React 18, TypeScript, TailwindCSS, WebGL/Three.js (for Digital Twins)",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0288,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Python FastAPI, Apache Kafka / RabbitMQ (for telemetry streaming), Celery, Edge AI agents",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0221,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Python FastAPI, Apache Kafka / RabbitMQ (for telemetry streaming), Celery, Edge AI agents",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0441,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Python FastAPI, Apache Kafka / RabbitMQ (for telemetry streaming), Celery, Edge AI agents",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0662,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Python FastAPI, Apache Kafka / RabbitMQ (for telemetry streaming), Celery, Edge AI agents",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0515,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0446,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0357,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.4563,
+    "is_supported": true,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0179,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB / InfluxDB (time-series telemetry), PostgreSQL, Redis, Neo4j (infrastructure graph)",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.007,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB / InfluxDB (time-series telemetry), PostgreSQL, Redis, Neo4j (infrastructure graph)",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0423,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB / InfluxDB (time-series telemetry), PostgreSQL, Redis, Neo4j (infrastructure graph)",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0352,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB / InfluxDB (time-series telemetry), PostgreSQL, Redis, Neo4j (infrastructure graph)",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0493,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Lambda architecture (batch + real-time telemetry streaming)",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0556,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Lambda architecture (batch + real-time telemetry streaming)",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0778,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Lambda architecture (batch + real-time telemetry streaming)",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0444,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Lambda architecture (batch + real-time telemetry streaming)",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.1333,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB for high-frequency telemetry tables and PostgreSQL for relational schemas",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0486,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB for high-frequency telemetry tables and PostgreSQL for relational schemas",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0486,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB for high-frequency telemetry tables and PostgreSQL for relational schemas",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0764,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "TimescaleDB for high-frequency telemetry tables and PostgreSQL for relational schemas",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0764,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "AWS Cloud with Amazon EKS and self-hosted NVIDIA NIM GPU nodes",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "AWS Cloud with Amazon EKS and self-hosted NVIDIA NIM GPU nodes",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0204,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "AWS Cloud with Amazon EKS and self-hosted NVIDIA NIM GPU nodes",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.202,
+    "is_supported": true,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "AWS Cloud with Amazon EKS and self-hosted NVIDIA NIM GPU nodes",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0306,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "$800-1500/month",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.15,
+    "is_supported": true,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "$800-1500/month",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "$800-1500/month",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "$800-1500/month",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "8-10 weeks with 4 engineers (2 backend, 1 frontend, 1 ML/AI)",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.075,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "8-10 weeks with 4 engineers (2 backend, 1 frontend, 1 ML/AI)",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0125,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "8-10 weeks with 4 engineers (2 backend, 1 frontend, 1 ML/AI)",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0375,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "8-10 weeks with 4 engineers (2 backend, 1 frontend, 1 ML/AI)",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0125,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Docker Compose for local development, AWS EKS for scalable production running NVIDIA NIM microservices",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0361,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Docker Compose for local development, AWS EKS for scalable production running NVIDIA NIM microservices",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0301,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Docker Compose for local development, AWS EKS for scalable production running NVIDIA NIM microservices",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.1677,
+    "is_supported": true,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "Docker Compose for local development, AWS EKS for scalable production running NVIDIA NIM microservices",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0301,
+    "is_supported": false,
+    "agent": "technical_architect"
+  },
+  {
+    "claim": "12-week agile development plan consisting of 6 targeted two-week sprints to construct the MVP",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0347,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "12-week agile development plan consisting of 6 targeted two-week sprints to construct the MVP",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0347,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "12-week agile development plan consisting of 6 targeted two-week sprints to construct the MVP",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0486,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "12-week agile development plan consisting of 6 targeted two-week sprints to construct the MVP",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0278,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "Pre-launch preparation across weeks 1-2, Product Hunt launch during week 3, followed by a 4-week iteration phase",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0461,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "Pre-launch preparation across weeks 1-2, Product Hunt launch during week 3, followed by a 4-week iteration phase",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0526,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "Pre-launch preparation across weeks 1-2, Product Hunt launch during week 3, followed by a 4-week iteration phase",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0526,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "Pre-launch preparation across weeks 1-2, Product Hunt launch during week 3, followed by a 4-week iteration phase",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0789,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "4 immediate engineering hires (Full-stack lead, AI/ML engineer, Frontend dev, Product designer), scaling with 3 strategic hires by month 3",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0312,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "4 immediate engineering hires (Full-stack lead, AI/ML engineer, Frontend dev, Product designer), scaling with 3 strategic hires by month 3",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0469,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "4 immediate engineering hires (Full-stack lead, AI/ML engineer, Frontend dev, Product designer), scaling with 3 strategic hires by month 3",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0469,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "4 immediate engineering hires (Full-stack lead, AI/ML engineer, Frontend dev, Product designer), scaling with 3 strategic hires by month 3",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "Modern health tech platforms rely on FHIR (Fast Healthcare Interoperability Resources) JSON APIs and HL7 integration profiles. Standard architectures ",
+    "support_score": 0.0417,
+    "is_supported": false,
+    "agent": "execution_planning"
+  },
+  {
+    "claim": "We're building the AI-native platform that transforms Idea One: Health tracker SCADA sensor diagnostic app \u2014 addressing a $660B - Global digital health market market with a SaaS model projected to reach $8.5M ARR by year 3.",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0891,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "We're building the AI-native platform that transforms Idea One: Health tracker SCADA sensor diagnostic app \u2014 addressing a $660B - Global digital health market market with a SaaS model projected to reach $8.5M ARR by year 3.",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.221,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "We're building the AI-native platform that transforms Idea One: Health tracker SCADA sensor diagnostic app \u2014 addressing a $660B - Global digital health market market with a SaaS model projected to reach $8.5M ARR by year 3.",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.094,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "We're building the AI-native platform that transforms Idea One: Health tracker SCADA sensor diagnostic app \u2014 addressing a $660B - Global digital health market market with a SaaS model projected to reach $8.5M ARR by year 3.",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.1776,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$1.5M",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$1.5M",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$1.5M",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$1.5M",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$8M pre-money",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0625,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$8M pre-money",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1875,
+    "is_supported": true,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$8M pre-money",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0625,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "$8M pre-money",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "18 months",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.8333,
+    "is_supported": true,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "18 months",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.1667,
+    "is_supported": true,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "18 months",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "18 months",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "In a world where target users struggle with outdated solutions, we're building the AI co-pilot that makes Idea One: Health tracker SCADA sensor diagnostic app accessible, personalized, and effective for everyone.",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "Healthy SaaS benchmarks: LTV:CAC ratio > 3:1, gross margin > 70%, net revenue retention > 100%, CAC payback < 12 months. Freemium conversion rates ave",
+    "support_score": 0.0708,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "In a world where target users struggle with outdated solutions, we're building the AI co-pilot that makes Idea One: Health tracker SCADA sensor diagnostic app accessible, personalized, and effective for everyone.",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0994,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "In a world where target users struggle with outdated solutions, we're building the AI co-pilot that makes Idea One: Health tracker SCADA sensor diagnostic app accessible, personalized, and effective for everyone.",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.094,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "In a world where target users struggle with outdated solutions, we're building the AI co-pilot that makes Idea One: Health tracker SCADA sensor diagnostic app accessible, personalized, and effective for everyone.",
+    "source_title": "NIH Health Information",
+    "source_url": "https://www.nih.gov/health-information",
+    "source_snippet": "A digital health platform integrated its virtual clinic workflow into an existing Epic EHR instance. The solution implemented FHIR-based patient sched",
+    "support_score": 0.1015,
+    "is_supported": false,
+    "agent": "investor_pitch"
+  },
+  {
+    "claim": "TAM: $660B - Global digital health market",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "TAM: $660B - Global digital health market",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "AI startups raised $89.4B in 2024, representing 33% of all venture funding. Seed-stage AI startups average $3.2M raises at $15M pre-money valuations. ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "TAM: $660B - Global digital health market",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.5333,
+    "is_supported": true,
+    "agent": "validation"
+  },
+  {
+    "claim": "TAM: $660B - Global digital health market",
+    "source_title": "IEEE Xplore",
+    "source_url": "https://ieeexplore.ieee.org",
+    "source_snippet": "Industry standard MVP timeline for AI SaaS: 8-12 weeks with team of 4. Critical path: auth (week 1-2), core AI integration (week 3-4), agent orchestra",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "Year 3 ARR: $8.5M",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "Year 3 ARR: $8.5M",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "AI startups raised $89.4B in 2024, representing 33% of all venture funding. Seed-stage AI startups average $3.2M raises at $15M pre-money valuations. ",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "Year 3 ARR: $8.5M",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "Year 3 ARR: $8.5M",
+    "source_title": "IEEE Xplore",
+    "source_url": "https://ieeexplore.ieee.org",
+    "source_snippet": "Industry standard MVP timeline for AI SaaS: 8-12 weeks with team of 4. Critical path: auth (week 1-2), core AI integration (week 3-4), agent orchestra",
+    "support_score": 0.0,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "AI stack: NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.4087,
+    "is_supported": true,
+    "agent": "validation"
+  },
+  {
+    "claim": "AI stack: NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "AI startups raised $89.4B in 2024, representing 33% of all venture funding. Seed-stage AI startups average $3.2M raises at $15M pre-money valuations. ",
+    "support_score": 0.0635,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "AI stack: NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0317,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "AI stack: NVIDIA NIM (Llama 3.3 70B), NeMo Agent Toolkit, NeMo Retriever, NeMo Guardrails",
+    "source_title": "IEEE Xplore",
+    "source_url": "https://ieeexplore.ieee.org",
+    "source_snippet": "Industry standard MVP timeline for AI SaaS: 8-12 weeks with team of 4. Critical path: auth (week 1-2), core AI integration (week 3-4), agent orchestra",
+    "support_score": 0.1135,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "No grounded claims available for verification in current evidence registry",
+    "source_title": "OpenAI Developer Platform",
+    "source_url": "https://platform.openai.com",
+    "source_snippet": "NVIDIA NeMo Agent Toolkit enables multi-agent orchestration with framework-agnostic workflow configuration. Supports NIM models for inference, built-i",
+    "support_score": 0.1032,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "No grounded claims available for verification in current evidence registry",
+    "source_title": "SEC Investment",
+    "source_url": "https://www.sec.gov/divisions/investment",
+    "source_snippet": "AI startups raised $89.4B in 2024, representing 33% of all venture funding. Seed-stage AI startups average $3.2M raises at $15M pre-money valuations. ",
+    "support_score": 0.0635,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "No grounded claims available for verification in current evidence registry",
+    "source_title": "WHO Digital Health",
+    "source_url": "https://www.who.int/health-topics/digital-health",
+    "source_snippet": "The digital health market is expanding rapidly due to telehealth adoption, remote patient monitoring (RPM), and the transition to value-based care. Th",
+    "support_score": 0.0476,
+    "is_supported": false,
+    "agent": "validation"
+  },
+  {
+    "claim": "No grounded claims available for verification in current evidence registry",
+    "source_title": "IEEE Xplore",
+    "source_url": "https://ieeexplore.ieee.org",
+    "source_snippet": "Industry standard MVP timeline for AI SaaS: 8-12 weeks with team of 4. Critical path: auth (week 1-2), core AI integration (week 3-4), agent orchestra",
+    "support_score": 0.0794,
+    "is_supported": false,
+    "agent": "validation"
+  }
+]

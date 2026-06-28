@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "d21edb1e-45ca-4057-bd5b-b2d215d77c43",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-28T06:48:22.340995"
+  },
+  {
+    "id": "5a8b3dbe-c333-4472-85bd-d924fd48c728",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-28T06:48:22.299275"
+  },
+  {
+    "id": "623604b6-97ed-4dd9-9de6-624decc7fa7c",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-28T06:48:21.630853"
+  },
+  {
+    "id": "1775f32c-2e58-4b50-86fa-12cc327eb440",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-28T06:45:28.720759"
+  },
+  {
+    "id": "951eb666-9d15-4190-97f1-e211da9fe76c",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-28T06:18:20.779799"
+  },
+  {
+    "id": "0daa1238-fbc7-4079-b3f2-bd33a952ae89",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-28T06:18:20.595797"
+  },
+  {
+    "id": "1118a05e-83da-42aa-8ebf-a016ebd31d7d",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-28T06:18:19.695770"
+  },
+  {
+    "id": "daed5e35-ee9e-4375-8de2-f4756d7e0404",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 66.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 66.5
+    },
+    "timestamp": "2026-06-28T06:17:51.903376"
+  },
+  {
+    "id": "5642554a-f80e-4b10-9b2d-13f6be185716",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 62.0,
+    "summary": {
+      "industry": "general",
+      "score": 62.0
+    },
+    "timestamp": "2026-06-28T05:46:36.525615"
+  },
+  {
+    "id": "02e9bd9e-b00c-4384-859e-bfab42888484",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 62.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 62.0
+    },
+    "timestamp": "2026-06-28T05:46:36.231737"
+  },
+  {
+    "id": "fe218fcf-6408-4127-983f-796748e82fc2",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 62.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 62.0
+    },
+    "timestamp": "2026-06-28T05:46:36.200943"
+  },
+  {
+    "id": "f3225cd1-fbcc-489e-a577-abf0fa6adbcb",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 62.0,
+    "summary": {
+      "industry": "general",
+      "score": 62.0
+    },
+    "timestamp": "2026-06-28T05:46:35.766054"
+  },
+  {
+    "id": "950882fe-d527-420e-9e89-3f8a21ac8832",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T18:03:58.845968"
+  },
+  {
+    "id": "251f5ec5-f0b2-4e6f-9a6a-577b788fd1e2",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T18:03:58.760925"
+  },
+  {
+    "id": "d29c6206-4946-4af9-9589-fb566e6a22c2",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T18:03:58.538247"
+  },
+  {
+    "id": "d36558fe-3b58-4c74-b63a-7d4e63bff880",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T18:03:56.993627"
+  },
+  {
+    "id": "346c47d7-8d41-45d5-95d3-d4ec5e3c35ae",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:55:45.820366"
+  },
+  {
+    "id": "1c213fd1-9516-4995-9249-a3c5b0bf5af3",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:55:45.773803"
+  },
+  {
+    "id": "9d4a8ece-2647-4439-8af7-b8afe786630b",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:55:45.161958"
+  },
+  {
+    "id": "9ae50e2b-974d-4500-83f6-40f9b030aaba",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:55:43.236026"
+  },
+  {
+    "id": "b7d1e28c-f06d-48e0-b649-3c2f88d2bb21",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:48:07.736726"
+  },
+  {
+    "id": "939f12fe-7c81-4fff-a61a-231c62a7f7a8",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:48:07.623455"
+  },
+  {
+    "id": "96998cbd-4d64-442e-a6d1-0f1c9b592447",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:48:07.335027"
+  },
+  {
+    "id": "5780f03d-f3cf-48c3-aa10-ddcf98734491",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:48:05.886512"
+  },
+  {
+    "id": "e0064f2f-9b65-4b5f-a1fd-118f0e8b678b",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:36:25.826754"
+  },
+  {
+    "id": "b64e290f-ae35-4354-98b5-078938eaefc9",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:36:25.769036"
+  },
+  {
+    "id": "36c26bd4-2dbf-4c6e-bd23-f40ca47610d6",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:36:25.030969"
+  },
+  {
+    "id": "5e3e9ce0-2d35-43af-8e4c-2d8c7ecec89a",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:36:23.111782"
+  },
+  {
+    "id": "bc11e91c-4632-43ef-93db-7f572c89e90f",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:00:39.333720"
+  },
+  {
+    "id": "ddc55e7c-51a6-4a52-a833-8efd0f4c4ef1",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:00:39.289818"
+  },
+  {
+    "id": "69a571d5-298d-46fa-aaa0-5cbfb1ace7b8",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:00:38.425846"
+  },
+  {
+    "id": "fa230b54-903a-45f1-a6b3-67644e9e9035",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T17:00:35.320859"
+  },
+  {
+    "id": "98d0a9cb-bb81-45f2-b68d-468c54b46463",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:53:10.246975"
+  },
+  {
+    "id": "7402f1cb-d77d-43a5-b1a5-d3d4785694e1",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:53:10.163205"
+  },
+  {
+    "id": "d1312aa8-3385-4c7d-b954-468d77d70f7d",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:53:09.376677"
+  },
+  {
+    "id": "21a4b7ac-7503-42b8-b970-dc11efc6c6d6",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:53:07.294390"
+  },
+  {
+    "id": "d9f69840-69df-4271-a5b2-4874d90268f5",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:22:08.011449"
+  },
+  {
+    "id": "742816b0-fcc2-4ecd-b2c0-222756ee91c0",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:22:07.970755"
+  },
+  {
+    "id": "558cc19a-31cf-48f8-8e48-b2d5c244319a",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:22:07.360186"
+  },
+  {
+    "id": "d59c63eb-fa8c-4b59-a12c-50fca588f768",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T16:22:05.376773"
+  },
+  {
+    "id": "7f764792-dea7-45a5-9b1c-ab6441b0134a",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T15:11:29.278024"
+  },
+  {
+    "id": "8fc860a0-a9e3-4fd8-aca5-96c2463070df",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T15:11:29.154005"
+  },
+  {
+    "id": "e5f6fb3f-a370-4030-a3a9-ac0d67cdee8d",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T15:11:28.539303"
+  },
+  {
+    "id": "eaf81b91-59b4-4c30-b7d8-9a79c842ca58",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T15:11:26.602957"
+  },
+  {
+    "id": "8a908483-c7a6-42ea-b3ec-ab7b90ca8970",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:58:47.382040"
+  },
+  {
+    "id": "6cf79a71-911b-46ad-944f-f2586db5d02d",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:58:47.216827"
+  },
+  {
+    "id": "b509fe34-9816-4f9c-b472-64235a866f89",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:58:45.259496"
+  },
+  {
+    "id": "a781e854-75f2-48d3-8e9b-c9a9dd4a5873",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:58:42.948940"
+  },
+  {
+    "id": "532e7716-9cc8-4241-9258-5ec30719db11",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:56:46.633793"
+  },
+  {
+    "id": "18b95c92-63af-452c-b363-f10585aa9cf4",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:56:44.356842"
+  },
+  {
+    "id": "66449fec-e51c-428f-8bc5-c62117a0dd74",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:56:41.156545"
+  },
+  {
+    "id": "57cb68d2-fee9-4933-aa0a-122a5c8b2a2f",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:56:39.759373"
+  },
+  {
+    "id": "7702b577-de0c-469c-b08a-1088f4542a74",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:56:32.190949"
+  },
+  {
+    "id": "9874af98-50ae-482f-9c82-611294f27c2f",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:53:14.830546"
+  },
+  {
+    "id": "88c8e9ae-b3af-41ba-8e90-f1460f9b55ea",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:53:14.768482"
+  },
+  {
+    "id": "c8881f7d-d7a4-4999-9016-d34054139ba4",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:53:13.378305"
+  },
+  {
+    "id": "e1586e20-4f74-42f8-94e9-b015759c7c5a",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:53:11.599220"
+  },
+  {
+    "id": "a7d610a3-ed29-469d-abda-a9bd79867d16",
+    "idea": "Generate a fintech startup for millennial personal finance",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:44:58.559474"
+  },
+  {
+    "id": "14c66459-8a15-429b-b98e-9292a723218a",
+    "idea": "Create an AI healthcare startup for preventive diagnostics",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:42:20.758501"
+  },
+  {
+    "id": "b69f9350-2885-4d5f-9a13-02079c812058",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:41:53.497137"
+  },
+  {
+    "id": "3705552f-3948-476b-a805-910be4badf8d",
+    "idea": "Build an AI platform for college students to improve placement preparation",
+    "score": 85.0,
+    "summary": {
+      "industry": "edtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:40:42.193635"
+  },
+  {
+    "id": "c8372301-d46e-4287-9286-de9267302414",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:24:03.848977"
+  },
+  {
+    "id": "cf239e8d-299b-4f62-a4cf-5f48db090d41",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:24:03.760310"
+  },
+  {
+    "id": "59ddd4fc-0fab-4880-9119-448ab9627ebc",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:24:02.139645"
+  },
+  {
+    "id": "909a4d63-000b-49bd-9d5e-03ad0c741f3c",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:23:58.826431"
+  },
+  {
+    "id": "b88a34ed-64a3-4f1b-a143-6f8a6c62e3ad",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:23:17.290639"
+  },
+  {
+    "id": "0ae025a4-035e-4fc6-a202-8d6cbe1ef3ff",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:23:17.256115"
+  },
+  {
+    "id": "e6232bd1-6e27-4054-9fb6-817dfbe9b00c",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:23:15.676205"
+  },
+  {
+    "id": "b933e642-6cd0-418b-9a72-f81f2872f5dc",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-27T14:23:12.674998"
+  },
+  {
+    "id": "a852803f-4f84-403e-bda1-b31009024efc",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T15:15:13.235699"
+  },
+  {
+    "id": "10ac0358-b167-4b53-8ac4-508c2a7e7be7",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T15:11:58.108302"
+  },
+  {
+    "id": "7ad9d5b1-653f-4f40-8ef1-a818ff7b9034",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T15:09:42.875752"
+  },
+  {
+    "id": "13938e32-f184-4d3b-aa96-5ef781e35428",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T15:06:07.941571"
+  },
+  {
+    "id": "db4308fd-0682-4ba7-86ac-c5d8402cf6d9",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T14:57:29.987428"
+  },
+  {
+    "id": "89bc612e-a6ee-4f00-b714-eddbc7f5c891",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness.",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T14:47:14.850403"
+  },
+  {
+    "id": "1effb71b-ba38-420a-ba02-bb8e634624b8",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T14:36:45.842354"
+  },
+  {
+    "id": "503354c5-7115-4a6d-bc11-010c38f0c17e",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T14:16:51.758332"
+  },
+  {
+    "id": "dce4d1e0-0906-475f-9208-06b134360fde",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T14:16:22.979431"
+  },
+  {
+    "id": "742a9f4e-8a42-4898-a641-6a1d5bad70c7",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-26T13:37:05.586019"
+  },
+  {
+    "id": "d7ed3ec5-a4e7-43fe-9693-e44d7e6bf02d",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:22:36.825418"
+  },
+  {
+    "id": "1ee29b1d-53b4-4090-9460-32661adc24e4",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:22:36.758945"
+  },
+  {
+    "id": "6a73f646-1dcf-46cb-bb80-63fbe716fbf1",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:22:35.689470"
+  },
+  {
+    "id": "f81acdc1-091f-4f20-b58b-3ae54807a4cc",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:22:33.669732"
+  },
+  {
+    "id": "df49e031-9f73-438a-9c3a-c7dd297c6f53",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:19:00.346218"
+  },
+  {
+    "id": "88b8ba3e-9c86-477d-a937-17c7bd822c3d",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:19:00.251911"
+  },
+  {
+    "id": "e50e9bc7-b36a-4144-a84d-3499056c198e",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:18:59.029712"
+  },
+  {
+    "id": "71b97bab-4808-4060-9216-3f35d86a9751",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:18:57.099905"
+  },
+  {
+    "id": "82d70b33-5ac0-4aec-a622-e757eb72b576",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:16:00.411362"
+  },
+  {
+    "id": "1a4cd364-0bc6-4952-807b-c78c92dc0100",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:16:00.317544"
+  },
+  {
+    "id": "f6122b35-8dac-4723-87f7-e6da20e007d7",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:15:58.834029"
+  },
+  {
+    "id": "30f76121-c767-4db5-8374-d35aad30175c",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:15:56.605730"
+  },
+  {
+    "id": "6ff56393-d3b2-457d-84f3-dbc35f2e3107",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:13:56.696112"
+  },
+  {
+    "id": "18e955b7-3e38-4bd1-af09-2a11b07033f6",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:13:56.627901"
+  },
+  {
+    "id": "383f2af1-0c7c-440b-9593-0dc35e8a09eb",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:13:55.471556"
+  },
+  {
+    "id": "84a575b5-4f31-454f-ae22-619a5eb35e65",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-26T13:13:53.493692"
+  },
+  {
+    "id": "4be53e5f-42f1-4c81-a277-03f5a9447980",
+    "idea": "AI health assistant analyzing wearable data for personalized wellness",
+    "score": 82.5,
+    "summary": {
+      "industry": "healthtech",
+      "score": 82.5
+    },
+    "timestamp": "2026-06-25T15:04:43.861501"
+  },
+  {
+    "id": "23eb4a0c-b2d1-4393-8e22-e3d77f1b275c",
+    "idea": "Idea Two: Fintech banking ledger ledger application",
+    "score": 85.0,
+    "summary": {
+      "industry": "fintech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-25T14:29:32.368237"
+  },
+  {
+    "id": "8f0874dc-56d5-419f-b14b-58b7f589b21b",
+    "idea": "Idea One: Health tracker SCADA sensor diagnostic app",
+    "score": 85.0,
+    "summary": {
+      "industry": "healthtech",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-25T14:29:32.337360"
+  },
+  {
+    "id": "593dc8f3-21fe-4aa9-89bd-b6a4eb38d6c8",
+    "idea": "An AI-powered energy grid management tool for smart dispatching",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-25T14:29:31.694374"
+  },
+  {
+    "id": "7079d6ca-def6-4e6a-8fe7-aebda43e1d82",
+    "idea": "A localized hyper-physical marketplace platform entirely built inside virtual reality.",
+    "score": 85.0,
+    "summary": {
+      "industry": "general",
+      "score": 85.0
+    },
+    "timestamp": "2026-06-25T14:29:30.456091"
+  }
+]

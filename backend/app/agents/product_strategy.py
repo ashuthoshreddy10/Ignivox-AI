@@ -140,12 +140,21 @@ Define product vision and MVP. Return JSON with this exact structure:
         }
 
     def build_insights(self, content: dict[str, Any]) -> list[ExplainableInsight]:
+        if not isinstance(content, dict):
+            return []
+
         mvp = content.get("mvp_definition", {})
+        if not isinstance(mvp, dict):
+            mvp = {}
         timeline_val = mvp.get("timeline", {})
         timeline = timeline_val.get("claim", "8-12 weeks") if isinstance(timeline_val, dict) else str(timeline_val)
         
         features = mvp.get("features", [])
         metrics = mvp.get("success_metrics", [])
+        if not isinstance(features, list):
+            features = []
+        if not isinstance(metrics, list):
+            metrics = []
         evidence = [m.get("claim", str(m)) if isinstance(m, dict) else str(m) for m in metrics[:2]]
         
         return [
